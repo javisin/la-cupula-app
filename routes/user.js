@@ -1,11 +1,11 @@
-'use strict'
+const express = require('express');
 
-const express = require("express");
 const router = express.Router();
-const userController = require("../controllers/user")
+const userController = require('../controllers/user');
 
-router.get('/', (req, res) => res.send('LA CÚPULA'));
-router.get('/login', userController.login);
-router.get('/register', userController.register);
+router.get('/users', userController.index);
+router.get('/user/:id', userController.get);
+router.post('/login', userController.login);
+router.post('/register', userController.register);
 
 module.exports = router;
