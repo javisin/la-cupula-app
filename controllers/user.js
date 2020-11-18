@@ -36,7 +36,7 @@ const controller = {
 
   index: async (req, res) => {
     User.findAll({
-      attributes: ['id', 'firstname', 'lastname', 'belt', 'email', 'nickname'],
+      attributes: ['id', 'firstName', 'lastName', 'belt', 'email', 'nickName'],
     }).then((users) => res.status(200).json(users));
   },
 
