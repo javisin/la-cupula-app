@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../db');
-const jwtHelper = require('../jwt');
+const { User } = require('../database/db');
+const jwtHelper = require('../../jwt');
 
 const controller = {
   login: async (req, res) => {
@@ -36,7 +36,7 @@ const controller = {
 
   index: async (req, res) => {
     User.findAll({
-      attributes: ['id', 'firstName', 'lastName', 'belt', 'email', 'nickName'],
+      attributes: ['id', 'firstName', 'lastName', 'belt', 'email', 'nickName', 'image'],
     }).then((users) => res.status(200).json(users));
   },
 

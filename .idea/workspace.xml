@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="622e27e3-ac45-443b-a982-747f25d0dcf4" name="Default Changelist" comment="" />
+    <list default="true" id="622e27e3-ac45-443b-a982-747f25d0dcf4" name="Default Changelist" comment="Add migrations and seeds for User and Training">
+      <change afterPath="$PROJECT_DIR$/.sequelizerc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/database/seeders/20201118120010-users.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/kingte.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/database.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/training.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/training.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/db.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20201118122353-create-user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/migrations/20201118122353-create-user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20201118133604-create-training.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/migrations/20201118133604-create-training.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/models/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/training.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/models/training.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/models/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/training.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/training.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/seeders/20201118120010-users.js" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,20 +55,38 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1j5aAo9oysgiQKDy1kk1BPmd9iD" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="10.17.45" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/images" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/database" />
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/controllers" />
     </key>
   </component>
@@ -60,28 +116,66 @@
       <option name="presentableId" value="Default" />
       <updated>1603096265951</updated>
       <workItem from="1603096266969" duration="2347000" />
+      <workItem from="1605273830355" duration="6509000" />
+      <workItem from="1605531522273" duration="2000" />
+      <workItem from="1605621786042" duration="4000" />
+      <workItem from="1605696808008" duration="8531000" />
+      <workItem from="1605776912378" duration="3142000" />
     </task>
+    <task id="LOCAL-00001" summary="Add migrations and seeds for User and Training">
+      <created>1605707557495</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1605707557495</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Add migrations and seeds for User and Training" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add migrations and seeds for User and Training" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1897" height="253" key="GridCell.Tab.0.bottom" timestamp="1603096815438">
+    <state x="649" y="321" width="611" height="410" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605786235289">
       <screen x="0" y="27" width="1920" height="985" />
     </state>
-    <state width="1897" height="253" key="GridCell.Tab.0.bottom/0.27.1920.985@0.27.1920.985" timestamp="1603096815438" />
-    <state width="1897" height="253" key="GridCell.Tab.0.center" timestamp="1603096815438">
+    <state x="649" y="321" width="611" height="410" key="#com.intellij.fileTypes.FileTypeChooser/0.27.1920.985@0.27.1920.985" timestamp="1605786235289" />
+    <state width="1897" height="253" key="GridCell.Tab.0.bottom" timestamp="1605786463667">
       <screen x="0" y="27" width="1920" height="985" />
     </state>
-    <state width="1897" height="253" key="GridCell.Tab.0.center/0.27.1920.985@0.27.1920.985" timestamp="1603096815438" />
-    <state width="1897" height="253" key="GridCell.Tab.0.left" timestamp="1603096815437">
+    <state width="1897" height="253" key="GridCell.Tab.0.bottom/0.27.1920.985@0.27.1920.985" timestamp="1605786463667" />
+    <state width="1897" height="253" key="GridCell.Tab.0.center" timestamp="1605786463666">
       <screen x="0" y="27" width="1920" height="985" />
     </state>
-    <state width="1897" height="253" key="GridCell.Tab.0.left/0.27.1920.985@0.27.1920.985" timestamp="1603096815437" />
-    <state width="1897" height="253" key="GridCell.Tab.0.right" timestamp="1603096815438">
+    <state width="1897" height="253" key="GridCell.Tab.0.center/0.27.1920.985@0.27.1920.985" timestamp="1605786463666" />
+    <state width="1897" height="253" key="GridCell.Tab.0.left" timestamp="1605786463665">
       <screen x="0" y="27" width="1920" height="985" />
     </state>
-    <state width="1897" height="253" key="GridCell.Tab.0.right/0.27.1920.985@0.27.1920.985" timestamp="1603096815438" />
+    <state width="1897" height="253" key="GridCell.Tab.0.left/0.27.1920.985@0.27.1920.985" timestamp="1605786463665" />
+    <state width="1897" height="253" key="GridCell.Tab.0.right" timestamp="1605786463667">
+      <screen x="0" y="27" width="1920" height="985" />
+    </state>
+    <state width="1897" height="253" key="GridCell.Tab.0.right/0.27.1920.985@0.27.1920.985" timestamp="1605786463667" />
+    <state x="623" y="242" key="search.everywhere.popup" timestamp="1605700298015">
+      <screen x="0" y="27" width="1920" height="985" />
+    </state>
+    <state x="623" y="242" key="search.everywhere.popup/0.27.1920.985@0.27.1920.985" timestamp="1605700298015" />
   </component>
 </project>

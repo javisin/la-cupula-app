@@ -13,6 +13,7 @@ app.use((req, res, next) => {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+app.use(express.static('public'));
 app.use('/', userRoutes);
 app.use('/', trainingRoutes);
 
