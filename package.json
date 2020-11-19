@@ -18,9 +18,12 @@
     "nodemon": "^2.0.5",
     "sequelize-cli": "^6.2.0"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "dev": "nodemon --use-strict index.js"
   },
-  "author": "",
+  "author": "Javier Sintes",
   "license": "ISC"
 }
