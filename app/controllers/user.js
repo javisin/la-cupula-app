@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../database/db');
+const { User } = require('../database/models/index');
 const jwtHelper = require('../../jwt');
 
 const controller = {
@@ -28,8 +28,8 @@ const controller = {
         .then((user) => res.status(201).json({
           user,
         }))
-        .catch(() => res.status(400).json({
-          error: 'unknown',
+        .catch((error) => res.status(400).json({
+          error: error,
         }));
     });
   },

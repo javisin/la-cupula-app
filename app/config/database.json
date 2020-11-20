@@ -14,10 +14,13 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "javisin",
-    "password": "Javisin1098",
-    "database": "la_cupula",
-    "host": "localhost",
-    "dialect": "mysql"
+    "url":"postgres://iywyzoqxbyaspj:547a5f4e8974a129583b8b93614283d0046f9bf77a4bc9e109d463b9837dae31@ec2-54-217-213-79.eu-west-1.compute.amazonaws.com:5432/darjs2p6fmpnhs",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
