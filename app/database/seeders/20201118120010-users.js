@@ -12,7 +12,7 @@ module.exports = {
     stripes: 3,
     createdAt: new Date(),
     updatedAt: new Date(),
-    image: 'kingte.jpeg',
+    image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
   },
   {
     firstName: 'Javier',
@@ -25,7 +25,7 @@ module.exports = {
     stripes: 4,
     createdAt: new Date(),
     updatedAt: new Date(),
-    image: 'kingte.jpeg',
+    image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
   },
   {
     firstName: 'Alejandro',
@@ -38,7 +38,7 @@ module.exports = {
     stripes: 4,
     createdAt: new Date(),
     updatedAt: new Date(),
-    image: 'kingte.jpeg',
+    image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
   }]),
 
   down: async (queryInterface, Sequelize) => queryInterface.bulkDelete('Users', null, {}),
