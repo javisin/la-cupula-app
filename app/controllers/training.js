@@ -12,7 +12,7 @@ const controller = {
   index: (req, res) => {
     Training.findAll({
       where: {
-        userId: req.params.userId,
+        UserId: req.params.userId,
       },
       limit: req.query.limit ? parseInt(req.query.limit, 10) : null,
       order: [['createdAt', 'DESC']],
