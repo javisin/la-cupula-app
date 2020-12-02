@@ -71,6 +71,7 @@ const controller = {
     bcrypt.hash(password, 10, (err, hash) => {
       req.body.password = hash;
       req.body.image = `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`;
+      req.body.instructor = false;
       User.create(req.body)
         .then((user) => mailTransporter.sendMail(invitationMail(user, password), (error, info) => {
           if (error) {

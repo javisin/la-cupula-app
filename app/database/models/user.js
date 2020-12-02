@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     startDate: DataTypes.DATEONLY,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
+    instructor: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'User',

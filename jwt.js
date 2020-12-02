@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const createToken = (user) => {
   const payload = {
     sub: user.id,
-    name: user.name,
+    instructor: user.instructor,
     iat: Date.now(),
     exp: Math.floor(Date.now() / 1000) + (60 * 60),
   };
