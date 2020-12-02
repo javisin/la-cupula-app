@@ -5,7 +5,7 @@ const createToken = (user) => {
     sub: user.id,
     instructor: user.instructor,
     iat: Date.now(),
-    exp: Math.floor(Date.now() / 1000) + (60 * 60),
+    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7),
   };
   return jwt.sign(payload, 'key');
 };
