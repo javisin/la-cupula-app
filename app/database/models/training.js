@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Training.init({
     date: DataTypes.DATEONLY,
+    verified: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'Training',

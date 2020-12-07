@@ -13,11 +13,17 @@ module.exports = {
           model: 'Users',
           key: 'id',
         },
+        allowNull: false,
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
       date: {
         type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
