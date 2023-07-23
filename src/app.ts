@@ -1,9 +1,11 @@
-const express = require('express');
-const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
-const userRoutes = require('./routes/user');
-const trainingRoutes = require('./routes/training');
+import express from 'express'
+import fileUpload from 'express-fileupload'
+import bodyParser from 'body-parser';
+import userRoutes from './routes/user';
+import trainingRoutes from './routes/training';
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
 
 app.use(fileUpload({}));
@@ -18,4 +20,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/', trainingRoutes);
 
-module.exports = app;
+const DEFAULT_PORT = 3000;
+app.listen(process.env.PORT || DEFAULT_PORT, () => {
+  console.log('Server running');
+});

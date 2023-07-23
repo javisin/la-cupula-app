@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  postgres:
+    restart: always
+    image: mysql:8
+
+    shm_size: 1gb
+    hostname: mysql
+    container_name: cupula-mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+    environment:
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_DATABASE=la-cupula"
+      - "MYSQL_USER=postgres"
+      - "MYSQL_PASSWORD=postgres"
+volumes:
+  pgdata:
