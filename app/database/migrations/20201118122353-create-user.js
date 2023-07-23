@@ -38,6 +38,9 @@ module.exports = {
           len: [6, 100],
         },
       },
+      image: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
