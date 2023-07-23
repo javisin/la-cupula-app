@@ -12,7 +12,7 @@
   "scripts": {
     "build": "cd web-app && npm run build",
     "start:server": "cd server && npm run dev",
-    "install": "cd server && npm install"
+    "install": "cd server && npm install && cd ../web-app && npm install"
   },
   "author": "Javier Sintes",
   "license": "ISC"
