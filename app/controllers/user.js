@@ -74,7 +74,7 @@ const controller = {
       User.create(req.body)
         .then((user) => mailTransporter.sendMail(invitationMail(user, password), (error, info) => {
           if (error) {
-            return res.status(500).json(error);
+            return res.status(500).json('Error en el envío de la invitación');
           }
           return res.status(200).json(info.response);
         }))
