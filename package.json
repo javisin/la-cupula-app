@@ -10,6 +10,7 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
+    "build": "cd web-app && npm run build",
     "start:server": "cd server && npm run dev",
     "install": "cd server && npm install"
   },

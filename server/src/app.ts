@@ -5,6 +5,7 @@ import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
 import dotenv from 'dotenv';
+import path from 'path';
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,14 @@ app.use((req, res, next) => {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../../client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  });
+}
+
 app.use('/api/auth', authRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/users', userRoutes);
