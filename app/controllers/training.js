@@ -1,13 +1,22 @@
-const { Training } = require('../database/models/index');
+const { Training } = require('../database/models');
 
 const controller = {
   create: (req, res) => {
     Training.create({
-      UserId: 1,
-      date: '2020-10-22',
+      UserId: req.body.userId,
+      date: req.body.date,
     })
       .then((training) => res.status(201).json(training))
-      .catch(() => res.status(400).json('error'));
+      .catch((error) => res.status(400).json(error));
+  },
+  index: (req, res) => {
+    Training.findAll({
+      where: {
+        userId: req.params.userId,
+      },
+      limit: req.query.limit ? parseInt(req.query.limit, 10) : null,
+      order: [['createdAt', 'DESC']],
+    }).then((trainings) => res.status(200).json(trainings));
   },
 };
 module.exports = controller;
