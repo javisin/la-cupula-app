@@ -10,9 +10,7 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "build": "cd server && npm install",
-    "start:server": "cd server && npm run dev",
-    "heroku-postbuild": "npm run build"
+    "start:server": "cd server && npm run dev"
   },
   "author": "Javier Sintes",
   "license": "ISC"
