@@ -16,7 +16,8 @@ const controller = {
       },
       limit: req.query.limit ? parseInt(req.query.limit, 10) : null,
       order: [['createdAt', 'DESC']],
-    }).then((trainings) => res.status(200).json(trainings));
+    }).then((trainings) => res.status(200).json(trainings))
+      .catch((error) => res.status(400).json({ error }));
   },
 };
 module.exports = controller;
