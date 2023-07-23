@@ -13,19 +13,24 @@ module.exports = {
       },
       lastName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       nickName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
       },
       belt: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       stripes: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       startDate: {
         type: Sequelize.DATEONLY,

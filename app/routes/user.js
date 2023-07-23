@@ -11,6 +11,7 @@ router.get('/fotico', ((req, res) => {
 router.get('/users', checkAuthenticated, userController.index);
 router.get('/user/:id', checkAuthenticated, userController.get);
 router.post('/login', userController.login);
-router.post('/register', userController.register);
+router.post('/invite', userController.sendInvitation);
+router.put('/updatePassword', userController.updatePassword);
 
 module.exports = router;
