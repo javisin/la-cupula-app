@@ -1,14 +1,11 @@
-import express from 'express'
-import {invite, login} from '../controllers/user'
+import express from 'express';
+import { index, get, bookLesson, indexLessons } from '../controllers/user';
+import { checkAuthenticated } from '../jwt';
 const router = express.Router();
-const { checkAuthenticated } = require('../jwt');
 
-// router.get('/users', checkAuthenticated, userController.index);
-// router.get('/user/:id', checkAuthenticated, userController.get);
-// router.put('/user/:id', checkAuthenticated, userController.update);
-router.post('/login', login);
-// router.post('/invite', checkAuthenticated, userController.sendInvitation);
-router.post('/invite', invite);
-// router.put('/updatePassword', checkAuthenticated, userController.updatePassword);
+router.get('/', checkAuthenticated, index);
+router.get('/:id', checkAuthenticated, get);
+router.post('/:userId/lessons/:lessonId', checkAuthenticated, bookLesson);
+router.get('/:userId/lessons', checkAuthenticated, indexLessons);
 
-export default router
+export default router;

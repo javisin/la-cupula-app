@@ -1,131 +1,57 @@
-import bcrypt from 'bcrypt'
-import generator from 'generate-password'
-import User from '../database/models/user'
-import jwtHelper from '../jwt'
-import asyncHandler from "express-async-handler";
-// const mailTransporter = require('../mail/mail');
-// const invitationMail = require('../mail/invitationMail');
-const uploadFile = require('../services/aws/uploadFile');
+import User from '../database/models/user';
+import asyncHandler from 'express-async-handler';
+import Lesson from '../database/models/lesson';
+import { AuthorizedRequest } from '../jwt';
 
-const login = asyncHandler(async(req, res) => {
-    const user = await User.findOne({
-      where: {
-        email: req.body.email,
-      },
-    });
-    if (user) {
-      const matchPassword = await bcrypt.compare(req.body.password, user.password)
-        if (matchPassword) {
-          const token = jwtHelper.createToken(user);
-          res.status(200).json(token);
-          return
-        }
-    }
-    res.status(401).json('usuario no existente');
-    return
-})
-
-const invite = asyncHandler(async (req, res) => {
-  // const { image } = req.files;
-  const password = generator.generate({
-    length: 10,
-    numbers: true,
-    symbols: true,
-    uppercase: true,
+const index = asyncHandler(async (req, res) => {
+  const users = await User.findAll({
+    attributes: [
+      'id',
+      'firstName',
+      'lastName',
+      'belt',
+      'stripes',
+      'nickName',
+      'image',
+      'startDate',
+    ],
   });
-  const hash = await bcrypt.hash(password, 10);
-  const userData: User = {...req.body, instructor: false, password: hash}
-  const user = await User.create(userData);
-  res.json(user);
-  // bcrypt.hash(password, 10, (err, hash) => {
-  //   req.body.password = hash;
-  //   // req.body.image = `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`;
-  //   req.body.instructor = false;
-  //   User.create(req.body)
-  //     .then((user) => mailTransporter.sendMail(invitationMail(user, password), (error, info) => {
-  //       if (error) {
-  //         return res.status(500).json('Error en el envío de la invitación');
-  //       }
-  //       return res.status(200).json(info.response);
-  //     }));
-  //   .catch((error) => res.status(400).json({
-  //     error,
-  //   }));
-  // });
-  // uploadFile(image);
-})
-// const controller = {
-//   login: async (req, res) => {
-//     const user = await User.findOne({
-//       where: {
-//         email: req.body.email,
-//       },
-//     });
-//     if (user) {
-//       return bcrypt.compare(req.body.password, user.password, (err, result) => {
-//         if (result) {
-//           const token = jwtHelper.createToken(user);
-//           return res.status(200).json(token);
-//         }
-//         return res.status(401).json('usuario no existente');
-//       });
-//     }
-//     return res.status(401).json('usuario no existente');
-//   },
-//
-//   index: async (req, res) => {
-//     User.findAll({
-//       attributes: ['id', 'firstName', 'lastName', 'belt', 'stripes', 'nickName', 'image', 'startDate'],
-//     }).then((users) => res.status(200).json(users));
-//   },
-//
-//   get: async (req, res) => {
-//     User.findOne({
-//       where: {
-//         id: req.params.id,
-//       },
-//     }).then((user) => res.status(200).json(user));
-//   },
-//
-//   updatePassword: async (req, res) => {
-//     const user = await User.findOne({
-//       where: {
-//         id: req.body.userId,
-//       },
-//     });
-//     if (user) {
-//       return bcrypt.compare(req.body.oldPassword, user.password, (err, result) => {
-//         if (result) {
-//           return bcrypt.hash(req.body.newPassword, 10, async (error, hash) => {
-//             user.password = hash;
-//             await user.save();
-//             return res.status(200).json(user);
-//           });
-//         }
-//         return res.status(401).json('Contraseña incorrecta');
-//       });
-//     }
-//     return res.status(401).json('Usuario no encontrado');
-//   },
-//
-//   update: (req, res) => {
-//     User.findOne({
-//       where: {
-//         id: req.params.id,
-//       },
-//     }).then(async (user) => {
-//       if (!req.body.image) {
-//         req.body.image = user.image;
-//       } else {
-//         const { image } = req.files;
-//         req.body.image = `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`;
-//         uploadFile(image);
-//       }
-//       await user.update(req.body);
-//       res.status(200).json(user);
-//     }).catch(() => res.status(404).json({ message: 'Usuario no encontrado' }));
-//   },
-//
-// };
+  res.status(200).json({ data: users });
+});
 
-export {login, invite}
+const get = asyncHandler(async (req, res) => {
+  const user = await User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json({ data: user });
+});
+
+const bookLesson = asyncHandler(async (req: AuthorizedRequest, res) => {
+  if (req.params.userId !== req.user?.sub) {
+    res.status(403).send('User forbidden ');
+    return;
+  }
+  const user = await User.findOne({ where: { id: req.params.userId } });
+  const lesson = await Lesson.findOne({ where: { id: req.params.lessonId } });
+  await lesson!.addUser(user!);
+  res.json(user);
+});
+
+const indexLessons = asyncHandler(async (req, res) => {
+  const user = await User.findOne({
+    where: { id: req.params.userId },
+    include: [
+      {
+        model: Lesson,
+        attributes: ['id', 'type', 'date'],
+        as: 'lessons',
+      },
+    ],
+  });
+
+  res.json(user);
+});
+
+export { index, get, bookLesson, indexLessons };
