@@ -1,4 +1,4 @@
-const { Training } = require('../database/models/user');
+const { Training } = require('../database/models/index');
 
 const controller = {
   create: (req, res) => {
