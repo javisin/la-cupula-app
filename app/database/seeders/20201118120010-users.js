@@ -13,6 +13,7 @@ module.exports = {
     createdAt: new Date(),
     updatedAt: new Date(),
     image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
+    instructor: true,
   },
   {
     firstName: 'Javier',
@@ -26,6 +27,7 @@ module.exports = {
     createdAt: new Date(),
     updatedAt: new Date(),
     image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
+    instructor: false,
   },
   {
     firstName: 'Alejandro',
@@ -39,6 +41,7 @@ module.exports = {
     createdAt: new Date(),
     updatedAt: new Date(),
     image: 'https://lacupula.s3.eu-west-2.amazonaws.com/kingte.jpeg',
+    instructor: false,
   }]),
 
   down: async (queryInterface, Sequelize) => queryInterface.bulkDelete('Users', null, {}),
