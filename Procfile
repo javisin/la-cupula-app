@@ -1,1 +1,1 @@
-web: node --use-strict index.ts
+web: node built/app.js
