@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "javisin",
+    "password": "Javisin1098",
+    "database": "la_cupula",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "javisin",
+    "password": "Javisin1098",
+    "database": "la_cupula",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "javisin",
+    "password": "Javisin1098",
+    "database": "la_cupula",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
