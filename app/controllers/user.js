@@ -60,6 +60,24 @@ const controller = {
     return res.status(401).json('Usuario no encontrado');
   },
 
+  update: (req, res) => {
+    User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    }).then(async (user) => {
+      if (!req.body.image) {
+        req.body.image = user.image;
+      } else {
+        const { image } = req.files;
+        req.body.image = `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`;
+        uploadFile(image);
+      }
+      await user.update(req.body);
+      res.status(200).json(user);
+    }).catch(() => res.status(404).json({ message: 'Usuario no encontrado' }));
+  },
+
   sendInvitation: (req, res) => {
     const { image } = req.files;
     const password = generator.generate({
