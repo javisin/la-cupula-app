@@ -10,7 +10,8 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "start:server": "cd server && npm run dev"
+    "start:server": "cd server && npm run dev",
+    "install": "cd server && npm install"
   },
   "author": "Javier Sintes",
   "license": "ISC"
