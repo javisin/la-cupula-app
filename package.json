@@ -1,0 +1,17 @@
+{
+  "name": "la-cupula-back",
+  "version": "1.0.0",
+  "description": "Backend of La Cúpula",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.5"
+  },
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
