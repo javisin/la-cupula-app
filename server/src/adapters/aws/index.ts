@@ -16,8 +16,7 @@ export const uploadFile = async (data: Buffer, name: string) => {
   });
 
   try {
-    const response = await client.send(command);
-    console.log(response);
+    await client.send(command);
   } catch (err) {
     console.error(err);
   }

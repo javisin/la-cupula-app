@@ -34,7 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/users', userRoutes);
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 3001;
 app.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log('Server running');
 });
