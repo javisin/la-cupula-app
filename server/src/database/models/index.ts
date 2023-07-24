@@ -42,7 +42,7 @@ if (env === 'production') {
 sequelize
   .authenticate()
   .then(() => {
-    sequelize.sync();
+    // sequelize.sync();
     console.log('DB connection has been established successfully.');
   })
   .catch((error) => {

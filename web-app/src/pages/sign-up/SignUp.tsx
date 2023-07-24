@@ -6,38 +6,50 @@ import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui
 import axios from 'axios';
 
 const Form = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [belt, setBelt] = useState('white');
-  const [stripes, setStripes] = useState('0');
-  const [startDate, setStartDate] = useState('');
+  const [formFields, setFormFields] = useState({
+    firstName: '',
+    lastName: '',
+    belt: '',
+    stripes: '',
+    email: '',
+    password: '',
+    startDate: '',
+  });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files?.[0] ?? null);
   };
+
+  const isFormValid =
+    Object.values(formFields).every((value) => value !== '') && selectedFile !== null;
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     try {
       const formData = new FormData();
-      formData.append('firstName', firstName);
-      formData.append('lastName', lastName);
-      formData.append('belt', belt);
-      formData.append('stripes', stripes);
-      formData.append('email', email);
-      formData.append('password', password);
-      formData.append('startDate', startDate);
+      formData.append('firstName', formFields.firstName);
+      formData.append('lastName', formFields.lastName);
+      formData.append('belt', formFields.belt);
+      formData.append('stripes', formFields.stripes);
+      formData.append('email', formFields.email);
+      formData.append('password', formFields.password);
+      formData.append('startDate', formFields.startDate);
       formData.append('image', selectedFile || '');
 
-      const response = await axios.post('http://localhost:3001/api/auth/sign-up', formData);
-
-      console.log('Form submitted successfully!', response.data);
+      await axios.post('/api/auth/sign-up', formData);
     } catch (error) {
-      // Handle any errors that occur during the request
       console.error('Error submitting the form:', error);
     }
+  };
+
+  const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormFields((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
@@ -48,29 +60,37 @@ const Form = () => {
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <TextField
+            name="firstName"
             size="small"
             label="Nombre"
             variant="outlined"
             fullWidth
-            value={firstName}
-            onChange={(event) => setFirstName(event.target.value)}
+            value={formFields.firstName}
+            onChange={handleFieldChange}
             // helperText={true ? 'First name is required' : ''}
           />
           <TextField
+            name="lastName"
             size="small"
             label="Apellidos"
             variant="outlined"
             fullWidth
-            value={lastName}
-            onChange={(event) => setLastName(event.target.value)}
+            value={formFields.lastName}
+            onChange={handleFieldChange}
           />
           <FormControl variant="outlined" fullWidth>
             <InputLabel htmlFor="belt-select">Cinturón</InputLabel>
             <Select
               label="Cinturón"
               id="belt-select"
-              value={belt}
-              onChange={(event) => setBelt(event.target.value)}
+              value={formFields.belt}
+              onChange={(event) => {
+                const { value } = event.target;
+                setFormFields((prevData) => ({
+                  ...prevData,
+                  belt: value,
+                }));
+              }}
             >
               <MenuItem value="white">Blanco</MenuItem>
               <MenuItem value="blue">Azul</MenuItem>
@@ -84,8 +104,14 @@ const Form = () => {
             <Select
               label="Grados"
               id="stripes-select"
-              value={stripes}
-              onChange={(event) => setStripes(event.target.value)}
+              value={formFields.stripes}
+              onChange={(event) => {
+                const { value } = event.target;
+                setFormFields((prevData) => ({
+                  ...prevData,
+                  stripes: value,
+                }));
+              }}
             >
               <MenuItem value="0">0</MenuItem>
               <MenuItem value="1">1</MenuItem>
@@ -95,26 +121,29 @@ const Form = () => {
             </Select>
           </FormControl>
           <TextField
-            onChange={(event) => setEmail(event.target.value)}
+            name="email"
+            onChange={handleFieldChange}
             size="small"
             label="Email"
             type="email"
             variant="outlined"
             fullWidth
-            value={email}
+            value={formFields.email}
           />
           <TextField
+            name="password"
             size="small"
             label="Contraseña"
             type="password"
             variant="outlined"
             fullWidth
-            onChange={(event) => setPassword(event.target.value)}
-            value={password}
+            onChange={handleFieldChange}
+            value={formFields.password}
           />
 
           <TextField
             id="start-date"
+            name="startDate"
             label="Fecha de comienzo"
             type="date"
             variant="outlined"
@@ -123,7 +152,7 @@ const Form = () => {
             InputLabelProps={{
               shrink: true,
             }}
-            onChange={(event) => setStartDate(event.target.value)}
+            onChange={handleFieldChange}
           />
 
           <input
@@ -140,7 +169,7 @@ const Form = () => {
           </label>
           {selectedFile && <Typography>{selectedFile.name}</Typography>}
 
-          <Button disabled={false} type="submit" variant="contained" color="primary">
+          <Button disabled={!isFormValid} type="submit" variant="contained" color="primary">
             Registrarse
           </Button>
         </Stack>
