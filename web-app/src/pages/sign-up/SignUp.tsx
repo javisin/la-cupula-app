@@ -9,8 +9,8 @@ const Form = () => {
   const [formFields, setFormFields] = useState({
     firstName: '',
     lastName: '',
-    belt: '',
-    stripes: '',
+    belt: 'white',
+    stripes: '0',
     email: '',
     password: '',
     startDate: '',
