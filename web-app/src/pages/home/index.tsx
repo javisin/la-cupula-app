@@ -17,7 +17,7 @@ export default function HomePage() {
 
   return (
     <Box maxWidth={300} mx="auto" my={2}>
-      <h1>hola {getUserQuery.data.firstName}</h1>
+      <h1>hola {getUserQuery.data?.firstName}</h1>
       <Button variant="contained" color="primary" onClick={handleLogout}>
         cerrar sesion
       </Button>

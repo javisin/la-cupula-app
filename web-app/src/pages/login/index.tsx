@@ -40,11 +40,11 @@ export default function LoginPage() {
             fullWidth
             value={formFields.email}
             onChange={handleFieldChange}
-            // helperText={true ? 'First name is required' : ''}
           />
           <TextField
             name="password"
             size="small"
+            type="password"
             label="Contraseña"
             variant="outlined"
             fullWidth
