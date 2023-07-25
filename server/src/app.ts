@@ -23,16 +23,17 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/api/auth', authRoutes);
+app.use('/api/lessons', lessonRoutes);
+app.use('/api/users', userRoutes);
+
+// Serve web-app content
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../../web-app/build')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../web-app/build/index.html'));
   });
 }
-
-app.use('/api/auth', authRoutes);
-app.use('/api/lessons', lessonRoutes);
-app.use('/api/users', userRoutes);
 
 const DEFAULT_PORT = 3001;
 app.listen(process.env.PORT || DEFAULT_PORT, () => {
