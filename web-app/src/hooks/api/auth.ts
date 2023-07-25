@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import apiClient from '../../apiClient';
+import { useNavigate } from 'react-router-dom';
 
 interface SignUpBody {
   firstName: string;
@@ -11,6 +12,7 @@ interface SignUpBody {
   startDate: string;
   image: File;
 }
+
 export function useSignUp() {
   return useMutation(async (userData: SignUpBody) => {
     const formData = new FormData();
@@ -23,7 +25,8 @@ export function useSignUp() {
     formData.append('startDate', userData.startDate);
     formData.append('image', userData.image);
 
-    return axios.post('/api/auth/sign-up', formData);
+    const { data } = await apiClient.post('/auth/sign-up', formData);
+    return data;
   });
 }
 
@@ -32,7 +35,17 @@ interface LoginBody {
   password: string;
 }
 export function useLogin() {
-  return useMutation(async (credentials: LoginBody) => {
-    return axios.post('/api/auth/login', credentials);
-  });
+  const navigate = useNavigate();
+  return useMutation(
+    async (credentials: LoginBody) => {
+      const { data } = await apiClient.post<string>('/auth/login', credentials);
+      return data;
+    },
+    {
+      onSuccess: (data) => {
+        localStorage.setItem('token', data);
+        navigate('/home');
+      },
+    },
+  );
 }
