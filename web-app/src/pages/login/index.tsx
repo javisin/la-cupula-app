@@ -4,9 +4,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useLogin } from '../../hooks/api/auth';
-import { log } from 'util';
 
-const Form = () => {
+export default function LoginPage() {
   const [formFields, setFormFields] = useState({
     email: '',
     password: '',
@@ -23,15 +22,7 @@ const Form = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    loginMutation.mutate(formFields, {
-      onSuccess: () => {
-        console.log('success');
-      },
-      onError: () => {
-        console.log('error');
-      },
-    });
+    loginMutation.mutate(formFields);
   };
 
   return (
@@ -77,6 +68,4 @@ const Form = () => {
       </form>
     </Box>
   );
-};
-
-export default Form;
+}

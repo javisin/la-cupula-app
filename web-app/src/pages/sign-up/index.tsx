@@ -14,7 +14,7 @@ import {
 import { useSignUp } from '../../hooks/api/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Form = () => {
+export default function SignUpPage() {
   const [formFields, setFormFields] = useState({
     firstName: '',
     lastName: '',
@@ -188,6 +188,4 @@ const Form = () => {
       </form>
     </Box>
   );
-};
-
-export default Form;
+}

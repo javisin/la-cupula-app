@@ -25,7 +25,7 @@ const get = asyncHandler(async (req, res) => {
       id: req.params.id,
     },
   });
-  res.status(200).json({ data: user });
+  res.status(200).json(user);
 });
 
 const bookLesson = asyncHandler(async (req: AuthorizedRequest, res) => {
