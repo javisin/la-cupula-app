@@ -2,8 +2,17 @@ import React, { ChangeEvent, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import axios from 'axios';
+import {
+  Box,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
+import { useSignUp } from '../../hooks/api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
   const [formFields, setFormFields] = useState({
@@ -16,6 +25,8 @@ const Form = () => {
     startDate: '',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const signUpMutation = useSignUp();
+  const navigate = useNavigate();
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files?.[0] ?? null);
@@ -27,21 +38,17 @@ const Form = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      const formData = new FormData();
-      formData.append('firstName', formFields.firstName);
-      formData.append('lastName', formFields.lastName);
-      formData.append('belt', formFields.belt);
-      formData.append('stripes', formFields.stripes);
-      formData.append('email', formFields.email);
-      formData.append('password', formFields.password);
-      formData.append('startDate', formFields.startDate);
-      formData.append('image', selectedFile || '');
-
-      await axios.post('/api/auth/sign-up', formData);
-    } catch (error) {
-      console.error('Error submitting the form:', error);
-    }
+    signUpMutation.mutate(
+      { ...formFields, image: selectedFile! },
+      {
+        onSuccess: () => {
+          navigate('/login');
+        },
+        onError: () => {
+          console.log('error');
+        },
+      },
+    );
   };
 
   const handleFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -169,8 +176,13 @@ const Form = () => {
           </label>
           {selectedFile && <Typography>{selectedFile.name}</Typography>}
 
-          <Button disabled={!isFormValid} type="submit" variant="contained" color="primary">
-            Registrarse
+          <Button
+            disabled={!isFormValid || signUpMutation.isLoading}
+            type="submit"
+            variant="contained"
+            color="primary"
+          >
+            {signUpMutation.isLoading ? <CircularProgress size={24} /> : 'Registrarse'}
           </Button>
         </Stack>
       </form>
