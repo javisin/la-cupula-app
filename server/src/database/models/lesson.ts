@@ -13,7 +13,8 @@ export default class Lesson extends Model<
   InferCreationAttributes<Lesson>
 > {
   declare id: CreationOptional<number>;
-  declare date: Date;
+  declare startDate: Date;
+  declare endDate: Date;
   declare type: string;
   declare addUser: (user: User | number, options?: any) => Promise<void>;
 }
@@ -26,7 +27,8 @@ Lesson.init(
       primaryKey: true,
     },
     type: DataTypes.STRING,
-    date: DataTypes.DATE,
+    startDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
   },
   {
     sequelize,
