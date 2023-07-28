@@ -6,7 +6,6 @@ import {
   DataTypes,
 } from 'sequelize';
 import sequelize from './index';
-import Lesson from './lesson';
 
 export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
@@ -20,9 +19,6 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
   declare password: string;
   declare image: string;
   declare instructor: boolean;
-  declare addLesson: (lesson: Lesson | number, options?: any) => Promise<void>;
-
-  async $add(lesson1: string, lesson: Lesson | null) {}
 }
 
 User.init(
@@ -45,7 +41,6 @@ User.init(
   },
   {
     sequelize,
-    modelName: 'User',
     underscored: true,
   },
 );

@@ -1,10 +1,9 @@
 import express from 'express';
-import { index, get, indexLessons } from '../controllers/user';
 import { checkAuthenticated } from '../jwt';
+import { create, index } from '../controllers/booking';
 const router = express.Router();
 
 router.get('/', checkAuthenticated, index);
-router.get('/:id', checkAuthenticated, get);
-router.get('/:userId/lessons', checkAuthenticated, indexLessons);
+router.post('/', checkAuthenticated, create);
 
 export default router;

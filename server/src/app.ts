@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
+import bookingRoutes from './routes/booking';
+
 import dotenv from 'dotenv';
 import path from 'path';
 
@@ -26,6 +28,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Serve web-app content
 if (process.env.NODE_ENV === 'production') {
