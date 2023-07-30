@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { getCurrentUser, logout } from '../../util/auth';
 import { useGetUser } from '../../hooks/api/user';
 import { useNavigate } from 'react-router-dom';
+import { formatDateToMonthAndYear } from '../../util/dates';
 
 export default function ProfilePage() {
   const currentUser = getCurrentUser();
@@ -36,7 +37,7 @@ export default function ProfilePage() {
         {`${user.firstName} ${user.lastName}`}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Entrenando desde: {new Date(user.startDate).toLocaleDateString()}
+        Entrenando desde: {formatDateToMonthAndYear(new Date(user.startDate))}
       </Typography>
       <img src={image} style={{ width: '200px', height: '200px', margin: '10px' }} alt="belt" />
       <Button variant="contained" color="primary" onClick={handleLogout}>
