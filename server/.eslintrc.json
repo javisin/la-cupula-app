@@ -4,10 +4,12 @@
         "node": true
     },
     "extends": [
-        "airbnb-base"
+        "airbnb-base",
+        "airbnb-typescript/base"
     ],
     "parserOptions": {
-        "ecmaVersion": 11
+        "ecmaVersion": 11,
+        "project": "./tsconfig.json"
     },
     "rules": {
     }
