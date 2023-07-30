@@ -1,5 +1,5 @@
-import User from '../database/models/user';
 import asyncHandler from 'express-async-handler';
+import User from '../database/models/user';
 import Lesson from '../database/models/lesson';
 
 const index = asyncHandler(async (req, res) => {

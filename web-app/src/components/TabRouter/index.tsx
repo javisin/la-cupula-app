@@ -18,18 +18,7 @@ export default function Index({ children }: { children: ReactNode }) {
   return (
     <Box maxWidth={300} mx="auto" my={2}>
       {children}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 10,
-          backgroundColor: 'primary.main',
-        }}
-      >
+      <Box className="tabs-container">
         <BottomNavigation
           sx={{ backgroundColor: 'primary.main' }}
           showLabels

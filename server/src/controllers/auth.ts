@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
-import User from '../database/models/user';
 import asyncHandler from 'express-async-handler';
-import { createToken } from '../jwt';
 import fileUpload from 'express-fileupload';
+import User from '../database/models/user';
+import { createToken } from '../jwt';
 import { uploadFile } from '../adapters/aws';
 
 const login = asyncHandler(async (req, res) => {
@@ -20,7 +20,6 @@ const login = asyncHandler(async (req, res) => {
     }
   }
   res.status(401).json('usuario no existente');
-  return;
 });
 
 const signUp = asyncHandler(async (req, res) => {
