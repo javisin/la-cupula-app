@@ -48,7 +48,9 @@ export default function HomePage() {
                   {`${convertDateToTimeString(new Date(lesson.startDate))} -
                   ${convertDateToTimeString(new Date(lesson.endDate))}`}
                 </Typography>
-                <Typography color="textSecondary">{lesson.type}</Typography>
+                <Typography fontWeight="bold" color="primary">
+                  {lesson.type}
+                </Typography>
                 <Box>
                   <Button
                     key={lesson.id}
