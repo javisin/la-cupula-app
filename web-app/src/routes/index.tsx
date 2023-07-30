@@ -4,6 +4,8 @@ import { getCurrentUser } from '../util/auth';
 import SignUpPage from '../pages/sign-up';
 import LoginPage from '../pages/login';
 import HomePage from '../pages/home';
+import TabRouter from '../components/TabRouter';
+import ProfilePage from '../pages/profile';
 
 const checkIsLoggedIn = () => {
   const user = getCurrentUser();
@@ -24,7 +26,11 @@ const checkIsNotLoggedIin = () => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
+    element: (
+      <TabRouter>
+        <HomePage />
+      </TabRouter>
+    ),
     loader: checkIsLoggedIn,
   },
   {
@@ -39,7 +45,20 @@ const router = createBrowserRouter([
   },
   {
     path: '/home',
-    element: <HomePage />,
+    element: (
+      <TabRouter>
+        <HomePage />
+      </TabRouter>
+    ),
+    loader: checkIsLoggedIn,
+  },
+  {
+    path: '/profile',
+    element: (
+      <TabRouter>
+        <ProfilePage />
+      </TabRouter>
+    ),
     loader: checkIsLoggedIn,
   },
 ]);

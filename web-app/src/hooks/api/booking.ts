@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 import { getCurrentUser } from '../../util/auth';
 
-interface BookedLessonsFilter {
+interface GetBookingsFilter {
   userId?: number;
   date?: Date;
 }
@@ -11,7 +11,7 @@ interface Booking {
   lessonId: number;
 }
 
-export function useGetBookings(filter: BookedLessonsFilter) {
+export function useGetBookings(filter: GetBookingsFilter) {
   const { userId, date } = filter;
   const params = new URLSearchParams();
   if (userId) {

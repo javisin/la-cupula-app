@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useGetLessons } from '../../hooks/api/lesson';
 import { useCreateBooking, useGetBookings } from '../../hooks/api/booking';
-import './home.css';
-import { convertDateToTimeString } from '../../util/dates';
+import './home.scss';
+import { convertDateToDateString, convertDateToTimeString } from '../../util/dates';
 import { getCurrentUser } from '../../util/auth';
+import TextField from '@mui/material/TextField';
 
 export default function HomePage() {
-  const getLessonsQuery = useGetLessons();
+  const [date, setDate] = useState(convertDateToDateString(new Date()));
+
+  const getLessonsQuery = useGetLessons({ date: new Date(date) });
   const getBookingsQuery = useGetBookings({
     userId: parseInt(getCurrentUser()!.sub),
-    // date: new Date(),
+    date: new Date(date),
   });
   const createBookingMutation = useCreateBooking();
   const lessons = getLessonsQuery.data ?? [];
@@ -22,45 +25,52 @@ export default function HomePage() {
   };
 
   return (
-    <Box maxWidth={300} mx="auto" my={2}>
-      <div className="lesson-times-container">
-        <h2>Clases de mañana</h2>
-        <div className="lesson-times-list">
-          {lessons.map((lesson) => {
-            const isBooked = getBookingsQuery.data?.some(
-              (booking) => booking.lessonId === lesson.id,
-            );
-            return (
-              <Card key={lesson.id} className="lesson-card">
-                <CardContent>
-                  <Typography variant="h5" component="h2">
-                    {`${convertDateToTimeString(new Date(lesson.startDate))} -
+    <div className="lesson-times-container">
+      <h2>Clases</h2>
+      <TextField
+        name="date"
+        type="date"
+        variant="outlined"
+        fullWidth
+        InputLabelProps={{
+          shrink: true,
+        }}
+        value={date}
+        onChange={(event) => setDate(event.target.value)}
+      />
+      <div className="lesson-times-list">
+        {lessons.map((lesson) => {
+          const isBooked = getBookingsQuery.data?.some((booking) => booking.lessonId === lesson.id);
+          return (
+            <Card key={lesson.id} className="lesson-card">
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  {`${convertDateToTimeString(new Date(lesson.startDate))} -
                   ${convertDateToTimeString(new Date(lesson.endDate))}`}
-                  </Typography>
-                  <Typography color="textSecondary">{lesson.type}</Typography>
-                  <Box>
-                    <Button
-                      key={lesson.id}
-                      variant="contained"
-                      color="primary"
-                      onClick={() =>
-                        handleLessonTimeClick(
-                          lesson.id,
-                          convertDateToTimeString(new Date(lesson.startDate)),
-                        )
-                      }
-                      className="lesson-time-button"
-                      disabled={isBooked}
-                    >
-                      {isBooked ? 'Reservada' : 'Reservar clase'}
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                </Typography>
+                <Typography color="textSecondary">{lesson.type}</Typography>
+                <Box>
+                  <Button
+                    key={lesson.id}
+                    variant="contained"
+                    color="primary"
+                    onClick={() =>
+                      handleLessonTimeClick(
+                        lesson.id,
+                        convertDateToTimeString(new Date(lesson.startDate)),
+                      )
+                    }
+                    className="lesson-time-button"
+                    disabled={isBooked}
+                  >
+                    {isBooked ? 'Reservada' : 'Reservar clase'}
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
-    </Box>
+    </div>
   );
 }

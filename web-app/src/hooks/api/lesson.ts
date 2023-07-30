@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
+import { convertDateToDateString } from '../../util/dates';
 
 interface Lesson {
   id: number;
@@ -7,9 +8,20 @@ interface Lesson {
   startDate: string;
   endDate: string;
 }
-export function useGetLessons() {
-  return useQuery(['lessons'], async () => {
-    const { data } = await apiClient.get<Lesson[]>(`/lessons`);
+
+interface GetLessonsFilter {
+  date?: Date;
+}
+
+export function useGetLessons({ date }: GetLessonsFilter) {
+  const params = new URLSearchParams();
+
+  if (date) {
+    params.set('date', convertDateToDateString(date));
+  }
+
+  return useQuery(['lessons', params.toString()], async () => {
+    const { data } = await apiClient.get<Lesson[]>(`/lessons?${params.toString()}`);
     return data;
   });
 }
