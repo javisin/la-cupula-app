@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 
-interface User {
+export interface User {
   firstName: string;
   lastName: string;
   image: string;

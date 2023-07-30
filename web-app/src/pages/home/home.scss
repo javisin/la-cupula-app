@@ -16,15 +16,14 @@
 }
 
 .lesson-time-button {
-  margin-top: 16px;
-  border: none;
-  padding: 10px 20px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  margin: 8px 0 !important;
 }
 
 .lesson-time-button:focus {
   outline: none;
+}
+
+.participants-button {
+  text-decoration: underline;
 }
 

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 import { convertDateToDateString } from '../../util/dates';
 
-interface Lesson {
+export interface Lesson {
   id: number;
   type: 'gi' | 'nogi';
   startDate: string;

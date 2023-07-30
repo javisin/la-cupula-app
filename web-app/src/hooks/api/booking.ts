@@ -1,14 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 import { getCurrentUser } from '../../util/auth';
+import { User } from './user';
 
 interface GetBookingsFilter {
   userId?: number;
   date?: Date;
 }
-interface Booking {
+export interface Booking {
   userId: number;
   lessonId: number;
+  user: User;
 }
 
 export function useGetBookings(filter: GetBookingsFilter) {
