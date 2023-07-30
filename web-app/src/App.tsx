@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AppRouter from './routes';

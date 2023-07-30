@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 import { getCurrentUser } from '../../util/auth';
 
@@ -29,6 +29,7 @@ export function useGetBookings(filter: GetBookingsFilter) {
 }
 
 export function useCreateBooking() {
+  const queryClient = useQueryClient();
   const user = getCurrentUser();
   return useMutation(
     async ({ lessonId }: { lessonId: number }) => {
@@ -36,8 +37,8 @@ export function useCreateBooking() {
       return data;
     },
     {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: () => {
+        queryClient.invalidateQueries(['booked-lessons']);
       },
     },
   );

@@ -5,6 +5,8 @@ interface User {
   firstName: string;
   lastName: string;
   image: string;
+  belt: string;
+  startDate: string;
 }
 export function useGetUser(id: number) {
   return useQuery(['user', id], async () => {

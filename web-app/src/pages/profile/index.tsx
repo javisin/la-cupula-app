@@ -9,7 +9,9 @@ export default function ProfilePage() {
   const currentUser = getCurrentUser();
   const getUserQuery = useGetUser(parseInt(currentUser?.sub ?? '1'));
   const user = getUserQuery.data;
+  const beltImage = user?.belt ?? 'black';
 
+  const image = user?.belt ? require(`../../assets/images/${beltImage}_Belt.png`) : undefined;
   const navigate = useNavigate();
 
   if (!user) {
@@ -33,6 +35,10 @@ export default function ProfilePage() {
       <Typography variant="h5" component="h2" gutterBottom>
         {`${user.firstName} ${user.lastName}`}
       </Typography>
+      <Typography variant="subtitle1" gutterBottom>
+        Entrenando desde: {new Date(user.startDate).toLocaleDateString()}
+      </Typography>
+      <img src={image} style={{ width: '200px', height: '200px', margin: '10px' }} alt="belt" />
       <Button variant="contained" color="primary" onClick={handleLogout}>
         Cerrar sesión
       </Button>

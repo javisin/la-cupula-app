@@ -1,6 +1,6 @@
+import { Op } from 'sequelize';
 import asyncHandler from 'express-async-handler';
 import Lesson from '../database/models/lesson';
-import { Op } from 'sequelize';
 
 const create = asyncHandler(async (req, res) => {
   const lesson = await Lesson.create({
