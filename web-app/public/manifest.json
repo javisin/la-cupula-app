@@ -1,5 +1,5 @@
 {
-  "short_name": "EJJB La Cúpula",
+  "short_name": "La Cúpula",
   "name": "Escuela Jiu Jitsu Brasileño La Cúpula",
   "icons": [
     {
@@ -7,13 +7,13 @@
       "sizes": "64x64 32x32 24x24 16x16"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
+      "src": "logo192.jpeg",
+      "type": "image/jpg",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "logo512.jpeg",
+      "type": "image/jpg",
       "sizes": "512x512"
     }
   ],
