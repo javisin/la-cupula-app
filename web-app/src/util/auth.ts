@@ -1,5 +1,4 @@
 interface JWTUser {
-  exp: number;
   iat: number;
   instructor: boolean;
   sub: string;

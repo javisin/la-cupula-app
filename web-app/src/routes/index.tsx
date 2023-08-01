@@ -6,11 +6,23 @@ import LoginPage from '../pages/login';
 import HomePage from '../pages/home';
 import TabRouter from '../components/TabRouter';
 import ProfilePage from '../pages/profile';
+import StudentsPage from '../pages/students';
 
 const checkIsLoggedIn = () => {
   const user = getCurrentUser();
   if (!user) {
     return redirect('/login');
+  }
+  return null;
+};
+
+const checkIsAdmin = () => {
+  const user = getCurrentUser();
+  if (!user) {
+    return redirect('/login');
+  }
+  if (!user.instructor) {
+    return redirect('/home');
   }
   return null;
 };
@@ -60,6 +72,15 @@ const router = createBrowserRouter([
       </TabRouter>
     ),
     loader: checkIsLoggedIn,
+  },
+  {
+    path: '/students',
+    element: (
+      <TabRouter>
+        <StudentsPage />
+      </TabRouter>
+    ),
+    loader: checkIsAdmin,
   },
 ]);
 export default router;
