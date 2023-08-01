@@ -1,13 +1,12 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import User from './database/models/user';
 import asyncHandler from 'express-async-handler';
 import { Request } from 'express';
+import User from './database/models/user';
 
 interface AuthJwtPayload extends JwtPayload {
   sub: string;
   instructor: boolean;
   iat: number;
-  exp: number;
 }
 
 const { JWT_SECRET } = process.env;
@@ -24,7 +23,6 @@ const createToken = (user: User) => {
     sub: user.id.toString(),
     instructor: user.instructor,
     iat: Date.now(),
-    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7,
   };
   return jwt.sign(payload, JWT_SECRET);
 };

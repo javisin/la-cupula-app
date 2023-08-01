@@ -1,8 +1,8 @@
 import asyncHandler from 'express-async-handler';
+import { Op } from 'sequelize';
 import Booking from '../database/models/booking';
 import User from '../database/models/user';
 import Lesson from '../database/models/lesson';
-import { Op } from 'sequelize';
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -23,7 +23,6 @@ const index = asyncHandler(async (req, res) => {
     };
   }
 
-  console.log(lessonQuery);
   const bookings = await Booking.findAll({
     include: [
       { model: User, as: 'user' },

@@ -12,8 +12,11 @@ export default class Lesson extends Model<
   InferCreationAttributes<Lesson>
 > {
   declare id: CreationOptional<number>;
+
   declare startDate: Date;
+
   declare endDate: Date;
+
   declare type: string;
 }
 

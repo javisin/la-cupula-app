@@ -2,12 +2,14 @@ import { Model, InferAttributes, InferCreationAttributes, DataTypes } from 'sequ
 import sequelize from './index';
 import User from './user';
 import Lesson from './lesson';
+import Plan from './plan';
 
 export default class Booking extends Model<
   InferAttributes<Booking>,
   InferCreationAttributes<Booking>
 > {
   declare userId: number;
+
   declare lessonId: number;
 }
 
@@ -34,3 +36,4 @@ User.hasMany(Booking);
 Booking.belongsTo(User, { as: 'user' });
 Lesson.hasMany(Booking);
 Booking.belongsTo(Lesson, { as: 'lesson' });
+Plan.getTableName();
