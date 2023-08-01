@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import User from '../database/models/user';
-import Lesson from '../database/models/lesson';
+import Plan from '../database/models/plan';
 
 const index = asyncHandler(async (req, res) => {
   const users = await User.findAll({
@@ -14,6 +14,7 @@ const index = asyncHandler(async (req, res) => {
       'image',
       'startDate',
     ],
+    include: [{ model: Plan, as: 'plan' }],
   });
   res.status(200).json({ data: users });
 });
@@ -31,19 +32,26 @@ const get = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-const indexLessons = asyncHandler(async (req, res) => {
-  const user = await User.findOne({
-    where: { id: req.params.userId },
-    include: [
-      {
-        model: Lesson,
-        attributes: ['id', 'type', 'date'],
-        as: 'lessons',
-      },
-    ],
-  });
+interface UserUpdateBody {
+  planId?: number | null;
+}
 
-  res.json(user);
+const update = asyncHandler(async (req, res) => {
+  const user = await User.findOne({
+    where: {
+      id: req.params.id,
+    },
+  });
+  if (user === null) {
+    res.status(404).json({ message: 'This user does not exist' });
+    return;
+  }
+  const { planId } = req.body as UserUpdateBody;
+  if (planId !== undefined) {
+    user.planId = planId;
+  }
+  await user.save();
+  res.status(200).json(user);
 });
 
-export { index, get, indexLessons };
+export { index, get, update };
