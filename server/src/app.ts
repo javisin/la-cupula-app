@@ -1,13 +1,13 @@
+import path from 'path';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
 import bookingRoutes from './routes/booking';
-
-import dotenv from 'dotenv';
-import path from 'path';
+import planRoutes from './routes/plan';
 
 dotenv.config();
 const app = express();
@@ -29,6 +29,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/lessons', lessonRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/plans', planRoutes);
 
 // Serve web-app content
 if (process.env.NODE_ENV === 'production') {
