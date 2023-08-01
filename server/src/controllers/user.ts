@@ -15,8 +15,9 @@ const index = asyncHandler(async (req, res) => {
       'startDate',
     ],
     include: [{ model: Plan, as: 'plan' }],
+    order: [['nickName', 'ASC']],
   });
-  res.status(200).json({ data: users });
+  res.status(200).json(users);
 });
 
 const get = asyncHandler(async (req, res) => {

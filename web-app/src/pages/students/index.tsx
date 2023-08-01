@@ -1,61 +1,59 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Avatar,
-  Badge,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
+import { useGetUsers, useUpdateUser } from '../../hooks/api/user';
+import { useGetPlans } from '../../hooks/api/plan';
+import './students.scss';
 
-// Sample data for students (replace this with your actual data)
-const students = [
-  {
-    id: 1,
-    name: 'John Doe',
-    avatarUrl: 'https://example.com/avatar1.jpg',
-    subscriptionType: 'Premium',
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    avatarUrl: 'https://example.com/avatar2.jpg',
-    subscriptionType: 'Basic',
-  },
-  // Add more student data as needed
-];
-//
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     maxWidth: 400,
-//     margin: '0 auto',
-//     paddingTop: theme.spacing(2),
-//   },
-//   listItem: {
-//     marginBottom: theme.spacing(2),
-//   },
-// }));
+export default function StudentsPage() {
+  const users = useGetUsers().data ?? [];
+  const plans = useGetPlans().data ?? [];
+  const updateUserMutation = useUpdateUser();
 
-const StudentsPage = () => {
+  const students = useMemo(() => users.filter((user) => !user.instructor), [users]);
+
+  const handlePlanChange = (event: SelectChangeEvent<number>, userId: number) => {
+    const value = event.target.value as number;
+    const planId = value === 0 ? null : value;
+    updateUserMutation.mutate({ id: userId, changeset: { planId: planId } });
+  };
+
   return (
     <div>
       <Typography variant="h5" gutterBottom>
         Estudiantes
       </Typography>
-      <List>
-        {students.map((student) => (
-          <ListItem key={student.id}>
-            <ListItemAvatar>
-              <Avatar alt={student.name} src={student.avatarUrl} />
-            </ListItemAvatar>
-            <ListItemText primary={student.name} secondary={`Plan: ${student.subscriptionType}`} />
-            <Badge variant="dot" />
-          </ListItem>
-        ))}
-      </List>
+      <div className="list-box">
+        <List>
+          {students.map((user) => (
+            <ListItem key={user.id}>
+              <ListItemAvatar>
+                <Avatar alt={user.nickName} src={user.image} />
+              </ListItemAvatar>
+              <ListItemText primary={user.nickName} />
+              <Select
+                value={user.plan?.id ?? 0}
+                onChange={(event) => handlePlanChange(event, user.id)}
+                className="plan-select"
+              >
+                <MenuItem value={0}>Sin plan</MenuItem>
+                {plans.map((plan) => (
+                  <MenuItem value={plan.id}>{plan.name}</MenuItem>
+                ))}
+              </Select>
+            </ListItem>
+          ))}
+        </List>
+      </div>
     </div>
   );
-};
-
-export default StudentsPage;
+}
