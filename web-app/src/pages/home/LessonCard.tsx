@@ -1,35 +1,32 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import { Booking, useCreateBooking } from '../../hooks/api/booking';
+import { Booking, useCreateBooking, useDeleteBooking } from '../../hooks/api/booking';
 import { Lesson } from '../../hooks/api/lesson';
 import './home.scss';
 import { convertDateToTimeString } from '../../util/dates';
+import ParticipantsList from './ParticipantsList';
 
 interface LessonCardProps {
   lesson: Lesson;
   bookings: Booking[];
-  isBooked: boolean;
+  userBooking?: Booking;
 }
 
-export default function LessonCard({ lesson, isBooked, bookings }: LessonCardProps) {
+export default function LessonCard({ lesson, userBooking, bookings }: LessonCardProps) {
   const createBookingMutation = useCreateBooking();
+  const deleteBookingMutation = useDeleteBooking();
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
-  const handleLessonTimeClick = (id: number, date: string) => {
-    createBookingMutation.mutate({ lessonId: id });
+  const createBooking = (lessonId: number, date: string) => {
+    createBookingMutation.mutate({ lessonId });
     alert(`Has reservado la clase a las ${date}.`);
+  };
+
+  const deleteBooking = (bookingId: number, date: string) => {
+    console.log('vamoo');
+    deleteBookingMutation.mutate({ bookingId });
+    alert(`Has cancelado la clase de las ${date}.`);
   };
 
   return (
@@ -45,14 +42,18 @@ export default function LessonCard({ lesson, isBooked, bookings }: LessonCardPro
         <Button
           key={lesson.id}
           variant="contained"
-          color="primary"
-          onClick={() =>
-            handleLessonTimeClick(lesson.id, convertDateToTimeString(new Date(lesson.startDate)))
-          }
+          color={userBooking ? 'error' : 'primary'}
+          onClick={() => {
+            const timeString = convertDateToTimeString(new Date(lesson.startDate));
+            if (userBooking) {
+              deleteBooking(userBooking.id!, timeString);
+            } else {
+              createBooking(lesson.id, timeString);
+            }
+          }}
           className="lesson-time-button"
-          disabled={isBooked}
         >
-          {isBooked ? 'Reservada' : 'Reservar clase'}
+          {userBooking ? 'Cancelar clase' : 'Reservar clase'}
         </Button>
         <Typography
           className="participants-button"
@@ -63,23 +64,11 @@ export default function LessonCard({ lesson, isBooked, bookings }: LessonCardPro
         </Typography>
       </CardContent>
 
-      <Dialog open={isParticipantsModalOpen} onClose={() => setIsParticipantsModalOpen(false)}>
-        <DialogTitle>Lista de participantes</DialogTitle>
-        <DialogContent>
-          <List>
-            {bookings.map((booking) => (
-              <ListItem key={booking.userId}>
-                <ListItemText primary={`${booking.user.firstName} ${booking.user.lastName}`} />
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsParticipantsModalOpen(false)} color="primary">
-            Cerrar
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ParticipantsList
+        bookings={bookings}
+        isOpen={isParticipantsModalOpen}
+        closeModal={() => setIsParticipantsModalOpen(false)}
+      />
     </Card>
   );
 }

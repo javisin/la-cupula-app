@@ -41,7 +41,7 @@ export default function HomePage() {
         {lessons.map((lesson) => {
           const lessonBookings = bookings.filter((booking) => booking.lessonId === lesson.id);
 
-          const isBooked = lessonBookings.some(
+          const userBooking = lessonBookings.find(
             (booking) => booking.userId.toString() === currentUser.sub,
           );
 
@@ -49,7 +49,7 @@ export default function HomePage() {
             <LessonCard
               key={lesson.id}
               lesson={lesson}
-              isBooked={isBooked}
+              userBooking={userBooking}
               bookings={lessonBookings}
             />
           );

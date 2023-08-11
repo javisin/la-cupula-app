@@ -21,3 +21,5 @@ export const uploadFile = async (data: Buffer, name: string) => {
     console.error(err);
   }
 };
+
+export default uploadFile;

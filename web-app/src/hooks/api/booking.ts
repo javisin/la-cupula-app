@@ -8,6 +8,7 @@ interface GetBookingsFilter {
   date?: Date;
 }
 export interface Booking {
+  id: number;
   userId: number;
   lessonId: number;
   user: User;
@@ -24,7 +25,7 @@ export function useGetBookings(filter: GetBookingsFilter) {
     params.set('date', date.toISOString().slice(0, 10));
   }
 
-  return useQuery(['booked-lessons', params.toString()], async () => {
+  return useQuery(['bookings', params.toString()], async () => {
     const { data } = await apiClient.get<Booking[]>(`bookings?${params.toString()}`);
     return data;
   });
@@ -40,7 +41,22 @@ export function useCreateBooking() {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['booked-lessons']);
+        queryClient.invalidateQueries(['bookings']);
+      },
+    },
+  );
+}
+
+export function useDeleteBooking() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ bookingId }: { bookingId: number }) => {
+      const { data } = await apiClient.delete<string>(`/bookings/${bookingId}`);
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['bookings']);
       },
     },
   );

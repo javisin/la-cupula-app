@@ -1,4 +1,10 @@
-import { Model, InferAttributes, InferCreationAttributes, DataTypes } from 'sequelize';
+import {
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  DataTypes,
+  CreationOptional,
+} from 'sequelize';
 import sequelize from './index';
 import User from './user';
 import Lesson from './lesson';
@@ -8,6 +14,8 @@ export default class Booking extends Model<
   InferAttributes<Booking>,
   InferCreationAttributes<Booking>
 > {
+  declare id: CreationOptional<number>;
+
   declare userId: number;
 
   declare lessonId: number;
@@ -15,13 +23,16 @@ export default class Booking extends Model<
 
 Booking.init(
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER.UNSIGNED,
-      primaryKey: true,
     },
     lessonId: {
       type: DataTypes.INTEGER.UNSIGNED,
-      primaryKey: true,
     },
   },
   {

@@ -42,4 +42,14 @@ const create = asyncHandler(async (req, res) => {
   const booking = await Booking.create({ userId, lessonId });
   res.status(200).json(booking);
 });
-export { create, index };
+
+const deleteBooking = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  await Booking.destroy({
+    where: {
+      id,
+    },
+  });
+  res.status(200).json('Booking deleted');
+});
+export { create, index, deleteBooking };

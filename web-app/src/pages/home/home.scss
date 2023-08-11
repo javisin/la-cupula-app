@@ -18,7 +18,9 @@
 .lesson-time-button {
   margin: 8px 0 !important;
 }
-
+.cancel-button {
+  background-color: red;
+}
 .lesson-time-button:focus {
   outline: none;
 }
