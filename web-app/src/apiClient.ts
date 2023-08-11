@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { logout } from './util/auth';
+import { getCurrentUser, logout } from './util/auth';
 
 const apiClient = axios.create({
   baseURL: process.env.NODE_ENV !== 'production' ? 'http://localhost:3001/api' : '/api',
@@ -18,7 +18,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   function (error) {
-    if (error.response.status === 401) {
+    if (error.response.status === 401 && getCurrentUser() !== undefined) {
       window.location.replace('/login');
       logout();
       return;
