@@ -6,6 +6,7 @@ import { Lesson } from '../../hooks/api/lesson';
 import './home.scss';
 import { convertDateToTimeString } from '../../util/dates';
 import ParticipantsList from './ParticipantsList';
+import { getCurrentUser } from '../../util/auth';
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -14,6 +15,7 @@ interface LessonCardProps {
 }
 
 export default function LessonCard({ lesson, userBooking, bookings }: LessonCardProps) {
+  const user = getCurrentUser();
   const createBookingMutation = useCreateBooking();
   const deleteBookingMutation = useDeleteBooking();
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
@@ -24,7 +26,6 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   };
 
   const deleteBooking = (bookingId: number, date: string) => {
-    console.log('vamoo');
     deleteBookingMutation.mutate({ bookingId });
     alert(`Has cancelado la clase de las ${date}.`);
   };
@@ -39,22 +40,24 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
         <Typography fontWeight="bold" color="primary">
           {lesson.type}
         </Typography>
-        <Button
-          key={lesson.id}
-          variant="contained"
-          color={userBooking ? 'error' : 'primary'}
-          onClick={() => {
-            const timeString = convertDateToTimeString(new Date(lesson.startDate));
-            if (userBooking) {
-              deleteBooking(userBooking.id!, timeString);
-            } else {
-              createBooking(lesson.id, timeString);
-            }
-          }}
-          className="lesson-time-button"
-        >
-          {userBooking ? 'Cancelar clase' : 'Reservar clase'}
-        </Button>
+        {user?.instructor === false && (
+          <Button
+            key={lesson.id}
+            variant="contained"
+            color={userBooking ? 'error' : 'primary'}
+            onClick={() => {
+              const timeString = convertDateToTimeString(new Date(lesson.startDate));
+              if (userBooking) {
+                deleteBooking(userBooking.id!, timeString);
+              } else {
+                createBooking(lesson.id, timeString);
+              }
+            }}
+            className="lesson-time-button"
+          >
+            {userBooking ? 'Cancelar clase' : 'Reservar clase'}
+          </Button>
+        )}
         <Typography
           className="participants-button"
           color="primary"
