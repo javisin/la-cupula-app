@@ -43,7 +43,7 @@ const create = asyncHandler(async (req, res) => {
   const { userId, lessonId } = req.body;
   const repository = new PostgresBookingRepository();
   const bookingCreator = new BookingCreator(repository);
-  await bookingCreator.run({ userId, lessonId, status: 'pending' });
+  await bookingCreator.run({ userId, lessonId });
   res.status(201).send();
 });
 

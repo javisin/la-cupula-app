@@ -44,6 +44,7 @@
     "dev": "nodemon src/app/app.ts",
     "start": "node built/app.js",
     "test": "jest",
+    "build": "tsc",
     "postinstall": "tsc"
   },
   "author": "Javier Sintes",

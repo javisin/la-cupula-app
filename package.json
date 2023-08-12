@@ -13,9 +13,11 @@
     "prettier": "^3.0.0"
   },
   "scripts": {
-    "build": "cd web-app && npm run build",
+    "build": "cd server && npm run build && cd ../web-app && npm run build",
     "start:server": "cd server && npm run dev",
-    "install": "cd server && npm install && cd ../web-app && npm install"
+    "install": "cd server && npm install && cd ../web-app && npm install",
+    "ci": "cd server && npm ci && cd ../web-app && npm ci",
+    "test": "cd server && npm test"
   },
   "author": "Javier Sintes",
   "license": "ISC"
