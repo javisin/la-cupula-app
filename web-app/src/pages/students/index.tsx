@@ -15,7 +15,8 @@ import { useGetPlans } from '../../hooks/api/plan';
 import './students.scss';
 
 export default function StudentsPage() {
-  const users = useGetUsers().data ?? [];
+  const getUsersQuery = useGetUsers();
+  const users = useMemo(() => getUsersQuery.data ?? [], [getUsersQuery.data]);
   const plans = useGetPlans().data ?? [];
   const updateUserMutation = useUpdateUser();
 
@@ -27,32 +28,11 @@ export default function StudentsPage() {
     updateUserMutation.mutate({ id: userId, changeset: { planId: planId } });
   };
 
-  const noti = async () => {
-    const registration = await navigator.serviceWorker.register('serviceworker.js', {
-      scope: './',
-    });
-    // Triggers popup to request access to send notifications
-    const result = await window.Notification.requestPermission();
-
-    // If the user rejects the permission result will be "denied"
-    if (result === 'granted') {
-      // You must use the service worker notification to show the notification
-      // Using new Notification("Hello World", { body: "My first notification on iOS"}) does not work on iOS
-      // despite working on other platforms
-      setTimeout(async () => {
-        await registration.showNotification('Hello World', {
-          body: 'My first notification on iOS',
-        });
-      }, 3000);
-    }
-  };
-
   return (
     <div>
       <Typography variant="h5" gutterBottom>
         Estudiantes
       </Typography>
-      <button onClick={noti}>test</button>
       <div className="list-box">
         <List>
           {students.map((user) => (
