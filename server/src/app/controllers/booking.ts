@@ -1,8 +1,10 @@
 import asyncHandler from 'express-async-handler';
 import { Op } from 'sequelize';
-import Booking from '../database/models/booking';
-import User from '../database/models/user';
-import Lesson from '../database/models/lesson';
+import User from '../../database/models/user';
+import Lesson from '../../database/models/lesson';
+import BookingModel from '../../Context/Bookings/infraestructure/BookingModel';
+import BookingCreator from '../../Context/Bookings/application/BookingCreator';
+import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -23,7 +25,7 @@ const index = asyncHandler(async (req, res) => {
     };
   }
 
-  const bookings = await Booking.findAll({
+  const bookings = await BookingModel.findAll({
     include: [
       { model: User, as: 'user' },
       {
@@ -39,13 +41,15 @@ const index = asyncHandler(async (req, res) => {
 
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId } = req.body;
-  const booking = await Booking.create({ userId, lessonId, status: 'pending' });
-  res.status(200).json(booking);
+  const repository = new PostgresBookingRepository();
+  const bookingCreator = new BookingCreator(repository);
+  await bookingCreator.run({ userId, lessonId, status: 'pending' });
+  res.status(201).send();
 });
 
 const deleteBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  await Booking.destroy({
+  await BookingModel.destroy({
     where: {
       id,
     },
@@ -57,7 +61,7 @@ const updateBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  const booking = await Booking.findOne({
+  const booking = await BookingModel.findOne({
     where: {
       id,
     },

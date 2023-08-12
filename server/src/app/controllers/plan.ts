@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import Plan from '../database/models/plan';
+import Plan from '../../database/models/plan';
 
 const index = asyncHandler(async (req, res) => {
   const plans = await Plan.findAll();

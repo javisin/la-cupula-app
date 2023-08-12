@@ -1,6 +1,6 @@
 import express from 'express';
-import { checkAuthenticated } from '../jwt';
 import { create, index, deleteBooking, updateBooking } from '../controllers/booking';
+import { checkAuthenticated } from '../jwt';
 
 const router = express.Router();
 

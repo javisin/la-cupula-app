@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import asyncHandler from 'express-async-handler';
-import Lesson from '../database/models/lesson';
+import Lesson from '../../database/models/lesson';
 
 const create = asyncHandler(async (req, res) => {
   const lesson = await Lesson.create({
@@ -27,7 +27,6 @@ const index = asyncHandler(async (req, res) => {
       [Op.lt]: nextDayDate,
     };
   }
-  console.log(whereStatement);
 
   const lessons = await Lesson.findAll({ where: whereStatement });
   res.status(200).json(lessons);

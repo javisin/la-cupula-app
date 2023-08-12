@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import { Request } from 'express';
-import User from './database/models/user';
+import User from '../database/models/user';
 
 interface AuthJwtPayload extends JwtPayload {
   sub: string;

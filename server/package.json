@@ -38,7 +38,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "dev": "nodemon src/app/app.ts",
     "start": "node built/app.js",
     "postinstall": "tsc"
   },

@@ -5,14 +5,14 @@ import {
   DataTypes,
   CreationOptional,
 } from 'sequelize';
-import sequelize from './index';
-import User from './user';
-import Lesson from './lesson';
-import Plan from './plan';
+import sequelize from '../../../database/models';
+import User from '../../../database/models/user';
+import Lesson from '../../../database/models/lesson';
+import Plan from '../../../database/models/plan';
 
-export default class Booking extends Model<
-  InferAttributes<Booking>,
-  InferCreationAttributes<Booking>
+export default class BookingModel extends Model<
+  InferAttributes<BookingModel>,
+  InferCreationAttributes<BookingModel>
 > {
   declare id: CreationOptional<number>;
 
@@ -23,7 +23,7 @@ export default class Booking extends Model<
   declare status: 'pending' | 'approved' | 'declined';
 }
 
-Booking.init(
+BookingModel.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -44,13 +44,14 @@ Booking.init(
   {
     sequelize,
     underscored: true,
+    tableName: 'bookings',
   },
 );
 
-User.belongsToMany(Lesson, { through: Booking });
-Lesson.belongsToMany(User, { through: Booking });
-User.hasMany(Booking);
-Booking.belongsTo(User, { as: 'user' });
-Lesson.hasMany(Booking);
-Booking.belongsTo(Lesson, { as: 'lesson' });
+User.belongsToMany(Lesson, { through: BookingModel });
+Lesson.belongsToMany(User, { through: BookingModel });
+User.hasMany(BookingModel);
+BookingModel.belongsTo(User, { as: 'user' });
+Lesson.hasMany(BookingModel);
+BookingModel.belongsTo(Lesson, { as: 'lesson' });
 Plan.getTableName();
