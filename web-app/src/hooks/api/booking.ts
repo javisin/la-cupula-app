@@ -47,11 +47,30 @@ export function useCreateBooking() {
   );
 }
 
+interface BookingChangeset {
+  status: 'approved' | 'declined' | 'pending';
+}
+
+export function useUpdateBooking() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ bookingId, changeset }: { bookingId: number; changeset: BookingChangeset }) => {
+      const { data } = await apiClient.patch<Booking>(`/bookings/${bookingId}`, changeset);
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['bookings']);
+      },
+    },
+  );
+}
+
 export function useDeleteBooking() {
   const queryClient = useQueryClient();
   return useMutation(
     async ({ bookingId }: { bookingId: number }) => {
-      const { data } = await apiClient.delete<string>(`/bookings/${bookingId}`);
+      const { data } = await apiClient.delete(`/bookings/${bookingId}`);
       return data;
     },
     {

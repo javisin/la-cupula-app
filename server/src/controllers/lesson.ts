@@ -30,7 +30,7 @@ const index = asyncHandler(async (req, res) => {
   console.log(whereStatement);
 
   const lessons = await Lesson.findAll({ where: whereStatement });
-  res.status(201).json(lessons);
+  res.status(200).json(lessons);
 });
 
 export { index, create };

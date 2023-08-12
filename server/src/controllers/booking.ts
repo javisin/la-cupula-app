@@ -39,7 +39,7 @@ const index = asyncHandler(async (req, res) => {
 
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId } = req.body;
-  const booking = await Booking.create({ userId, lessonId });
+  const booking = await Booking.create({ userId, lessonId, status: 'pending' });
   res.status(200).json(booking);
 });
 
@@ -52,4 +52,23 @@ const deleteBooking = asyncHandler(async (req, res) => {
   });
   res.status(200).json('Booking deleted');
 });
-export { create, index, deleteBooking };
+
+const updateBooking = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const booking = await Booking.findOne({
+    where: {
+      id,
+    },
+  });
+
+  if (!booking) {
+    res.status(404).json('Booking not found');
+    return;
+  }
+
+  booking.status = status;
+  res.status(200).json(booking);
+});
+export { create, index, deleteBooking, updateBooking };

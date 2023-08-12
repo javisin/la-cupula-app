@@ -19,6 +19,8 @@ export default class Booking extends Model<
   declare userId: number;
 
   declare lessonId: number;
+
+  declare status: 'pending' | 'approved' | 'declined';
 }
 
 Booking.init(
@@ -33,6 +35,10 @@ Booking.init(
     },
     lessonId: {
       type: DataTypes.INTEGER.UNSIGNED,
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'pending',
     },
   },
   {
