@@ -1,4 +1,4 @@
-import Lesson from '../database/models/lesson';
+import Lesson from '../../database/models/lesson';
 
 process.env.TZ = 'Europe/London';
 

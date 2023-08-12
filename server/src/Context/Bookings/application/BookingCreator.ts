@@ -7,12 +7,8 @@ export default class BookingCreator {
     this.repository = repository;
   }
 
-  async run(params: {
-    userId: number;
-    lessonId: number;
-    status: 'pending' | 'approved' | 'declined';
-  }) {
-    const booking = new Booking({ ...params, id: 1 });
+  async run(params: { userId: number; lessonId: number }) {
+    const booking = new Booking({ ...params, id: 1, status: 'pending' });
     await this.repository.save(booking);
   }
 }
