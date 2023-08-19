@@ -5,11 +5,11 @@ import {
   CreationOptional,
   DataTypes,
 } from 'sequelize';
-import sequelize from './index';
+import sequelize from '../../../database/models';
 
-export default class Lesson extends Model<
-  InferAttributes<Lesson>,
-  InferCreationAttributes<Lesson>
+export default class LessonModel extends Model<
+  InferAttributes<LessonModel>,
+  InferCreationAttributes<LessonModel>
 > {
   declare id: CreationOptional<number>;
 
@@ -20,7 +20,7 @@ export default class Lesson extends Model<
   declare type: string;
 }
 
-Lesson.init(
+LessonModel.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -34,5 +34,6 @@ Lesson.init(
   {
     sequelize,
     underscored: true,
+    tableName: 'lessons',
   },
 );

@@ -1,9 +1,10 @@
-import { Op } from 'sequelize';
 import asyncHandler from 'express-async-handler';
-import Lesson from '../../database/models/lesson';
+import LessonsGetter from '../../Context/Lessons/application/LessonsGetter';
+import PostgresLessonRepository from '../../Context/Lessons/infraestructure/PostgresLessonRepository';
+import LessonModel from '../../Context/Lessons/infraestructure/LessonModel';
 
 const create = asyncHandler(async (req, res) => {
-  const lesson = await Lesson.create({
+  const lesson = await LessonModel.create({
     type: 'test',
     startDate: new Date(),
     endDate: new Date(),
@@ -16,19 +17,13 @@ interface IndexFilter {
 }
 
 const index = asyncHandler(async (req, res) => {
-  const { date } = req.query as IndexFilter;
-  const whereStatement: { startDate?: { [Op.gt]: Date; [Op.lt]: Date } } = {};
-  if (date) {
-    const startDate = new Date(date);
-    const nextDayDate = new Date(startDate);
-    nextDayDate.setDate(startDate.getDate() + 1);
-    whereStatement.startDate = {
-      [Op.gt]: startDate,
-      [Op.lt]: nextDayDate,
-    };
-  }
-
-  const lessons = await Lesson.findAll({ where: whereStatement });
+  const lessonsRepository = new PostgresLessonRepository();
+  const lessonsGetter = new LessonsGetter(lessonsRepository);
+  const query = req.query as IndexFilter;
+  const lessons = await lessonsGetter.run({
+    ...query,
+    date: query.date ? new Date(query.date) : undefined,
+  });
   res.status(200).json(lessons);
 });
 

@@ -7,8 +7,8 @@ import {
 } from 'sequelize';
 import sequelize from '../../../database/models';
 import User from '../../../database/models/user';
-import Lesson from '../../../database/models/lesson';
 import Plan from '../../../database/models/plan';
+import LessonModel from '../../Lessons/infraestructure/LessonModel';
 
 export default class BookingModel extends Model<
   InferAttributes<BookingModel>,
@@ -48,10 +48,10 @@ BookingModel.init(
   },
 );
 
-User.belongsToMany(Lesson, { through: BookingModel });
-Lesson.belongsToMany(User, { through: BookingModel });
+User.belongsToMany(LessonModel, { through: BookingModel });
+LessonModel.belongsToMany(User, { through: BookingModel });
 User.hasMany(BookingModel);
 BookingModel.belongsTo(User, { as: 'user' });
-Lesson.hasMany(BookingModel);
-BookingModel.belongsTo(Lesson, { as: 'lesson' });
+LessonModel.hasMany(BookingModel);
+BookingModel.belongsTo(LessonModel, { as: 'lesson' });
 Plan.getTableName();
