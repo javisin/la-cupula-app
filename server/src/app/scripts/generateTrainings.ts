@@ -16,8 +16,8 @@ function getDayLessons(date: Date) {
     endDate2.setHours(11, 30, 0);
 
     return [
-      new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'mixto' }),
-      new LessonModel({ startDate: startDate2, endDate: endDate2, type: 'principiante' }),
+      new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'Mixto - gi' }),
+      new LessonModel({ startDate: startDate2, endDate: endDate2, type: 'Principiantes - gi' }),
     ];
   }
 
@@ -33,8 +33,8 @@ function getDayLessons(date: Date) {
     endDate2.setHours(21, 30, 0);
 
     return [
-      new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'no-gi' }),
-      new LessonModel({ startDate: startDate2, endDate: endDate2, type: 'principiante' }),
+      new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'No gi' }),
+      new LessonModel({ startDate: startDate2, endDate: endDate2, type: 'Principiantes - gi' }),
     ];
   }
 
@@ -44,7 +44,7 @@ function getDayLessons(date: Date) {
     const endDate1 = new Date(date);
     endDate1.setHours(11, 30, 0);
 
-    return [new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'open-mat' })];
+    return [new LessonModel({ startDate: startDate1, endDate: endDate1, type: 'Open Mat' })];
   }
 
   return [];
@@ -52,7 +52,6 @@ function getDayLessons(date: Date) {
 
 async function main() {
   const date = new Date();
-  date.setDate(date.getDate() + 7);
   const lessons: LessonModel[] = [];
   for (let i = 0; i < 7; i += 1) {
     date.setDate(date.getDate() + 1);
