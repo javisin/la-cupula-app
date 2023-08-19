@@ -33,9 +33,9 @@ app.use('/api/plans', planRoutes);
 
 // Serve web-app content
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../web-app/build')));
+  app.use(express.static(path.join(__dirname, '../../../../web-app/build')));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../web-app/build/index.html'));
+    res.sendFile(path.join(__dirname, '../../../../web-app/build/index.html'));
   });
 }
 
