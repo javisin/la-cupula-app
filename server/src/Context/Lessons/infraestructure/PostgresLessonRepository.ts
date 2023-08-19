@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
+import Lesson, { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
 import LessonModel from './LessonModel';
 
 export default class PostgresLessonRepository implements LessonRepository {
@@ -18,5 +18,9 @@ export default class PostgresLessonRepository implements LessonRepository {
     }
 
     return this.model.findAll({ where: whereStatement });
+  }
+
+  async create(lesson: Lesson) {
+    await this.model.create(lesson);
   }
 }

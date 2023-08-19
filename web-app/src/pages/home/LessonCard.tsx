@@ -55,7 +55,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
             }}
             className="lesson-time-button"
           >
-            {userBooking ? 'Cancelar clase' : 'Reservar clase'}
+            {userBooking ? 'Cancelar reserva' : 'Reservar clase'}
           </Button>
         )}
         <Typography

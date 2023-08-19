@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import fileUpload from 'express-fileupload';
 import User from '../../database/models/user';
 import { createToken } from '../jwt';
-import uploadFile from '../../Context/Shared/aws';
+import { uploadFile } from '../../Context/Shared/aws';
 
 const login = asyncHandler(async (req, res) => {
   const user = await User.findOne({
