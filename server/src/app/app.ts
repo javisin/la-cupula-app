@@ -8,6 +8,7 @@ import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
 import bookingRoutes from './routes/booking';
 import planRoutes from './routes/plan';
+import checkoutRoutes from './routes/checkout';
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ app.use('/api/lessons', lessonRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/plans', planRoutes);
+app.use('/api/checkout-url', checkoutRoutes);
 
 // Serve web-app content
 if (process.env.NODE_ENV === 'production') {

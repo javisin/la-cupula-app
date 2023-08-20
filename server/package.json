@@ -22,6 +22,7 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
+    "stripe": "^13.2.0",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
@@ -44,8 +45,8 @@
     "dev": "nodemon src/app/app.ts",
     "start": "node built/src/app/app.js",
     "test": "jest",
-    "build": "tsc",
-    "postinstall": "tsc"
+    "build": "tsc -p tsconfig.prod.json",
+    "postinstall": "tsc -p tsconfig.prod.json"
   },
   "author": "Javier Sintes",
   "license": "ISC"
