@@ -7,7 +7,6 @@ import {
 } from 'sequelize';
 import sequelize from '../../../database/models';
 import User from '../../../database/models/user';
-import Plan from '../../../database/models/plan';
 import LessonModel from '../../Lessons/infraestructure/LessonModel';
 
 export default class BookingModel extends Model<
@@ -54,4 +53,3 @@ User.hasMany(BookingModel);
 BookingModel.belongsTo(User, { as: 'user' });
 LessonModel.hasMany(BookingModel);
 BookingModel.belongsTo(LessonModel, { as: 'lesson' });
-Plan.getTableName();

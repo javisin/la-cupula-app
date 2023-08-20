@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import Plan from '../../database/models/plan';
 import User from '../../database/models/user';
+import PlanModel from '../../Context/Plans/infraestructure/PlanModel';
 
 const index = asyncHandler(async (req, res) => {
   const users = await User.findAll({
@@ -14,7 +14,7 @@ const index = asyncHandler(async (req, res) => {
       'image',
       'startDate',
     ],
-    include: [{ model: Plan, as: 'plan' }],
+    include: [{ model: PlanModel, as: 'plan' }],
     order: [['nickName', 'ASC']],
   });
   res.status(200).json(users);
@@ -34,7 +34,7 @@ const get = asyncHandler(async (req, res) => {
 });
 
 interface UserUpdateBody {
-  planId?: number | null;
+  planId?: string | null;
 }
 
 const update = asyncHandler(async (req, res) => {

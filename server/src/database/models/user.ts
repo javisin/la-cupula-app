@@ -30,7 +30,7 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
 
   declare instructor: boolean;
 
-  declare planId: number | null;
+  declare planId: string | null;
 }
 
 User.init(
@@ -43,14 +43,14 @@ User.init(
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     nickName: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: { type: DataTypes.STRING, unique: true },
     belt: DataTypes.STRING,
     stripes: DataTypes.INTEGER,
     startDate: DataTypes.DATEONLY,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
     instructor: DataTypes.BOOLEAN,
-    planId: DataTypes.INTEGER,
+    planId: DataTypes.STRING,
   },
   {
     sequelize,
