@@ -9,7 +9,7 @@ export default class Stripe implements PaymentProcessor {
     this.stripeClient = new StripeClient(stripeKey, { apiVersion: '2023-08-16' });
   }
 
-  async getCheckoutUrl(planId: string) {
+  async getCheckoutUrl(planId: string, customerId: string) {
     const { data: prices } = await this.stripeClient.prices.list({
       active: true,
       product: planId,
@@ -24,6 +24,7 @@ export default class Stripe implements PaymentProcessor {
       mode: 'subscription',
       success_url: `${config.domain}?success=true`,
       cancel_url: `${config.domain}?success=false`,
+      customer: customerId,
     });
     return session.url;
   }
