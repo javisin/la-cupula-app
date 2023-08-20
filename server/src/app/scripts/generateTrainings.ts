@@ -1,4 +1,4 @@
-import LessonModel from '../../Context/Lessons/infraestructure/LessonModel';
+import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
 
 process.env.TZ = 'Europe/London';
 

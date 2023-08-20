@@ -25,6 +25,7 @@ const get = asyncHandler(async (req, res) => {
     where: {
       id: req.params.id,
     },
+    include: [{ model: PlanModel, as: 'plan' }],
   });
   if (user === null) {
     res.status(404).json({ message: 'This user does not exist' });

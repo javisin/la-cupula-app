@@ -1,3 +1,3 @@
 export default interface PaymentProcessor {
-  getCheckoutUrl: (planId: string) => Promise<string | null>;
+  getCheckoutUrl: (planId: string, customerId: string) => Promise<string | null>;
 }
