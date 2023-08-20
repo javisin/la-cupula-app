@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import Lesson, { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
-import LessonModel from './LessonModel';
+import { LessonModel } from './LessonModel';
 
 export default class PostgresLessonRepository implements LessonRepository {
   readonly model = LessonModel;

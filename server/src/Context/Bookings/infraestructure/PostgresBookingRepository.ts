@@ -1,5 +1,5 @@
 import Booking, { BookingRepository } from '../domain/Booking';
-import BookingModel from './BookingModel';
+import { BookingModel } from './BookingModel';
 
 export default class PostgresBookingRepository implements BookingRepository {
   readonly model = BookingModel;

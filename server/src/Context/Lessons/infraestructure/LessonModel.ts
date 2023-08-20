@@ -7,10 +7,7 @@ import {
 } from 'sequelize';
 import sequelize from '../../../database/models';
 
-export default class LessonModel extends Model<
-  InferAttributes<LessonModel>,
-  InferCreationAttributes<LessonModel>
-> {
+class Lesson extends Model<InferAttributes<Lesson>, InferCreationAttributes<Lesson>> {
   declare id: CreationOptional<number>;
 
   declare startDate: Date;
@@ -20,7 +17,7 @@ export default class LessonModel extends Model<
   declare type: string;
 }
 
-LessonModel.init(
+Lesson.init(
   {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -37,3 +34,5 @@ LessonModel.init(
     tableName: 'lessons',
   },
 );
+
+export { Lesson as LessonModel };

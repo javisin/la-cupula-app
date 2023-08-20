@@ -1,10 +1,10 @@
 import asyncHandler from 'express-async-handler';
 import { Op } from 'sequelize';
 import User from '../../database/models/user';
-import BookingModel from '../../Context/Bookings/infraestructure/BookingModel';
+import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 import BookingCreator from '../../Context/Bookings/application/BookingCreator';
 import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
-import LessonModel from '../../Context/Lessons/infraestructure/LessonModel';
+import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;

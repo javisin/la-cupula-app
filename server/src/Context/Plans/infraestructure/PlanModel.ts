@@ -2,10 +2,7 @@ import { Model, InferAttributes, InferCreationAttributes, DataTypes } from 'sequ
 import sequelize from '../../../database/models';
 import User from '../../../database/models/user';
 
-export default class PlanModel extends Model<
-  InferAttributes<PlanModel>,
-  InferCreationAttributes<PlanModel>
-> {
+class Plan extends Model<InferAttributes<Plan>, InferCreationAttributes<Plan>> {
   declare id: string;
 
   declare weekLessons: number;
@@ -15,7 +12,7 @@ export default class PlanModel extends Model<
   declare price: number;
 }
 
-PlanModel.init(
+Plan.init(
   {
     id: {
       type: DataTypes.STRING,
@@ -32,5 +29,7 @@ PlanModel.init(
   },
 );
 
-User.belongsTo(PlanModel, { as: 'plan' });
-PlanModel.hasMany(User);
+User.belongsTo(Plan, { as: 'plan' });
+Plan.hasMany(User);
+
+export { Plan as PlanModel };
