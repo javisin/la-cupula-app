@@ -22,9 +22,9 @@ export default function StudentsPage() {
 
   const students = useMemo(() => users.filter((user) => !user.instructor), [users]);
 
-  const handlePlanChange = (event: SelectChangeEvent<number>, userId: number) => {
-    const value = event.target.value as number;
-    const planId = value === 0 ? null : value;
+  const handlePlanChange = (event: SelectChangeEvent<string>, userId: number) => {
+    const value = event.target.value as string;
+    const planId = value === 'no plan' ? null : value;
     updateUserMutation.mutate({ id: userId, changeset: { planId: planId } });
   };
 
@@ -42,11 +42,11 @@ export default function StudentsPage() {
               </ListItemAvatar>
               <ListItemText primary={user.nickName} />
               <Select
-                value={user.plan?.id ?? 0}
+                value={user.plan?.id ?? 'no plan'}
                 onChange={(event) => handlePlanChange(event, user.id)}
                 className="plan-select"
               >
-                <MenuItem value={0}>Sin plan</MenuItem>
+                <MenuItem value={'no plan'}>Sin plan</MenuItem>
                 {plans.map((plan) => (
                   <MenuItem value={plan.id}>{plan.name}</MenuItem>
                 ))}

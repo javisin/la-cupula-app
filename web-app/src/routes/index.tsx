@@ -7,6 +7,7 @@ import HomePage from '../pages/home';
 import TabRouter from '../components/TabRouter';
 import ProfilePage from '../pages/profile';
 import StudentsPage from '../pages/students';
+import PaymentPage from '../pages/payment';
 
 const checkIsLoggedIn = () => {
   const user = getCurrentUser();
@@ -69,6 +70,15 @@ const router = createBrowserRouter([
     element: (
       <TabRouter>
         <ProfilePage />
+      </TabRouter>
+    ),
+    loader: checkIsLoggedIn,
+  },
+  {
+    path: '/payment',
+    element: (
+      <TabRouter>
+        <PaymentPage />
       </TabRouter>
     ),
     loader: checkIsLoggedIn,

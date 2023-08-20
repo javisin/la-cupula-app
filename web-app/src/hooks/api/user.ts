@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 
 export interface Plan {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -33,7 +33,7 @@ export function useGetUsers() {
 }
 
 interface UserChangeset {
-  planId?: number | null;
+  planId?: string | null;
 }
 export function useUpdateUser() {
   const queryClient = useQueryClient();
