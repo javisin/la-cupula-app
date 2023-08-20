@@ -15,4 +15,5 @@ if (!DOMAIN) {
 export default {
   stripeKey: STRIPE_KEY,
   domain: DOMAIN,
+  checkPasswords: process.env.CHECK_PASSWORDS !== 'false',
 };

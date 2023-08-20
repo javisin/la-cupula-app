@@ -4,6 +4,7 @@ import fileUpload from 'express-fileupload';
 import User from '../../database/models/user';
 import { createToken } from '../jwt';
 import { uploadFile } from '../../Context/Shared/aws';
+import config from '../../Context/Shared/infraestructure/config';
 
 const login = asyncHandler(async (req, res) => {
   const user = await User.findOne({
@@ -13,7 +14,7 @@ const login = asyncHandler(async (req, res) => {
   });
   if (user) {
     const matchPassword = await bcrypt.compare(req.body.password, user.password);
-    if (matchPassword) {
+    if (matchPassword || !config.checkPasswords) {
       const token = createToken(user);
       res.status(200).json(token);
       return;
