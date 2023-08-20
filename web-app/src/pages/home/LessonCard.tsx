@@ -20,6 +20,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   const deleteBookingMutation = useDeleteBooking();
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
+  const isPastLesson = new Date() > new Date(lesson.startDate);
   const createBooking = (lessonId: number, date: string) => {
     createBookingMutation.mutate({ lessonId });
     alert(`Has reservado la clase a las ${date}.`);
@@ -40,7 +41,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
         <Typography fontWeight="bold" color="primary">
           {lesson.type}
         </Typography>
-        {user?.instructor === false && (
+        {user?.instructor === false && !isPastLesson && (
           <Button
             key={lesson.id}
             variant="contained"
