@@ -3,9 +3,13 @@ import { List, ListItem, ListItemText, Typography } from '@mui/material';
 import { useGetPlans } from '../../hooks/api/plan';
 import apiClient from '../../apiClient';
 import Button from '@mui/material/Button';
+import { useGetUser } from '../../hooks/api/user';
+import { getCurrentUser } from '../../util/auth';
 
 export default function PaymentPage() {
   const plans = useGetPlans().data ?? [];
+  const currentUser = getCurrentUser();
+  const { data: user } = useGetUser(parseInt(currentUser?.sub ?? '1'));
 
   const redirectToCheckout = async (planId: string) => {
     try {
@@ -30,8 +34,9 @@ export default function PaymentPage() {
                 variant="contained"
                 color="primary"
                 onClick={() => redirectToCheckout(plan.id)}
+                disabled={!!user?.plan}
               >
-                Pagar
+                {user?.plan?.id === plan.id ? 'Pagado' : 'Pagar'}
               </Button>
             </ListItem>
           ))}
