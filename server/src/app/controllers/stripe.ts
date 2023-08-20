@@ -6,7 +6,7 @@ import User from '../../database/models/user';
 const handleStripe = asyncHandler(async (req, res) => {
   const stripe = new StripeClient(config.stripeKey, { apiVersion: '2023-08-16' });
   const sig = req.headers['stripe-signature'];
-  const endpointSecret = 'whsec_YbqrblOn3qoOp2KDH1MgSKcwlkJQ4ppV';
+  const endpointSecret = config.stripeSecret;
 
   let event;
 
