@@ -4,6 +4,7 @@ import apiClient from '../../apiClient';
 export interface Plan {
   id: string;
   name: string;
+  price: number;
 }
 
 export interface User {
