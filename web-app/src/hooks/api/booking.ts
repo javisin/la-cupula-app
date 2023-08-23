@@ -12,6 +12,7 @@ export interface Booking {
   userId: number;
   lessonId: number;
   user: User;
+  status: 'pending' | 'approved' | 'declined';
 }
 
 export function useGetBookings(filter: GetBookingsFilter) {

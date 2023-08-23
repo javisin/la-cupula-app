@@ -21,5 +21,7 @@ export default class Booking {
 }
 
 export interface BookingRepository {
+  find(id: number): Promise<Booking | null>;
   save(booking: Booking): Promise<void>;
+  update(id: number, booking: Booking): Promise<void>;
 }

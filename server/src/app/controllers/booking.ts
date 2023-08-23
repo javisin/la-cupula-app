@@ -5,6 +5,7 @@ import { BookingModel } from '../../Context/Bookings/infraestructure/BookingMode
 import BookingCreator from '../../Context/Bookings/application/BookingCreator';
 import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
 import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import BookingUpdater from '../../Context/Bookings/application/BookingUpdater';
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -61,18 +62,9 @@ const updateBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  const booking = await BookingModel.findOne({
-    where: {
-      id,
-    },
-  });
-
-  if (!booking) {
-    res.status(404).json('Booking not found');
-    return;
-  }
-
-  booking.status = status;
-  res.status(200).json(booking);
+  const repository = new PostgresBookingRepository();
+  const bookingCreator = new BookingUpdater(repository);
+  await bookingCreator.run(parseInt(id, 10), { status });
+  res.status(200).send('Booking udpated');
 });
 export { create, index, deleteBooking, updateBooking };

@@ -32,6 +32,26 @@ export default function ParticipantsList({ closeModal, bookings, isOpen }: Lesso
     });
   };
 
+  const statusComponent = (booking: Booking) => {
+    switch (booking.status) {
+      case 'approved':
+        return <CheckIcon />;
+      case 'declined':
+        return <ClearIcon />;
+      case 'pending':
+        return (
+          <>
+            <IconButton color="primary" onClick={() => updateBooking(booking.id, 'approved')}>
+              <CheckIcon />
+            </IconButton>
+            <IconButton color="secondary" onClick={() => updateBooking(booking.id, 'declined')}>
+              <ClearIcon />
+            </IconButton>
+          </>
+        );
+    }
+  };
+
   return (
     <Dialog open={isOpen} onClose={closeModal}>
       <DialogTitle>Lista de participantes</DialogTitle>
@@ -40,19 +60,7 @@ export default function ParticipantsList({ closeModal, bookings, isOpen }: Lesso
           {bookings.map((booking) => (
             <ListItem key={booking.userId}>
               <ListItemText primary={`${booking.user.firstName} ${booking.user.lastName}`} />
-              {user?.instructor === true && (
-                <>
-                  <IconButton color="primary" onClick={() => updateBooking(booking.id, 'approved')}>
-                    <CheckIcon />
-                  </IconButton>
-                  <IconButton
-                    color="secondary"
-                    onClick={() => updateBooking(booking.id, 'declined')}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </>
-              )}
+              {user?.instructor === true && statusComponent(booking)}
             </ListItem>
           ))}
         </List>
