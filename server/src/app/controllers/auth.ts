@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import asyncHandler from 'express-async-handler';
 import fileUpload from 'express-fileupload';
+import { Stripe } from 'stripe';
 import User from '../../database/models/user';
 import { createToken } from '../jwt';
 import { uploadFile } from '../../Context/Shared/aws';
@@ -30,12 +31,27 @@ const signUp = asyncHandler(async (req, res) => {
     return;
   }
 
+  const duplicatedEmailUser = await User.findOne({ where: { email: req.body.email } });
+  if (duplicatedEmailUser) {
+    res.status(422).send('A user with that email already exists');
+    return;
+  }
+
   const passwordHash = await bcrypt.hash(req.body.password, 10);
+
+  const stripe = new Stripe(config.stripeKey, { apiVersion: '2023-08-16' });
+  const stripeRequest: Stripe.CustomerCreateParams = {
+    name: `${req.body.firstName} ${req.body.lastName}`,
+    email: req.body.email,
+  };
+
+  const stripeCustomer = await stripe.customers.create(stripeRequest);
   const userData: User = {
     ...req.body,
     instructor: false,
     password: passwordHash,
     image: `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`,
+    customerId: stripeCustomer.id,
   };
   const user = await User.create(userData);
   uploadFile(image.data, image.name);
