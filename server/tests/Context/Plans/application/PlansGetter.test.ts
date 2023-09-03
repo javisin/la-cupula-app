@@ -8,9 +8,11 @@ describe('PlansGetter', () => {
       name: 'test plan',
       weekLessons: 4,
       price: 5000,
+      mode: 'subscription',
     });
     const mockRepository = {
       get: jest.fn(async () => [mockPlan]),
+      find: jest.fn(),
     };
     const plansGetter = new PlansGetter(mockRepository);
     const plans = await plansGetter.run();
