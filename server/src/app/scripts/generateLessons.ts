@@ -68,8 +68,8 @@ function getDayLessons(date: Date) {
       ),
       generateLessonByTime(
         date,
-        { hours: 20, minutes: 0 },
-        { hours: 21, minutes: 0 },
+        { hours: 20, minutes: 30 },
+        { hours: 21, minutes: 30 },
         'Principiantes - gi',
       ),
     ];
