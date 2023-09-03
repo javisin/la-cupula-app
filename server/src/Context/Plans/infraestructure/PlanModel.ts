@@ -10,6 +10,10 @@ class Plan extends Model<InferAttributes<Plan>, InferCreationAttributes<Plan>> {
   declare name: string;
 
   declare price: number;
+
+  declare mode: 'subscription' | 'payment';
+
+  declare order: number;
 }
 
 Plan.init(
@@ -21,6 +25,8 @@ Plan.init(
     weekLessons: DataTypes.INTEGER,
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
+    mode: DataTypes.STRING,
+    order: DataTypes.INTEGER,
   },
   {
     sequelize,

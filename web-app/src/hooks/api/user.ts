@@ -5,6 +5,7 @@ export interface Plan {
   id: string;
   name: string;
   price: number;
+  mode: 'subscription' | 'payment';
 }
 
 export interface User {

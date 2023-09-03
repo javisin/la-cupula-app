@@ -29,7 +29,10 @@ export default function PaymentPage() {
         <List>
           {plans.map((plan) => (
             <ListItem key={plan.id}>
-              <ListItemText primary={plan.name} secondary={`${plan.price}€`} />
+              <ListItemText
+                primary={plan.name}
+                secondary={`${plan.price}€ ${plan.mode === 'subscription' ? '/ mes' : ''}`}
+              />
               <Button
                 variant="contained"
                 color="primary"

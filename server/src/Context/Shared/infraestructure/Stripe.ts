@@ -21,7 +21,7 @@ export default class Stripe implements PaymentProcessor {
           quantity: 1,
         },
       ],
-      mode: 'subscription',
+      mode: prices[0].recurring === null ? 'payment' : 'subscription',
       success_url: `${config.domain}?success=true`,
       cancel_url: `${config.domain}?success=false`,
       customer: customerId,
