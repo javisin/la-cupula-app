@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import LessonsGetter from '../../Context/Lessons/application/LessonsGetter';
 import PostgresLessonRepository from '../../Context/Lessons/infraestructure/PostgresLessonRepository';
 import LessonCreator from '../../Context/Lessons/application/LessonCreator';
+import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
 
 const lessonsRepository = new PostgresLessonRepository();
 
@@ -25,4 +26,14 @@ const index = asyncHandler(async (req, res) => {
   res.status(200).json(lessons);
 });
 
-export { index, create };
+const deleteLesson = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  await LessonModel.destroy({
+    where: {
+      id,
+    },
+  });
+  res.status(200).json('Lesson deleted');
+});
+
+export { index, create, deleteLesson };

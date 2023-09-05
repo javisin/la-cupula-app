@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Booking, useCreateBooking, useDeleteBooking } from '../../hooks/api/booking';
-import { Lesson } from '../../hooks/api/lesson';
+import { Lesson, useDeleteLessons } from '../../hooks/api/lesson';
 import './home.scss';
 import { convertDateToTimeString } from '../../util/dates';
 import ParticipantsList from './ParticipantsList';
@@ -18,6 +18,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   const user = getCurrentUser();
   const createBookingMutation = useCreateBooking();
   const deleteBookingMutation = useDeleteBooking();
+  const deleteLessonMutation = useDeleteLessons();
   const [isParticipantsModalOpen, setIsParticipantsModalOpen] = useState(false);
 
   const isPastLesson = new Date() > new Date(lesson.startDate);
@@ -28,6 +29,11 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
 
   const deleteBooking = (bookingId: number, date: string) => {
     deleteBookingMutation.mutate({ bookingId });
+    alert(`Has cancelado la reserva de las ${date}.`);
+  };
+
+  const deleteLesson = (lessonId: number, date: string) => {
+    deleteLessonMutation.mutate({ lessonId });
     alert(`Has cancelado la clase de las ${date}.`);
   };
 
@@ -57,6 +63,20 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
             className="lesson-time-button"
           >
             {userBooking ? 'Cancelar reserva' : 'Reservar clase'}
+          </Button>
+        )}
+        {user?.instructor && !isPastLesson && (
+          <Button
+            key={lesson.id}
+            variant="contained"
+            color={'error'}
+            onClick={() => {
+              const timeString = convertDateToTimeString(new Date(lesson.startDate));
+              deleteLesson(lesson.id, timeString);
+            }}
+            className="lesson-time-button"
+          >
+            Cancelar clase
           </Button>
         )}
         <Typography

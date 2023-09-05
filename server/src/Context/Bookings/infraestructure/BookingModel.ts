@@ -47,9 +47,9 @@ Booking.init(
 
 User.belongsToMany(LessonModel, { through: Booking });
 LessonModel.belongsToMany(User, { through: Booking });
-User.hasMany(Booking);
+User.hasMany(Booking, { onDelete: 'cascade' });
 Booking.belongsTo(User, { as: 'user' });
-LessonModel.hasMany(Booking);
+LessonModel.hasMany(Booking, { onDelete: 'cascade' });
 Booking.belongsTo(LessonModel, { as: 'lesson' });
 
 export { Booking as BookingModel };

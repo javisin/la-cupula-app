@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
 import { convertDateToDateString } from '../../util/dates';
 
@@ -24,4 +24,20 @@ export function useGetLessons({ date }: GetLessonsFilter) {
     const { data } = await apiClient.get<Lesson[]>(`/lessons?${params.toString()}`);
     return data;
   });
+}
+
+export function useDeleteLessons() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ lessonId }: { lessonId: number }) => {
+      const { data } = await apiClient.delete(`/lessons/${lessonId}`);
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['bookings']);
+        queryClient.invalidateQueries(['lessons']);
+      },
+    },
+  );
 }
