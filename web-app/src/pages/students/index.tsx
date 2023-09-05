@@ -31,7 +31,7 @@ export default function StudentsPage() {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-        Estudiantes
+        Alumnos
       </Typography>
       <div className="list-box">
         <List>
@@ -40,7 +40,7 @@ export default function StudentsPage() {
               <ListItemAvatar>
                 <Avatar alt={user.nickName} src={user.image} />
               </ListItemAvatar>
-              <ListItemText primary={user.nickName} />
+              <ListItemText primary={user.nickName ?? `${user.firstName} ${user.lastName}`} />
               <Select
                 value={user.plan?.id ?? 'no plan'}
                 onChange={(event) => handlePlanChange(event, user.id)}

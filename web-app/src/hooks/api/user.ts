@@ -12,7 +12,7 @@ export interface User {
   id: number;
   firstName: string;
   lastName: string;
-  nickName: string;
+  nickName?: string;
   image: string;
   belt: string;
   startDate: string;
