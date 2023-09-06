@@ -40,6 +40,9 @@ export default function LoginPage() {
             fullWidth
             value={formFields.email}
             onChange={handleFieldChange}
+            InputProps={{
+              autoCapitalize: 'none',
+            }}
           />
           <TextField
             name="password"

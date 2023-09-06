@@ -74,7 +74,6 @@ export default function SignUpPage() {
             fullWidth
             value={formFields.firstName}
             onChange={handleFieldChange}
-            // helperText={true ? 'First name is required' : ''}
           />
           <TextField
             name="lastName"
@@ -136,6 +135,9 @@ export default function SignUpPage() {
             variant="outlined"
             fullWidth
             value={formFields.email}
+            InputProps={{
+              autoCapitalize: 'none',
+            }}
           />
           <TextField
             name="password"
