@@ -40,7 +40,7 @@ const handleStripe = asyncHandler(async (req, res) => {
       console.log(`Unhandled event type ${event.type}`);
   }
 
-  res.status(200);
+  res.status(200).send();
 });
 
 export { handleStripe };
