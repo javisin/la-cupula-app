@@ -47,7 +47,7 @@ function getDayLessons(date: Date) {
         date,
         { hours: 20, minutes: 0 },
         { hours: 21, minutes: 0 },
-        'Mixto - nogi',
+        'Jiu Jitsu - nogi',
       ),
     ];
   }
@@ -58,7 +58,7 @@ function getDayLessons(date: Date) {
         date,
         { hours: 18, minutes: 0 },
         { hours: 19, minutes: 0 },
-        'Mixto - nogi',
+        'Jiu Jitsu - nogi',
       ),
       generateLessonByTime(
         date,
