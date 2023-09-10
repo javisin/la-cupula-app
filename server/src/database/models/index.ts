@@ -16,6 +16,7 @@ if (env === 'production') {
         rejectUnauthorized: false,
       },
     },
+    logging: false,
   });
 } else {
   if (process.env.DB_DATABASE === undefined) {
@@ -35,6 +36,7 @@ if (env === 'production') {
       host: 'localhost',
       dialect: 'postgres',
       port: 5432,
+      logging: false,
     },
   );
 }

@@ -9,8 +9,9 @@ function getWeekDatesForMonth(start: Date): { startDate: Date; endDate: Date }[]
   const month = new Date(start);
   const result: { startDate: Date; endDate: Date }[] = [];
   const startDate = new Date(month.getFullYear(), month.getMonth(), 1);
+  startDate.setDate(startDate.getDate() - (startDate.getDay() - 1));
 
-  while (startDate.getMonth() === month.getMonth()) {
+  while (startDate.getMonth() <= month.getMonth()) {
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 6); // End of the week (6 days later)
     result.push({ startDate: new Date(startDate), endDate });
@@ -21,7 +22,7 @@ function getWeekDatesForMonth(start: Date): { startDate: Date; endDate: Date }[]
   return result;
 }
 async function main() {
-  const weekDates = getWeekDatesForMonth(new Date('2023-08-01'));
+  const weekDates = getWeekDatesForMonth(new Date('2023-09-01'));
   // eslint-disable-next-line no-restricted-syntax
   for (const weekDate of weekDates) {
     const bookings = await BookingModel.findAll({
@@ -47,11 +48,7 @@ async function main() {
         continue;
       }
       const userBookings = bookingsByUser.get(booking.userId);
-      if (userBookings) {
-        bookingsByUser.set(booking.userId, userBookings + 1);
-      } else {
-        bookingsByUser.set(booking.userId, 1);
-      }
+      bookingsByUser.set(booking.userId, (userBookings ?? 0) + 1);
     }
     console.log(bookingsByUser);
   }
