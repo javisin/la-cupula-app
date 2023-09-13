@@ -1,3 +1,5 @@
+export type BookingStatus = 'pending' | 'approved' | 'declined';
+
 export default class Booking {
   readonly id: number;
 
@@ -5,7 +7,7 @@ export default class Booking {
 
   readonly lessonId: number;
 
-  readonly status: 'pending' | 'approved' | 'declined';
+  readonly status: BookingStatus;
 
   constructor(props: {
     id: number;

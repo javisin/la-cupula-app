@@ -1,4 +1,4 @@
-import Booking, { BookingRepository } from '../domain/Booking';
+import Booking, { BookingRepository, BookingStatus } from '../domain/Booking';
 
 export default class BookingCreator {
   private readonly repository: BookingRepository;
@@ -7,8 +7,8 @@ export default class BookingCreator {
     this.repository = repository;
   }
 
-  async run(params: { userId: number; lessonId: number }) {
-    const booking = new Booking({ ...params, id: 1, status: 'pending' });
+  async run(params: { userId: number; lessonId: number; status?: BookingStatus }) {
+    const booking = new Booking({ ...params, id: 1, status: params.status ?? 'pending' });
     await this.repository.save(booking);
   }
 }

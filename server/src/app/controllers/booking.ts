@@ -41,10 +41,10 @@ const index = asyncHandler(async (req, res) => {
 });
 
 const create = asyncHandler(async (req, res) => {
-  const { userId, lessonId } = req.body;
+  const { userId, lessonId, status } = req.body;
   const repository = new PostgresBookingRepository();
   const bookingCreator = new BookingCreator(repository);
-  await bookingCreator.run({ userId, lessonId });
+  await bookingCreator.run({ userId, lessonId, status });
   res.status(201).send();
 });
 
