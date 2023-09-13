@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../../apiClient';
-import { getCurrentUser } from '../../util/auth';
 import { User } from './user';
 
 interface GetBookingsFilter {
@@ -12,8 +11,10 @@ export interface Booking {
   userId: number;
   lessonId: number;
   user: User;
-  status: 'pending' | 'approved' | 'declined';
+  status: BookingStatus;
 }
+
+type BookingStatus = 'pending' | 'approved' | 'declined';
 
 export function useGetBookings(filter: GetBookingsFilter) {
   const { userId, date } = filter;
@@ -34,10 +35,17 @@ export function useGetBookings(filter: GetBookingsFilter) {
 
 export function useCreateBooking() {
   const queryClient = useQueryClient();
-  const user = getCurrentUser();
   return useMutation(
-    async ({ lessonId }: { lessonId: number }) => {
-      const { data } = await apiClient.post<string>(`/bookings`, { userId: user?.sub, lessonId });
+    async ({
+      lessonId,
+      userId,
+      status,
+    }: {
+      lessonId: number;
+      userId: number;
+      status?: BookingStatus;
+    }) => {
+      const { data } = await apiClient.post<string>(`/bookings`, { userId, lessonId, status });
       return data;
     },
     {
@@ -49,7 +57,7 @@ export function useCreateBooking() {
 }
 
 interface BookingChangeset {
-  status: 'approved' | 'declined' | 'pending';
+  status: BookingStatus;
 }
 
 export function useUpdateBooking() {

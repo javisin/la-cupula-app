@@ -16,6 +16,8 @@ interface LessonCardProps {
 
 export default function LessonCard({ lesson, userBooking, bookings }: LessonCardProps) {
   const user = getCurrentUser();
+  const currentUserId = parseInt(user!.sub);
+
   const createBookingMutation = useCreateBooking();
   const deleteBookingMutation = useDeleteBooking();
   const deleteLessonMutation = useDeleteLessons();
@@ -23,7 +25,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
 
   const isPastLesson = new Date() > new Date(lesson.startDate);
   const createBooking = (lessonId: number, date: string) => {
-    createBookingMutation.mutate({ lessonId });
+    createBookingMutation.mutate({ lessonId, userId: currentUserId });
     alert(`Has reservado la clase a las ${date}.`);
   };
 
@@ -92,6 +94,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
         bookings={bookings}
         isOpen={isParticipantsModalOpen}
         closeModal={() => setIsParticipantsModalOpen(false)}
+        lessonId={lesson.id}
       />
     </Card>
   );
