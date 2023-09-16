@@ -31,6 +31,7 @@ function getDayLessons(date: Date) {
         { hours: 11, minutes: 30 },
         'Mixto - gi',
       ),
+      generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
         date,
         { hours: 18, minutes: 0 },
