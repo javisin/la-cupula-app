@@ -6,7 +6,7 @@ describe('PlansGetter', () => {
     const mockPlan = new Plan({
       id: 'prod~test',
       name: 'test plan',
-      weekLessons: 4,
+      lessons: 4,
       price: 5000,
       mode: 'subscription',
     });

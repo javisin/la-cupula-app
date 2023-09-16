@@ -5,7 +5,7 @@ import User from '../../../database/models/user';
 class Plan extends Model<InferAttributes<Plan>, InferCreationAttributes<Plan>> {
   declare id: string;
 
-  declare weekLessons: number;
+  declare lessons: number;
 
   declare name: string;
 
@@ -22,7 +22,7 @@ Plan.init(
       type: DataTypes.STRING,
       primaryKey: true,
     },
-    weekLessons: DataTypes.INTEGER,
+    lessons: DataTypes.INTEGER,
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     mode: DataTypes.STRING,

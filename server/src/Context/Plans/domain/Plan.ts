@@ -1,7 +1,7 @@
 export default class Plan {
   readonly id: string;
 
-  readonly weekLessons: number;
+  readonly lessons: number;
 
   readonly name: string;
 
@@ -11,13 +11,13 @@ export default class Plan {
 
   constructor(props: {
     id: string;
-    weekLessons: number;
+    lessons: number;
     name: string;
     price: number;
     mode: 'subscription' | 'payment';
   }) {
     this.id = props.id;
-    this.weekLessons = props.weekLessons;
+    this.lessons = props.lessons;
     this.name = props.name;
     this.price = props.price;
     this.mode = props.mode;
