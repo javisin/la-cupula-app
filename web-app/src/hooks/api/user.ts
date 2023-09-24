@@ -5,6 +5,7 @@ export interface Plan {
   id: string;
   name: string;
   price: number;
+  lessons: number;
   mode: 'subscription' | 'payment';
 }
 
@@ -18,6 +19,7 @@ export interface User {
   startDate: string;
   instructor: boolean;
   plan: Plan | null;
+  planBookings: number;
 }
 
 export function useGetUser(id: number) {
