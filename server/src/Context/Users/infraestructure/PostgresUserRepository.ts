@@ -1,4 +1,4 @@
-import { UserRepository } from '../domain/User';
+import User, { UserRepository } from '../domain/User';
 import { UserModel } from './UserModel';
 
 export default class PostgresUserRepository implements UserRepository {
@@ -6,5 +6,11 @@ export default class PostgresUserRepository implements UserRepository {
 
   async find(id: number) {
     return this.model.findOne({ where: { id } });
+  }
+
+  async update(user: User) {
+    await this.model.update(user, {
+      where: { id: user.id },
+    });
   }
 }

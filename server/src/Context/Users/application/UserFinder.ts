@@ -1,4 +1,5 @@
 import { UserRepository } from '../domain/User';
+import UserNotFoundError from '../domain/UserNotFoundError';
 
 export default class UserFinder {
   private readonly repository: UserRepository;
@@ -8,6 +9,10 @@ export default class UserFinder {
   }
 
   async run(id: number) {
-    return this.repository.find(id);
+    const user = await this.repository.find(id);
+    if (!user) {
+      throw new UserNotFoundError();
+    }
+    return user;
   }
 }

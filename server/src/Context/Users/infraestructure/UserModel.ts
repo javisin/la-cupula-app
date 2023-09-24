@@ -33,6 +33,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare planId: string | null;
 
   declare customerId: string;
+
+  declare planBookings: number;
 }
 
 User.init(
@@ -54,6 +56,7 @@ User.init(
     instructor: DataTypes.BOOLEAN,
     planId: DataTypes.STRING,
     customerId: DataTypes.STRING,
+    planBookings: { type: DataTypes.NUMBER, defaultValue: 0 },
   },
   {
     sequelize,

@@ -19,6 +19,7 @@ export class UserMother {
         instructor: faker.helpers.arrayElement([true, false]),
         planId: faker.string.alphanumeric(10),
         customerId: faker.string.alphanumeric(10),
+        planBookings: faker.number.int(20),
       }),
   );
 

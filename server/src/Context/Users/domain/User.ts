@@ -23,6 +23,8 @@ export default class User {
 
   readonly planId: string | null;
 
+  planBookings: number;
+
   readonly customerId: string;
 
   constructor(props: {
@@ -39,6 +41,7 @@ export default class User {
     instructor: boolean;
     planId: string | null;
     customerId: string;
+    planBookings: number;
   }) {
     this.id = props.id;
     this.firstName = props.firstName;
@@ -53,9 +56,11 @@ export default class User {
     this.planId = props.planId;
     this.customerId = props.customerId;
     this.startDate = props.startDate;
+    this.planBookings = props.planBookings;
   }
 }
 
 export interface UserRepository {
   find(id: number): Promise<User | null>;
+  update(user: User): Promise<void>;
 }
