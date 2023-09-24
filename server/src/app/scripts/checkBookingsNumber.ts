@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
-import User from '../../database/models/user';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import { UserModel } from '../../Context/Users/infraestructure/UserModel';
 
 process.env.TZ = 'Europe/London';
 
@@ -27,7 +27,7 @@ async function main() {
   for (const weekDate of weekDates) {
     const bookings = await BookingModel.findAll({
       include: [
-        { model: User, as: 'user' },
+        { model: UserModel, as: 'user' },
         {
           model: LessonModel,
           as: 'lesson',

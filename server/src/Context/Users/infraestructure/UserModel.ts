@@ -56,7 +56,7 @@ User.init(
     instructor: DataTypes.BOOLEAN,
     planId: DataTypes.STRING,
     customerId: DataTypes.STRING,
-    planBookings: { type: DataTypes.NUMBER, defaultValue: 0 },
+    planBookings: { type: DataTypes.INTEGER, defaultValue: 0 },
   },
   {
     sequelize,

@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import { Stripe as StripeClient } from 'stripe';
 import config from '../../Context/Shared/infraestructure/config';
-import User from '../../database/models/user';
+import { UserModel } from '../../Context/Users/infraestructure/UserModel';
 
 const handleStripe = asyncHandler(async (req, res) => {
   const stripe = new StripeClient(config.stripeKey, { apiVersion: '2023-08-16' });
@@ -23,7 +23,7 @@ const handleStripe = asyncHandler(async (req, res) => {
       const customer = (await stripe.customers.retrieve(
         subscription.customer as string,
       )) as StripeClient.Customer;
-      const user = await User.findOne({
+      const user = await UserModel.findOne({
         where: {
           customerId: customer.id,
         },

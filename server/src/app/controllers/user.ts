@@ -1,9 +1,9 @@
 import asyncHandler from 'express-async-handler';
-import User from '../../database/models/user';
 import { PlanModel } from '../../Context/Plans/infraestructure/PlanModel';
+import { UserModel } from '../../Context/Users/infraestructure/UserModel';
 
 const index = asyncHandler(async (req, res) => {
-  const users = await User.findAll({
+  const users = await UserModel.findAll({
     attributes: [
       'id',
       'firstName',
@@ -21,7 +21,7 @@ const index = asyncHandler(async (req, res) => {
 });
 
 const get = asyncHandler(async (req, res) => {
-  const user = await User.findOne({
+  const user = await UserModel.findOne({
     where: {
       id: req.params.id,
     },
@@ -39,7 +39,7 @@ interface UserUpdateBody {
 }
 
 const update = asyncHandler(async (req, res) => {
-  const user = await User.findOne({
+  const user = await UserModel.findOne({
     where: {
       id: req.params.id,
     },

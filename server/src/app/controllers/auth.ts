@@ -2,13 +2,13 @@ import bcrypt from 'bcrypt';
 import asyncHandler from 'express-async-handler';
 import fileUpload from 'express-fileupload';
 import { Stripe } from 'stripe';
-import User from '../../database/models/user';
 import { createToken } from '../jwt';
 import { uploadFile } from '../../Context/Shared/aws';
 import config from '../../Context/Shared/infraestructure/config';
+import { UserModel } from '../../Context/Users/infraestructure/UserModel';
 
 const login = asyncHandler(async (req, res) => {
-  const user = await User.findOne({
+  const user = await UserModel.findOne({
     where: {
       email: req.body.email,
     },
@@ -31,7 +31,7 @@ const signUp = asyncHandler(async (req, res) => {
     return;
   }
 
-  const duplicatedEmailUser = await User.findOne({ where: { email: req.body.email } });
+  const duplicatedEmailUser = await UserModel.findOne({ where: { email: req.body.email } });
   if (duplicatedEmailUser) {
     res.status(422).send('A user with that email already exists');
     return;
@@ -46,14 +46,14 @@ const signUp = asyncHandler(async (req, res) => {
   };
 
   const stripeCustomer = await stripe.customers.create(stripeRequest);
-  const userData: User = {
+  const userData: UserModel = {
     ...req.body,
     instructor: false,
     password: passwordHash,
     image: `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`,
     customerId: stripeCustomer.id,
   };
-  const user = await User.create(userData);
+  const user = await UserModel.create(userData);
   uploadFile(image.data, image.name);
   res.json(user);
 });

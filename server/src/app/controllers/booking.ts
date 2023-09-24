@@ -1,6 +1,5 @@
 import asyncHandler from 'express-async-handler';
 import { Op } from 'sequelize';
-import User from '../../database/models/user';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 import BookingCreator from '../../Context/Bookings/application/BookingCreator';
 import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
@@ -10,6 +9,12 @@ import PostgresUserRepository from '../../Context/Users/infraestructure/Postgres
 import UserFinder from '../../Context/Users/application/UserFinder';
 import UserNotFoundError from '../../Context/Users/domain/UserNotFoundError';
 import UnauthorizedUserError from '../../Context/Users/domain/UnauthorizedUserError';
+import UserPlanBookingsIncrementer from '../../Context/Users/application/UserPlanBookingsIncrementer';
+import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+
+const userRepository = new PostgresUserRepository();
+const userFinder = new UserFinder(userRepository);
+const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(userRepository, userFinder);
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -32,7 +37,7 @@ const index = asyncHandler(async (req, res) => {
 
   const bookings = await BookingModel.findAll({
     include: [
-      { model: User, as: 'user' },
+      { model: UserModel, as: 'user' },
       {
         model: LessonModel,
         as: 'lesson',
@@ -47,8 +52,7 @@ const index = asyncHandler(async (req, res) => {
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId, status } = req.body;
   const repository = new PostgresBookingRepository();
-  const userRepository = new PostgresUserRepository();
-  const bookingCreator = new BookingCreator(repository, new UserFinder(userRepository));
+  const bookingCreator = new BookingCreator(repository, userFinder);
   try {
     await bookingCreator.run({ userId, lessonId, status });
   } catch (e) {
@@ -80,8 +84,8 @@ const updateBooking = asyncHandler(async (req, res) => {
   const { status } = req.body;
 
   const repository = new PostgresBookingRepository();
-  const bookingCreator = new BookingUpdater(repository);
-  await bookingCreator.run(parseInt(id, 10), { status });
+  const bookingUpdater = new BookingUpdater(repository, userPlanBookingsIncrementer);
+  await bookingUpdater.run(parseInt(id, 10), { status });
   res.status(200).send('Booking udpated');
 });
 export { create, index, deleteBooking, updateBooking };

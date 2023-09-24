@@ -6,8 +6,8 @@ import {
   CreationOptional,
 } from 'sequelize';
 import sequelize from '../../../database/models';
-import User from '../../../database/models/user';
 import { LessonModel } from '../../Lessons/infraestructure/LessonModel';
+import { UserModel } from '../../Users/infraestructure/UserModel';
 
 class Booking extends Model<InferAttributes<Booking>, InferCreationAttributes<Booking>> {
   declare id: CreationOptional<number>;
@@ -45,10 +45,10 @@ Booking.init(
   },
 );
 
-User.belongsToMany(LessonModel, { through: Booking });
-LessonModel.belongsToMany(User, { through: Booking });
-User.hasMany(Booking, { onDelete: 'cascade' });
-Booking.belongsTo(User, { as: 'user' });
+UserModel.belongsToMany(LessonModel, { through: Booking });
+LessonModel.belongsToMany(UserModel, { through: Booking });
+UserModel.hasMany(Booking, { onDelete: 'cascade' });
+Booking.belongsTo(UserModel, { as: 'user' });
 LessonModel.hasMany(Booking, { onDelete: 'cascade' });
 Booking.belongsTo(LessonModel, { as: 'lesson' });
 

@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import { Request } from 'express';
-import User from '../database/models/user';
+import { UserModel } from '../Context/Users/infraestructure/UserModel';
 
 interface AuthJwtPayload extends JwtPayload {
   sub: string;
@@ -9,16 +9,16 @@ interface AuthJwtPayload extends JwtPayload {
   iat: number;
 }
 
-const { JWT_SECRET } = process.env;
-if (JWT_SECRET === undefined) {
-  throw new Error('JWT_SECRET is not set');
-}
-
 export interface AuthorizedRequest extends Request {
   user?: AuthJwtPayload;
 }
 
-const createToken = (user: User) => {
+const createToken = (user: UserModel) => {
+  const { JWT_SECRET } = process.env;
+  if (JWT_SECRET === undefined) {
+    throw new Error('JWT_SECRET is not set');
+  }
+
   const payload: AuthJwtPayload = {
     sub: user.id.toString(),
     instructor: user.instructor,
@@ -37,6 +37,11 @@ const checkAuthenticated = asyncHandler(async (req: AuthorizedRequest, res, next
 
   const token = req.headers.authorization.split(' ')[1];
   let payload;
+  const { JWT_SECRET } = process.env;
+  if (JWT_SECRET === undefined) {
+    throw new Error('JWT_SECRET is not set');
+  }
+
   try {
     payload = jwt.verify(token, JWT_SECRET) as AuthJwtPayload;
   } catch (e) {
