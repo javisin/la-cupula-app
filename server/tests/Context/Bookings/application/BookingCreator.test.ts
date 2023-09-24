@@ -6,11 +6,16 @@ import { UserMother } from '../../Users/domain/UserMother';
 import BookingRepositoryMock from '../../../__mocks__/bookingRepositoryMock';
 import UserNotFoundError from '../../../../src/Context/Users/domain/UserNotFoundError';
 import UnauthorizedUserError from '../../../../src/Context/Users/domain/UnauthorizedUserError';
+import UserUpdater from '../../../../src/Context/Users/application/UserUpdater';
 
 describe('BookingCreator', () => {
   const bookingRepository = new BookingRepositoryMock();
   const userRepository = new UserRepositoryMock();
-  const bookingCreator = new BookingCreator(bookingRepository, new UserFinder(userRepository));
+  const userFinder = new UserFinder(userRepository);
+  const userUpdater = new UserUpdater(userRepository, userFinder);
+  userUpdater.run = jest.fn();
+
+  const bookingCreator = new BookingCreator(bookingRepository, userFinder, userUpdater);
 
   it('should throw error if user does not exist', async () => {
     userRepository.find.mockResolvedValueOnce(null);
@@ -28,10 +33,19 @@ describe('BookingCreator', () => {
 
   it('should save a booking', async () => {
     const bookingParams = { userId: 1, lessonId: 2 };
-    userRepository.find.mockResolvedValueOnce(UserMother.random());
+    userRepository.find.mockResolvedValue(UserMother.random());
 
     await bookingCreator.run(bookingParams);
     const expectedBooking = new Booking({ ...bookingParams, status: 'pending', id: 1 });
     expect(bookingRepository.save).toHaveBeenCalledWith(expectedBooking);
+  });
+
+  it('should update the user plan bookings count', async () => {
+    const bookingParams = { userId: 1, lessonId: 2 };
+    const user = UserMother.random();
+    userRepository.find.mockResolvedValue(user);
+
+    await bookingCreator.run(bookingParams);
+    expect(userUpdater.run).toHaveBeenCalledWith(user.id, { planBookings: user.planBookings + 1 });
   });
 });
