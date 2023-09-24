@@ -29,12 +29,23 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   const createBooking = (lessonId: number, date: string) => {
     if (!userData.data?.plan) {
       alert(
-        `Lo sentimos, actualmente no cuentas con más clases en tu plan. Para seguir reservando ve a la página de pago y no te pierdas ningún entrenamiento`,
+        'Lo sentimos, no has contratado ningún plan. Para seguir reservando ve a la página de pago y no te pierdas ningún entrenamiento',
       );
       return;
     }
-    createBookingMutation.mutate({ lessonId, userId: currentUserId });
-    alert(`Has reservado la clase a las ${date}.`);
+    createBookingMutation.mutate(
+      { lessonId, userId: currentUserId },
+      {
+        onSuccess: () => {
+          alert(`Has reservado la clase a las ${date}.`);
+        },
+        onError: () => {
+          alert(
+            'Lo sentimos, actualmente no cuentas con más clases en tu plan. Para seguir reservando ve a la página de pago y no te pierdas ningún entrenamiento',
+          );
+        },
+      },
+    );
   };
 
   const deleteBooking = (bookingId: number, date: string) => {

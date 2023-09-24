@@ -11,9 +11,13 @@ import UserNotFoundError from '../../Context/Users/domain/UserNotFoundError';
 import UnauthorizedUserError from '../../Context/Users/domain/UnauthorizedUserError';
 import UserPlanBookingsIncrementer from '../../Context/Users/application/UserPlanBookingsIncrementer';
 import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+import PostgresPlanRepository from '../../Context/Plans/infraestructure/PostgresPlanRepository';
+import PlanFinder from '../../Context/Plans/application/PlansFinder';
 
 const userRepository = new PostgresUserRepository();
 const userFinder = new UserFinder(userRepository);
+const planRepository = new PostgresPlanRepository();
+const planFinder = new PlanFinder(planRepository);
 const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(userRepository, userFinder);
 
 const index = asyncHandler(async (req, res) => {
@@ -52,7 +56,7 @@ const index = asyncHandler(async (req, res) => {
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId, status } = req.body;
   const repository = new PostgresBookingRepository();
-  const bookingCreator = new BookingCreator(repository, userFinder);
+  const bookingCreator = new BookingCreator(repository, userFinder, planFinder);
   try {
     await bookingCreator.run({ userId, lessonId, status });
   } catch (e) {
