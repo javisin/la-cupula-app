@@ -7,6 +7,7 @@ import './home.scss';
 import { convertDateToTimeString } from '../../util/dates';
 import ParticipantsList from './ParticipantsList';
 import { getCurrentUser } from '../../util/auth';
+import { useGetUser } from '../../hooks/api/user';
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -17,6 +18,7 @@ interface LessonCardProps {
 export default function LessonCard({ lesson, userBooking, bookings }: LessonCardProps) {
   const user = getCurrentUser();
   const currentUserId = parseInt(user!.sub);
+  const userData = useGetUser(currentUserId);
 
   const createBookingMutation = useCreateBooking();
   const deleteBookingMutation = useDeleteBooking();
@@ -25,6 +27,12 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
 
   const isPastLesson = new Date() > new Date(lesson.startDate);
   const createBooking = (lessonId: number, date: string) => {
+    if (!userData.data?.plan) {
+      alert(
+        `Lo sentimos, actualmente no cuentas con más clases en tu plan. Para seguir reservando ve a la página de pago y no te pierdas ningún entrenamiento`,
+      );
+      return;
+    }
     createBookingMutation.mutate({ lessonId, userId: currentUserId });
     alert(`Has reservado la clase a las ${date}.`);
   };
