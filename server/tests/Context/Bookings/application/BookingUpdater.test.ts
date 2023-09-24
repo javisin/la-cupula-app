@@ -1,7 +1,7 @@
 import Booking from '../../../../src/Context/Bookings/domain/Booking';
 import UserRepositoryMock from '../../../__mocks__/UserRepositoryMock';
 import UserFinder from '../../../../src/Context/Users/application/UserFinder';
-import BookingRepositoryMock from '../../../__mocks__/bookingRepositoryMock';
+import BookingRepositoryMock from '../../../__mocks__/BookingRepositoryMock';
 import BookingUpdater from '../../../../src/Context/Bookings/application/BookingUpdater';
 import UserPlanBookingsIncrementer from '../../../../src/Context/Users/application/UserPlanBookingsIncrementer';
 import { UserMother } from '../../Users/domain/UserMother';
