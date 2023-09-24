@@ -15,7 +15,8 @@
     "rules": {
         "prettier/prettier": "error",
         "import/prefer-default-export": "off",
-        "no-await-in-loop": "off"
+        "no-await-in-loop": "off",
+        "no-continue": "off"
     },
     "plugins": ["prettier"]
 }
