@@ -6,6 +6,10 @@ import BookingCreator from '../../Context/Bookings/application/BookingCreator';
 import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
 import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
 import BookingUpdater from '../../Context/Bookings/application/BookingUpdater';
+import PostgresUserRepository from '../../Context/Users/infraestructure/PostgresUserRepository';
+import UserFinder from '../../Context/Users/application/UserFinder';
+import UserNotFoundError from '../../Context/Users/domain/UserNotFoundError';
+import UnauthorizedUserError from '../../Context/Users/domain/UnauthorizedUserError';
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -43,8 +47,21 @@ const index = asyncHandler(async (req, res) => {
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId, status } = req.body;
   const repository = new PostgresBookingRepository();
-  const bookingCreator = new BookingCreator(repository);
-  await bookingCreator.run({ userId, lessonId, status });
+  const userRepository = new PostgresUserRepository();
+  const bookingCreator = new BookingCreator(repository, new UserFinder(userRepository));
+  try {
+    await bookingCreator.run({ userId, lessonId, status });
+  } catch (e) {
+    if (e instanceof UserNotFoundError) {
+      res.status(404).send('User does not exist');
+      return;
+    }
+    if (e instanceof UnauthorizedUserError) {
+      res.status(403).send(e.message);
+      return;
+    }
+    throw e;
+  }
   res.status(201).send();
 });
 
