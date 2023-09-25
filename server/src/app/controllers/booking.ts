@@ -13,12 +13,19 @@ import UserPlanBookingsIncrementer from '../../Context/Users/application/UserPla
 import { UserModel } from '../../Context/Users/infraestructure/UserModel';
 import PostgresPlanRepository from '../../Context/Plans/infraestructure/PostgresPlanRepository';
 import PlanFinder from '../../Context/Plans/application/PlansFinder';
+import { InMemoryAsyncEventBus } from '../../Context/Shared/infraestructure/InMemoryEventBus';
+import { IncrementCoursesCounterOnCourseCreated } from '../../Context/Users/application/IncrementPlanBookingsOnBookingApproved';
 
 const userRepository = new PostgresUserRepository();
 const userFinder = new UserFinder(userRepository);
 const planRepository = new PostgresPlanRepository();
 const planFinder = new PlanFinder(planRepository);
 const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(userRepository, userFinder);
+const eventBus = new InMemoryAsyncEventBus();
+const userPlanBookingsSubscriber = new IncrementCoursesCounterOnCourseCreated(
+  userPlanBookingsIncrementer,
+);
+eventBus.addSubscribers([userPlanBookingsSubscriber]);
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -88,7 +95,7 @@ const updateBooking = asyncHandler(async (req, res) => {
   const { status } = req.body;
 
   const repository = new PostgresBookingRepository();
-  const bookingUpdater = new BookingUpdater(repository, userPlanBookingsIncrementer);
+  const bookingUpdater = new BookingUpdater(repository, userPlanBookingsIncrementer, eventBus);
   await bookingUpdater.run(parseInt(id, 10), { status });
   res.status(200).send('Booking udpated');
 });

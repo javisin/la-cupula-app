@@ -5,7 +5,8 @@ export default class PostgresBookingRepository implements BookingRepository {
   readonly model = BookingModel;
 
   async find(id: number) {
-    return this.model.findOne({ where: { id } });
+    const booking = await this.model.findOne({ where: { id } });
+    return booking ? new Booking(booking) : null;
   }
 
   async save(booking: Booking) {
