@@ -6,6 +6,7 @@ import BookingUpdater from '../../../../src/Context/Bookings/application/Booking
 import UserPlanBookingsIncrementer from '../../../../src/Context/Users/application/UserPlanBookingsIncrementer';
 import { UserMother } from '../../Users/domain/UserMother';
 import EventBusMock from '../../../__mocks__/EventBusMock';
+import { BookingMother } from '../domain/BookingMother';
 
 describe('BookingUpdater', () => {
   const eventBus = new EventBusMock();
@@ -22,7 +23,7 @@ describe('BookingUpdater', () => {
 
   it('should update a booking', async () => {
     const bookingParams: Partial<Booking> = { status: 'declined' };
-    bookingRepository.find.mockResolvedValue({ status: 'pending' });
+    bookingRepository.find.mockResolvedValue(BookingMother.random({ status: 'pending' }));
 
     await bookingUpdater.run(1, bookingParams);
     expect(bookingRepository.update).toHaveBeenCalledWith(
@@ -31,12 +32,14 @@ describe('BookingUpdater', () => {
     );
   });
 
-  it('should increment user plan bookings if booking is approved', async () => {
+  it('should publish event if booking is approved', async () => {
     const bookingParams: Partial<Booking> = { status: 'approved' };
-    bookingRepository.find.mockResolvedValue({ status: 'pending', userId: 1 });
+    bookingRepository.find.mockResolvedValue(
+      BookingMother.random({ status: 'pending', userId: 1 }),
+    );
     userRepository.find.mockResolvedValue(UserMother.random());
 
     await bookingUpdater.run(1, bookingParams);
-    expect(userPlanBookingsIncrementer.run).toHaveBeenCalledWith(1);
+    expect(eventBus.publish).toHaveBeenCalledWith([expect.objectContaining({ userId: 1 })]);
   });
 });

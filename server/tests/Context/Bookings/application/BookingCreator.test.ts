@@ -35,8 +35,8 @@ describe('BookingCreator', () => {
 
   it('should save a booking', async () => {
     const bookingParams = { userId: 1, lessonId: 2 };
-    userRepository.find.mockResolvedValue(UserMother.random());
-    planRepository.find.mockResolvedValue(PlanMother.random());
+    userRepository.find.mockResolvedValue(UserMother.random({ planBookings: 1 }));
+    planRepository.find.mockResolvedValue(PlanMother.random({ lessons: 10 }));
 
     await bookingCreator.run(bookingParams);
     const expectedBooking = new Booking({ ...bookingParams, status: 'pending', id: 1 });

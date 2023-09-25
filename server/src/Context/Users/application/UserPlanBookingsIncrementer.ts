@@ -8,7 +8,6 @@ export default class UserPlanBookingsIncrementer {
   ) {}
 
   async run(id: number) {
-    console.log('hola');
     const user = await this.userFinder.run(id);
     user.planBookings += 1;
     await this.repository.update(user);
