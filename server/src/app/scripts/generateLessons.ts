@@ -90,7 +90,8 @@ function getDayLessons(date: Date) {
         { hours: 11, minutes: 30 },
         'Mixto - gi',
       ),
-      generateLessonByTime(date, { hours: 18, minutes: 0 }, { hours: 19, minutes: 0 }, 'Open mat'),
+      generateLessonByTime(date, { hours: 18, minutes: 0 }, { hours: 19, minutes: 0 }, 'Juveniles'),
+      generateLessonByTime(date, { hours: 19, minutes: 0 }, { hours: 20, minutes: 0 }, 'Open mat'),
     ];
   }
 
