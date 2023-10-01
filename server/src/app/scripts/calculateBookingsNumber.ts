@@ -1,14 +1,14 @@
 import { Op } from 'sequelize';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
-import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 
 process.env.TZ = 'Europe/London';
 
 async function main() {
   const bookings = await BookingModel.findAll({
     include: [
-      { model: UserModel, as: 'user' },
+      { model: SequelizeUser, as: 'user' },
       {
         model: LessonModel,
         as: 'lesson',
@@ -36,7 +36,7 @@ async function main() {
 
   // eslint-disable-next-line no-restricted-syntax
   for (const [userId, planBookings] of bookingsByUser.entries()) {
-    const user = await UserModel.findOne({ where: { id: userId } });
+    const user = await SequelizeUser.findOne({ where: { id: userId } });
     if (!user) continue;
     user.planBookings = planBookings;
     await user.save();

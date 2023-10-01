@@ -32,6 +32,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
   declare planId: string | null;
 
+  declare subscriptionId: string | null;
+
+  declare paidAt: Date | null;
+
   declare customerId: string;
 
   declare planBookings: number;
@@ -55,6 +59,8 @@ User.init(
     image: DataTypes.STRING,
     instructor: DataTypes.BOOLEAN,
     planId: DataTypes.STRING,
+    subscriptionId: DataTypes.STRING,
+    paidAt: DataTypes.DATE,
     customerId: DataTypes.STRING,
     planBookings: { type: DataTypes.INTEGER, defaultValue: 0 },
   },
@@ -64,4 +70,4 @@ User.init(
   },
 );
 
-export { User as UserModel };
+export { User as SequelizeUser };

@@ -10,7 +10,7 @@ import UserFinder from '../../Context/Users/application/UserFinder';
 import UserNotFoundError from '../../Context/Users/domain/UserNotFoundError';
 import UnauthorizedUserError from '../../Context/Users/domain/UnauthorizedUserError';
 import UserPlanBookingsIncrementer from '../../Context/Users/application/UserPlanBookingsIncrementer';
-import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 import PostgresPlanRepository from '../../Context/Plans/infraestructure/PostgresPlanRepository';
 import PlanFinder from '../../Context/Plans/application/PlansFinder';
 import { InMemoryAsyncEventBus } from '../../Context/Shared/infraestructure/InMemoryEventBus';
@@ -48,7 +48,7 @@ const index = asyncHandler(async (req, res) => {
 
   const bookings = await BookingModel.findAll({
     include: [
-      { model: UserModel, as: 'user' },
+      { model: SequelizeUser, as: 'user' },
       {
         model: LessonModel,
         as: 'lesson',

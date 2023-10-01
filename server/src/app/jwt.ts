@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import { Request } from 'express';
-import { UserModel } from '../Context/Users/infraestructure/UserModel';
+import { SequelizeUser } from '../Context/Users/infraestructure/UserModel';
 
 interface AuthJwtPayload extends JwtPayload {
   sub: string;
@@ -13,7 +13,7 @@ export interface AuthorizedRequest extends Request {
   user?: AuthJwtPayload;
 }
 
-const createToken = (user: UserModel) => {
+const createToken = (user: SequelizeUser) => {
   const { JWT_SECRET } = process.env;
   if (JWT_SECRET === undefined) {
     throw new Error('JWT_SECRET is not set');

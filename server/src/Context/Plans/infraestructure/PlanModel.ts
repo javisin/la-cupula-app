@@ -1,6 +1,6 @@
 import { Model, InferAttributes, InferCreationAttributes, DataTypes } from 'sequelize';
 import sequelize from '../../../database/models';
-import { UserModel } from '../../Users/infraestructure/UserModel';
+import { SequelizeUser } from '../../Users/infraestructure/UserModel';
 
 class Plan extends Model<InferAttributes<Plan>, InferCreationAttributes<Plan>> {
   declare id: string;
@@ -35,7 +35,7 @@ Plan.init(
   },
 );
 
-UserModel.belongsTo(Plan, { as: 'plan' });
-Plan.hasMany(UserModel);
+SequelizeUser.belongsTo(Plan, { as: 'plan' });
+Plan.hasMany(SequelizeUser);
 
 export { Plan as PlanModel };

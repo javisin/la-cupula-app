@@ -1,8 +1,8 @@
 import { Stripe } from 'stripe';
 import config from '../../Context/Shared/infraestructure/config';
-import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 
-async function createStripeCustomer(stripe: Stripe, user: UserModel) {
+async function createStripeCustomer(stripe: Stripe, user: SequelizeUser) {
   const stripeRequest: Stripe.CustomerCreateParams = {
     name: `${user.firstName} ${user.lastName}`,
     email: user.email,
@@ -15,7 +15,7 @@ async function createStripeCustomer(stripe: Stripe, user: UserModel) {
 
 async function main() {
   const stripe = new Stripe(config.stripeKey, { apiVersion: '2023-08-16' });
-  const users = await UserModel.findAll();
+  const users = await SequelizeUser.findAll();
   // eslint-disable-next-line no-restricted-syntax
   for (const user of users) {
     user.customerId = await createStripeCustomer(stripe, user);

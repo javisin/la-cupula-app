@@ -1,8 +1,8 @@
 import User, { UserRepository } from '../domain/User';
-import { UserModel } from './UserModel';
+import { SequelizeUser } from './UserModel';
 
 export default class PostgresUserRepository implements UserRepository {
-  readonly model = UserModel;
+  readonly model = SequelizeUser;
 
   async find(id: number) {
     const userModel = await this.model.findOne({ where: { id } });

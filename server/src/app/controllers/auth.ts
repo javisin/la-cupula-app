@@ -5,10 +5,10 @@ import { Stripe } from 'stripe';
 import { createToken } from '../jwt';
 import { uploadFile } from '../../Context/Shared/aws';
 import config from '../../Context/Shared/infraestructure/config';
-import { UserModel } from '../../Context/Users/infraestructure/UserModel';
+import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 
 const login = asyncHandler(async (req, res) => {
-  const user = await UserModel.findOne({
+  const user = await SequelizeUser.findOne({
     where: {
       email: req.body.email,
     },
@@ -31,7 +31,7 @@ const signUp = asyncHandler(async (req, res) => {
     return;
   }
 
-  const duplicatedEmailUser = await UserModel.findOne({ where: { email: req.body.email } });
+  const duplicatedEmailUser = await SequelizeUser.findOne({ where: { email: req.body.email } });
   if (duplicatedEmailUser) {
     res.status(422).send('A user with that email already exists');
     return;
@@ -46,14 +46,14 @@ const signUp = asyncHandler(async (req, res) => {
   };
 
   const stripeCustomer = await stripe.customers.create(stripeRequest);
-  const userData: UserModel = {
+  const userData: SequelizeUser = {
     ...req.body,
     instructor: false,
     password: passwordHash,
     image: `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`,
     customerId: stripeCustomer.id,
   };
-  const user = await UserModel.create(userData);
+  const user = await SequelizeUser.create(userData);
   uploadFile(image.data, image.name);
   res.json(user);
 });
