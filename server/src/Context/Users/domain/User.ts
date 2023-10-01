@@ -21,7 +21,7 @@ export default class User {
 
   readonly instructor: boolean;
 
-  readonly planId: string | null;
+  planId: string | null;
 
   planBookings: number;
 
