@@ -8,9 +8,10 @@ import config from '../../Context/Shared/infraestructure/config';
 import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 
 const login = asyncHandler(async (req, res) => {
+  const sanitizedEmail = req.body.email.toLowerCase();
   const user = await SequelizeUser.findOne({
     where: {
-      email: req.body.email,
+      email: sanitizedEmail,
     },
   });
   if (user) {
@@ -31,7 +32,9 @@ const signUp = asyncHandler(async (req, res) => {
     return;
   }
 
-  const duplicatedEmailUser = await SequelizeUser.findOne({ where: { email: req.body.email } });
+  const sanitizedEmail = req.body.email.toLowerCase();
+
+  const duplicatedEmailUser = await SequelizeUser.findOne({ where: { email: sanitizedEmail } });
   if (duplicatedEmailUser) {
     res.status(422).send('A user with that email already exists');
     return;
@@ -48,6 +51,7 @@ const signUp = asyncHandler(async (req, res) => {
   const stripeCustomer = await stripe.customers.create(stripeRequest);
   const userData: SequelizeUser = {
     ...req.body,
+    email: sanitizedEmail,
     instructor: false,
     password: passwordHash,
     image: `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`,
