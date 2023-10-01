@@ -32,6 +32,7 @@ const handleStripe = asyncHandler(async (req, res) => {
         res.status(404).json({ message: 'This user does not exist' });
         return;
       }
+      user.planBookings = 0;
       user.planId = subscription.items.data[0].plan.product as string;
       await user.save();
       break;
