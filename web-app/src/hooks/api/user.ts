@@ -38,6 +38,7 @@ export function useGetUsers() {
 
 interface UserChangeset {
   planId?: string | null;
+  paidAt?: string | null;
 }
 export function useUpdateUser() {
   const queryClient = useQueryClient();

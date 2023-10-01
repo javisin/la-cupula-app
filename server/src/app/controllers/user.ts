@@ -13,6 +13,7 @@ const index = asyncHandler(async (req, res) => {
       'nickName',
       'image',
       'startDate',
+      'planBookings',
     ],
     include: [{ model: PlanModel, as: 'plan' }],
     order: [['nickName', 'ASC']],
@@ -36,6 +37,7 @@ const get = asyncHandler(async (req, res) => {
 
 interface UserUpdateBody {
   planId?: string | null;
+  paidAt?: string | null;
 }
 
 const update = asyncHandler(async (req, res) => {
@@ -48,9 +50,12 @@ const update = asyncHandler(async (req, res) => {
     res.status(404).json({ message: 'This user does not exist' });
     return;
   }
-  const { planId } = req.body as UserUpdateBody;
+  const { planId, paidAt } = req.body as UserUpdateBody;
   if (planId !== undefined) {
     user.planId = planId;
+  }
+  if (paidAt !== undefined) {
+    user.paidAt = paidAt ? new Date(paidAt) : null;
   }
   await user.save();
   res.status(200).json(user);
