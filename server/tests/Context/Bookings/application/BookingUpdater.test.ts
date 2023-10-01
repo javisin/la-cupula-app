@@ -1,9 +1,7 @@
 import Booking from '../../../../src/Context/Bookings/domain/Booking';
 import UserRepositoryMock from '../../../__mocks__/UserRepositoryMock';
-import UserFinder from '../../../../src/Context/Users/application/UserFinder';
 import BookingRepositoryMock from '../../../__mocks__/BookingRepositoryMock';
 import BookingUpdater from '../../../../src/Context/Bookings/application/BookingUpdater';
-import UserPlanBookingsIncrementer from '../../../../src/Context/Users/application/UserPlanBookingsIncrementer';
 import { UserMother } from '../../Users/domain/UserMother';
 import EventBusMock from '../../../__mocks__/EventBusMock';
 import { BookingMother } from '../domain/BookingMother';
@@ -12,14 +10,7 @@ describe('BookingUpdater', () => {
   const eventBus = new EventBusMock();
   const bookingRepository = new BookingRepositoryMock();
   const userRepository = new UserRepositoryMock();
-  const userFinder = new UserFinder(userRepository);
-  const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(userRepository, userFinder);
-  userPlanBookingsIncrementer.run = jest.fn();
-  const bookingUpdater = new BookingUpdater(
-    bookingRepository,
-    userPlanBookingsIncrementer,
-    eventBus,
-  );
+  const bookingUpdater = new BookingUpdater(bookingRepository, eventBus);
 
   it('should update a booking', async () => {
     const bookingParams: Partial<Booking> = { status: 'declined' };

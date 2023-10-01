@@ -20,7 +20,11 @@ const userRepository = new PostgresUserRepository();
 const userFinder = new UserFinder(userRepository);
 const planRepository = new PostgresPlanRepository();
 const planFinder = new PlanFinder(planRepository);
-const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(userRepository, userFinder);
+const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(
+  userRepository,
+  userFinder,
+  planFinder,
+);
 const eventBus = new InMemoryAsyncEventBus();
 const userPlanBookingsSubscriber = new IncrementCoursesCounterOnCourseCreated(
   userPlanBookingsIncrementer,
@@ -95,7 +99,7 @@ const updateBooking = asyncHandler(async (req, res) => {
   const { status } = req.body;
 
   const repository = new PostgresBookingRepository();
-  const bookingUpdater = new BookingUpdater(repository, userPlanBookingsIncrementer, eventBus);
+  const bookingUpdater = new BookingUpdater(repository, eventBus);
   await bookingUpdater.run(parseInt(id, 10), { status });
   res.status(200).send('Booking udpated');
 });

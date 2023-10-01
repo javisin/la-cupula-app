@@ -1,11 +1,9 @@
 import { BookingRepository, BookingStatus } from '../domain/Booking';
-import UserPlanBookingsIncrementer from '../../Users/application/UserPlanBookingsIncrementer';
 import { EventBus } from '../../Shared/domain/EventBus';
 
 export default class BookingUpdater {
   constructor(
     private readonly repository: BookingRepository,
-    private readonly userPlanBookingsIncrementer: UserPlanBookingsIncrementer,
     private readonly eventBus: EventBus,
   ) {}
 
