@@ -10,10 +10,13 @@ import bookingRoutes from './routes/booking';
 import planRoutes from './routes/plan';
 import checkoutRoutes from './routes/checkout';
 import stripeRoutes from './routes/stripeWebhooks';
+import CronJobRunner from './crons';
 
 dotenv.config();
-const app = express();
+const cronJobRunner = new CronJobRunner();
+cronJobRunner.start();
 
+const app = express();
 app.use(fileUpload({}));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
