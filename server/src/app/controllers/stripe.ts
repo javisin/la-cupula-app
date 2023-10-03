@@ -33,6 +33,8 @@ const handleStripe = asyncHandler(async (req, res) => {
         return;
       }
       user.planBookings = 0;
+      user.subscriptionId = subscription.id;
+      user.paidAt = new Date(subscription.current_period_start * 1000);
       user.planId = subscription.items.data[0].plan.product as string;
       await user.save();
       break;
