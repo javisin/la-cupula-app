@@ -6,7 +6,7 @@ export default class PostgresUserRepository implements UserRepository {
 
   async find(id: number) {
     const userModel = await this.model.findOne({ where: { id } });
-    return userModel?.dataValues ?? null;
+    return userModel ? new User(userModel.dataValues) : null;
   }
 
   async update(user: User) {
