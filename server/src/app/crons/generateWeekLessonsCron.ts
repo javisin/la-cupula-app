@@ -99,18 +99,13 @@ function getDayLessons(date: Date) {
   return [];
 }
 
-export default new CronJob(
-  '0 0 16 * * 6',
-  async () => {
-    const date = new Date();
-    const lessons: LessonModel[] = [];
-    for (let i = 0; i < 7; i += 1) {
-      date.setDate(date.getDate() + 1);
-      lessons.push(...getDayLessons(date));
-    }
-    await LessonModel.bulkCreate(lessons.map((lesson) => lesson.dataValues));
-  },
-  null,
-  false,
-  'Europe/London',
-);
+async function generateWeekLessons() {
+  const date = new Date();
+  const lessons: LessonModel[] = [];
+  for (let i = 0; i < 7; i += 1) {
+    date.setDate(date.getDate() + 1);
+    lessons.push(...getDayLessons(date));
+  }
+  await LessonModel.bulkCreate(lessons.map((lesson) => lesson.dataValues));
+}
+export default new CronJob('0 0 16 * * 6', generateWeekLessons, null, false, 'Europe/London');
