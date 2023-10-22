@@ -39,6 +39,27 @@ const handleStripe = asyncHandler(async (req, res) => {
       await user.save();
       break;
     }
+    case 'customer.subscription.deleted': {
+      const subscription = event.data.object as StripeClient.Subscription;
+      const customer = (await stripe.customers.retrieve(
+        subscription.customer as string,
+      )) as StripeClient.Customer;
+      const user = await SequelizeUser.findOne({
+        where: {
+          customerId: customer.id,
+        },
+      });
+      if (user === null) {
+        res.status(404).json({ message: 'This user does not exist' });
+        return;
+      }
+      user.planBookings = 0;
+      user.subscriptionId = null;
+      user.paidAt = null;
+      user.planId = null;
+      await user.save();
+      break;
+    }
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
