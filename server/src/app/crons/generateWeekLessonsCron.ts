@@ -26,12 +26,6 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         'Principiantes - gi',
       ),
-      generateLessonByTime(
-        date,
-        { hours: 10, minutes: 30 },
-        { hours: 11, minutes: 30 },
-        'Mixto - gi',
-      ),
       generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
         date,
@@ -51,6 +45,12 @@ function getDayLessons(date: Date) {
         { hours: 21, minutes: 0 },
         'Jiu Jitsu - nogi',
       ),
+      generateLessonByTime(
+        date,
+        { hours: 20, minutes: 0 },
+        { hours: 21, minutes: 0 },
+        'Iniciantes',
+      ),
     ];
   }
 
@@ -61,6 +61,12 @@ function getDayLessons(date: Date) {
         { hours: 18, minutes: 0 },
         { hours: 19, minutes: 0 },
         'Jiu Jitsu - nogi',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 18, minutes: 0 },
+        { hours: 19, minutes: 0 },
+        'Iniciantes',
       ),
       generateLessonByTime(
         date,
@@ -84,12 +90,6 @@ function getDayLessons(date: Date) {
         { hours: 9, minutes: 30 },
         { hours: 10, minutes: 30 },
         'Principiantes - gi',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 10, minutes: 30 },
-        { hours: 11, minutes: 30 },
-        'Mixto - gi',
       ),
       generateLessonByTime(date, { hours: 18, minutes: 0 }, { hours: 19, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(date, { hours: 19, minutes: 0 }, { hours: 20, minutes: 0 }, 'Open mat'),
