@@ -6,6 +6,7 @@ import { createToken } from '../jwt';
 import { uploadFile } from '../../Context/Shared/aws';
 import config from '../../Context/Shared/infraestructure/config';
 import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
+import { extractFileExtension } from '../../Context/Shared/application/util/strings';
 
 const login = asyncHandler(async (req, res) => {
   const sanitizedEmail = req.body.email.toLowerCase();
@@ -47,18 +48,21 @@ const signUp = asyncHandler(async (req, res) => {
     name: `${req.body.firstName} ${req.body.lastName}`,
     email: req.body.email,
   };
-
   const stripeCustomer = await stripe.customers.create(stripeRequest);
+
+  const fileExtension = extractFileExtension(image.name);
+  const uploadFileName = sanitizedEmail + fileExtension;
+
   const userData: SequelizeUser = {
     ...req.body,
     email: sanitizedEmail,
     instructor: false,
     password: passwordHash,
-    image: `https://lacupula.s3.eu-west-2.amazonaws.com/${image.name}`,
+    image: `https://lacupula.s3.eu-west-2.amazonaws.com/${uploadFileName}`,
     customerId: stripeCustomer.id,
   };
   const user = await SequelizeUser.create(userData);
-  uploadFile(image.data, image.name);
+  uploadFile(image.data, uploadFileName);
   res.json(user);
 });
 
