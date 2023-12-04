@@ -7,7 +7,7 @@ import { useGetUser } from '../../hooks/api/user';
 import { getCurrentUser } from '../../util/auth';
 
 export default function PaymentPage() {
-  const plans = useGetPlans().data ?? [];
+  const plans = useGetPlans().data?.filter((plan) => plan.order > 0) ?? [];
   const currentUser = getCurrentUser();
   const { data: user } = useGetUser(parseInt(currentUser?.sub ?? '1'));
 

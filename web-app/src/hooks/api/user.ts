@@ -7,6 +7,7 @@ export interface Plan {
   price: number;
   lessons: number;
   mode: 'subscription' | 'payment';
+  order: number;
 }
 
 export interface User {
