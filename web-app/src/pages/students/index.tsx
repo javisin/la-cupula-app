@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Avatar,
   List,
@@ -9,6 +9,7 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
+  TextField,
 } from '@mui/material';
 import { useGetUsers, useUpdateUser } from '../../hooks/api/user';
 import { useGetPlans } from '../../hooks/api/plan';
@@ -19,8 +20,19 @@ export default function StudentsPage() {
   const users = useMemo(() => getUsersQuery.data ?? [], [getUsersQuery.data]);
   const plans = useGetPlans().data ?? [];
   const updateUserMutation = useUpdateUser();
+  const [searchText, setSearchText] = useState('');
 
-  const students = useMemo(() => users.filter((user) => !user.instructor), [users]);
+  const students = useMemo(
+    () =>
+      users.filter(
+        (user) =>
+          !user.instructor &&
+          (user.nickName?.toLowerCase().includes(searchText) ||
+            user.firstName?.toLowerCase().includes(searchText) ||
+            user.lastName?.toLowerCase().includes(searchText)),
+      ),
+    [users, searchText],
+  );
 
   const handlePlanChange = (event: SelectChangeEvent, userId: number) => {
     const value = event.target.value as string;
@@ -36,6 +48,12 @@ export default function StudentsPage() {
       <Typography variant="h5" gutterBottom>
         Alumnos
       </Typography>
+      <TextField
+        className="student-searcher"
+        label="Busca alumnos"
+        variant="outlined"
+        onChange={(e) => setSearchText(e.target.value.toLowerCase())}
+      />
       <div className="list-box">
         <List>
           {students.map((user) => (
