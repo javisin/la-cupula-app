@@ -16,7 +16,10 @@ const index = asyncHandler(async (req, res) => {
       'planBookings',
     ],
     include: [{ model: PlanModel, as: 'plan' }],
-    order: [['nickName', 'ASC']],
+    order: [
+      ['nickName', 'ASC'],
+      ['firstName', 'ASC'],
+    ],
   });
   res.status(200).json(users);
 });
