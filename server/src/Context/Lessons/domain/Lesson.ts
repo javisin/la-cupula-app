@@ -21,5 +21,5 @@ export interface GetLessonsFilter {
 
 export interface LessonRepository {
   get(filter?: GetLessonsFilter): Promise<Lesson[]>;
-  create(lesson: Lesson): Promise<void>;
+  save(lesson: Lesson): Promise<void>;
 }

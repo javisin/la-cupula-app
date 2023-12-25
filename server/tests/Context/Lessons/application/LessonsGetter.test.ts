@@ -11,7 +11,7 @@ describe('LessonsGetter', () => {
     });
     const mockRepository = {
       get: jest.fn(async () => [mockLesson]),
-      create: jest.fn(async () => {}),
+      save: jest.fn(async () => {}),
     };
     const lessonsGetter = new LessonsGetter(mockRepository);
     const lessons = await lessonsGetter.run({});

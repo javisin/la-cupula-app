@@ -15,6 +15,6 @@ export default class LessonCreator {
       type,
     });
 
-    await this.repository.create(newLesson);
+    await this.repository.save(newLesson);
   }
 }

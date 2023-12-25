@@ -26,6 +26,26 @@ export function useGetLessons({ date }: GetLessonsFilter) {
   });
 }
 
+interface CreateLessonBody {
+  type: string;
+  startDate: string;
+  endDate: string;
+}
+export function useCreateLesson() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async (lesson: CreateLessonBody) => {
+      const { data } = await apiClient.post('/lessons', lesson);
+      return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['lessons']);
+      },
+    },
+  );
+}
+
 export function useDeleteLessons() {
   const queryClient = useQueryClient();
   return useMutation(

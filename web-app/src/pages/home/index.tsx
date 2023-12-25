@@ -6,10 +6,12 @@ import { convertDateToDateString } from '../../util/dates';
 import { getCurrentUser } from '../../util/auth';
 import TextField from '@mui/material/TextField';
 import LessonCard from './LessonCard';
+import Button from '@mui/material/Button';
+import CreateLessonModal from './CreateLessonModal';
 
 export default function HomePage() {
   const [date, setDate] = useState(convertDateToDateString(new Date()));
-
+  const [isCreateLessonModalOpen, setIsCreateLessonModalOpen] = useState(false);
   const getLessonsQuery = useGetLessons({ date: new Date(date) });
   const getBookingsQuery = useGetBookings({
     date: new Date(date),
@@ -25,6 +27,10 @@ export default function HomePage() {
 
   return (
     <div className="lesson-times-container">
+      <CreateLessonModal
+        isOpen={isCreateLessonModalOpen}
+        close={() => setIsCreateLessonModalOpen(false)}
+      />
       <h2>Clases</h2>
       <TextField
         name="date"
@@ -37,6 +43,16 @@ export default function HomePage() {
         value={date}
         onChange={(event) => setDate(event.target.value)}
       />
+      {currentUser.instructor && (
+        <Button
+          variant="contained"
+          color={'primary'}
+          onClick={() => setIsCreateLessonModalOpen(true)}
+          sx={{ marginTop: 2 }}
+        >
+          Añadir clase
+        </Button>
+      )}
       <div className="lesson-times-list">
         {lessons.map((lesson) => {
           const lessonBookings = bookings.filter((booking) => booking.lessonId === lesson.id);

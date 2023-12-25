@@ -6,9 +6,15 @@ import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
 
 const lessonsRepository = new PostgresLessonRepository();
 
+interface CreateLessonBody {
+  type: string;
+  startDate: string;
+  endDate: string;
+}
 const create = asyncHandler(async (req, res) => {
   const lessonCreator = new LessonCreator(lessonsRepository);
-  await lessonCreator.run({ type: 'test', startDate: '', endDate: '' });
+  const { type, endDate, startDate } = req.body as CreateLessonBody;
+  await lessonCreator.run({ type, startDate, endDate });
   res.status(201).json('Lesson created');
 });
 

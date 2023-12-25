@@ -19,7 +19,7 @@ export default class PostgresLessonRepository implements LessonRepository {
     return this.model.findAll({ where: whereStatement, order: [['startDate', 'ASC']] });
   }
 
-  async create(lesson: Lesson) {
-    await this.model.create(lesson);
+  async save(lesson: Lesson) {
+    await this.model.create({ ...lesson, id: undefined });
   }
 }
