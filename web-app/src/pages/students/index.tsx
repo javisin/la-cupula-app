@@ -14,6 +14,7 @@ import {
 import { useGetUsers, useUpdateUser } from '../../hooks/api/user';
 import { useGetPlans } from '../../hooks/api/plan';
 import './students.scss';
+import { useNavigate } from 'react-router-dom';
 
 export default function StudentsPage() {
   const getUsersQuery = useGetUsers();
@@ -21,6 +22,7 @@ export default function StudentsPage() {
   const plans = useGetPlans().data ?? [];
   const updateUserMutation = useUpdateUser();
   const [searchText, setSearchText] = useState('');
+  const navigate = useNavigate();
 
   const students = useMemo(
     () =>
@@ -43,6 +45,10 @@ export default function StudentsPage() {
     });
   };
 
+  const navigateToStudent = (userId: number) => {
+    navigate(`/students/${userId}`);
+  };
+
   return (
     <div>
       <Typography variant="h5" gutterBottom>
@@ -58,10 +64,11 @@ export default function StudentsPage() {
         <List>
           {students.map((user) => (
             <ListItem key={user.id}>
-              <ListItemAvatar>
+              <ListItemAvatar onClick={() => navigateToStudent(user.id)}>
                 <Avatar alt={user.nickName} src={user.image} />
               </ListItemAvatar>
               <ListItemText
+                onClick={() => navigateToStudent(user.id)}
                 primary={user.nickName ?? `${user.firstName} ${user.lastName}`}
                 secondary={`${user.planBookings} clases`}
               />
