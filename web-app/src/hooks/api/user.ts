@@ -21,6 +21,7 @@ export interface User {
   instructor: boolean;
   plan: Plan | null;
   planBookings: number;
+  totalBookings?: number;
 }
 
 export function useGetUser(id: number) {

@@ -44,6 +44,11 @@ export default function ProfileView({ user, canLogout }: ProfileViewProps) {
       <Typography variant="subtitle1" gutterBottom>
         Asistencias desde el pago: {user.planBookings} / {userPlan?.lessons ?? 0}
       </Typography>
+      {user.totalBookings && (
+        <Typography variant="subtitle1" gutterBottom>
+          Asistencias totales: {user.totalBookings}
+        </Typography>
+      )}
       <img src={image} style={{ width: '200px', height: '200px', margin: '10px' }} alt="belt" />
       {canLogout && (
         <Button variant="contained" color="primary" onClick={handleLogout}>

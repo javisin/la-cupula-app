@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import { PlanModel } from '../../Context/Plans/infraestructure/PlanModel';
 import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
+import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 
 const index = asyncHandler(async (req, res) => {
   const users = await SequelizeUser.findAll({
@@ -31,11 +32,16 @@ const get = asyncHandler(async (req, res) => {
     },
     include: [{ model: PlanModel, as: 'plan' }],
   });
+  const totalBookings = await BookingModel.count({
+    where: {
+      userId: req.params.id,
+    },
+  });
   if (user === null) {
     res.status(404).json({ message: 'This user does not exist' });
     return;
   }
-  res.status(200).json(user);
+  res.status(200).json({ ...user.dataValues, totalBookings });
 });
 
 interface UserUpdateBody {
