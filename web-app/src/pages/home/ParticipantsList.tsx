@@ -36,7 +36,7 @@ export default function ParticipantsList({
   const updateBookingMutation = useUpdateBooking();
   const [newBookingUser, setNewBookingUser] = useState('');
 
-  const getUsersQuery = useGetUsers();
+  const getUsersQuery = useGetUsers({ hasPlan: true });
   const users = useMemo(() => getUsersQuery.data ?? [], [getUsersQuery.data]);
   const students = useMemo(
     () =>

@@ -31,9 +31,16 @@ export function useGetUser(id: number) {
   });
 }
 
-export function useGetUsers() {
-  return useQuery(['users'], async () => {
-    const { data } = await apiClient.get<User[]>(`/users`);
+interface GetUsersFilter {
+  hasPlan?: boolean;
+}
+export function useGetUsers(filter?: GetUsersFilter) {
+  return useQuery(['users', filter], async () => {
+    const params = new URLSearchParams();
+    if (filter?.hasPlan) {
+      params.set('hasPlan', 'true');
+    }
+    const { data } = await apiClient.get<User[]>(`/users`, { params });
     return data;
   });
 }

@@ -1,9 +1,20 @@
 import asyncHandler from 'express-async-handler';
+import { Op } from 'sequelize';
 import { PlanModel } from '../../Context/Plans/infraestructure/PlanModel';
 import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 
+interface IndexQueryParams {
+  hasPlan?: boolean;
+}
 const index = asyncHandler(async (req, res) => {
+  const filter = req.query satisfies IndexQueryParams;
+  const whereStatement: { planId?: any } = {};
+  if (filter?.hasPlan) {
+    whereStatement.planId = {
+      [Op.not]: null,
+    };
+  }
   const users = await SequelizeUser.findAll({
     attributes: [
       'id',
@@ -21,6 +32,7 @@ const index = asyncHandler(async (req, res) => {
       ['nickName', 'ASC'],
       ['firstName', 'ASC'],
     ],
+    where: whereStatement,
   });
   res.status(200).json(users);
 });
