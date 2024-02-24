@@ -39,16 +39,10 @@ function getDayLessons(date: Date) {
         { hours: 20, minutes: 0 },
         'Mixto - gi',
       ),
-      generateLessonByTime(
-        date,
-        { hours: 20, minutes: 0 },
-        { hours: 21, minutes: 0 },
-        'Jiu Jitsu - nogi',
-      ),
     ];
   }
 
-  if (day === 2 || day === 4) {
+  if (day === 2) {
     return [
       generateLessonByTime(
         date,
@@ -56,6 +50,23 @@ function getDayLessons(date: Date) {
         { hours: 19, minutes: 0 },
         'Jiu Jitsu - nogi',
       ),
+      generateLessonByTime(
+        date,
+        { hours: 19, minutes: 0 },
+        { hours: 20, minutes: 0 },
+        'Mixto - gi',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 20, minutes: 30 },
+        { hours: 21, minutes: 30 },
+        'Principiantes - gi',
+      ),
+    ];
+  }
+
+  if (day === 4) {
+    return [
       generateLessonByTime(
         date,
         { hours: 19, minutes: 0 },
@@ -96,4 +107,5 @@ async function generateWeekLessons() {
   }
   await LessonModel.bulkCreate(lessons.map((lesson) => lesson.dataValues));
 }
+
 export default new CronJob('0 0 16 * * 6', generateWeekLessons, null, false, 'Europe/London');
