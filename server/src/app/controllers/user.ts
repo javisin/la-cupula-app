@@ -74,6 +74,7 @@ const update = asyncHandler(async (req, res) => {
   const { planId, paidAt } = req.body as UserUpdateBody;
   if (planId !== undefined) {
     user.planId = planId;
+    user.planBookings = 0;
   }
   if (paidAt !== undefined) {
     user.paidAt = paidAt ? new Date(paidAt) : null;
