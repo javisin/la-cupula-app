@@ -14,6 +14,14 @@ export default class BookingUpdater {
     }
 
     if (changeset.status) {
+      console.log(
+        JSON.stringify({
+          message: 'Updating status',
+          changeset,
+          bookingId: id,
+          userId: booking.userId,
+        }),
+      );
       booking.setStatus(changeset.status);
     }
 
