@@ -42,7 +42,7 @@ function getDayLessons(date: Date) {
     ];
   }
 
-  if (day === 2) {
+  if (day === 2 || day === 4) {
     return [
       generateLessonByTime(
         date,
@@ -50,23 +50,6 @@ function getDayLessons(date: Date) {
         { hours: 19, minutes: 0 },
         'Jiu Jitsu - nogi',
       ),
-      generateLessonByTime(
-        date,
-        { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 0 },
-        'Mixto - gi',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 20, minutes: 30 },
-        { hours: 21, minutes: 30 },
-        'Principiantes - gi',
-      ),
-    ];
-  }
-
-  if (day === 4) {
-    return [
       generateLessonByTime(
         date,
         { hours: 19, minutes: 0 },
