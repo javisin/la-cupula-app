@@ -24,7 +24,7 @@ function getDayLessons(date: Date) {
         date,
         { hours: 9, minutes: 30 },
         { hours: 10, minutes: 30 },
-        'Principiantes - gi',
+        'Curso iniciación',
       ),
       generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
@@ -39,11 +39,23 @@ function getDayLessons(date: Date) {
         { hours: 20, minutes: 0 },
         'Mixto - gi',
       ),
+      generateLessonByTime(
+        date,
+        { hours: 20, minutes: 0 },
+        { hours: 21, minutes: 0 },
+        'Curso iniciación',
+      ),
     ];
   }
 
   if (day === 2 || day === 4) {
     return [
+      generateLessonByTime(
+        date,
+        { hours: 17, minutes: 0 },
+        { hours: 18, minutes: 0 },
+        'Curso iniciación',
+      ),
       generateLessonByTime(
         date,
         { hours: 18, minutes: 0 },
@@ -71,7 +83,13 @@ function getDayLessons(date: Date) {
         date,
         { hours: 9, minutes: 30 },
         { hours: 10, minutes: 30 },
-        'Principiantes - gi',
+        'Curso iniciación',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 17, minutes: 0 },
+        { hours: 18, minutes: 0 },
+        'Curso iniciación',
       ),
       generateLessonByTime(date, { hours: 18, minutes: 0 }, { hours: 19, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(date, { hours: 19, minutes: 0 }, { hours: 20, minutes: 0 }, 'Open mat'),
