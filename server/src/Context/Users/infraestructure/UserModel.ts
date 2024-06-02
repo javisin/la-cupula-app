@@ -39,6 +39,8 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare customerId: string;
 
   declare planBookings: number;
+
+  declare deleted: boolean;
 }
 
 User.init(
@@ -63,6 +65,7 @@ User.init(
     paidAt: DataTypes.DATE,
     customerId: DataTypes.STRING,
     planBookings: { type: DataTypes.INTEGER, defaultValue: 0 },
+    deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
   {
     sequelize,

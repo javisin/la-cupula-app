@@ -9,7 +9,7 @@ interface IndexQueryParams {
 }
 const index = asyncHandler(async (req, res) => {
   const filter = req.query satisfies IndexQueryParams;
-  const whereStatement: { planId?: any } = {};
+  const whereStatement: { planId?: any; deleted?: boolean } = { deleted: false };
   if (filter?.hasPlan) {
     whereStatement.planId = {
       [Op.not]: null,
