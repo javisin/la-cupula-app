@@ -18,61 +18,94 @@ function generateLessonByTime(date: Date, start: LessonTime, end: LessonTime, ty
 
 function getDayLessons(date: Date) {
   const day = date.getDay();
-  if (day === 1 || day === 3) {
+  if (day === 1) {
     return [
       generateLessonByTime(
         date,
-        { hours: 9, minutes: 30 },
-        { hours: 10, minutes: 30 },
-        'Curso iniciación',
-      ),
-      generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
-      generateLessonByTime(
-        date,
-        { hours: 18, minutes: 0 },
-        { hours: 19, minutes: 0 },
-        'Principiantes - gi',
+        { hours: 10, minutes: 0 },
+        { hours: 11, minutes: 30 },
+        'Jiu Jitsu',
       ),
       generateLessonByTime(
         date,
-        { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 0 },
-        'Mixto - gi',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 20, minutes: 0 },
-        { hours: 21, minutes: 0 },
-        'Curso iniciación',
-      ),
-    ];
-  }
-
-  if (day === 2 || day === 4) {
-    return [
-      generateLessonByTime(
-        date,
-        { hours: 17, minutes: 0 },
-        { hours: 18, minutes: 0 },
-        'Curso iniciación',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 18, minutes: 0 },
-        { hours: 19, minutes: 0 },
-        'Jiu Jitsu - nogi',
+        { hours: 11, minutes: 30 },
+        { hours: 12, minutes: 30 },
+        'Juveniles',
       ),
       generateLessonByTime(
         date,
         { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 0 },
-        'Mixto - gi',
+        { hours: 20, minutes: 30 },
+        'Jiu Jitsu',
       ),
       generateLessonByTime(
         date,
         { hours: 20, minutes: 30 },
         { hours: 21, minutes: 30 },
-        'Principiantes - gi',
+        'Jiu Jitsu - Principiantes',
+      ),
+    ];
+  }
+
+  if (day === 2) {
+    return [
+      generateLessonByTime(
+        date,
+        { hours: 10, minutes: 0 },
+        { hours: 11, minutes: 30 },
+        'Jiu Jitsu',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 19, minutes: 0 },
+        { hours: 20, minutes: 30 },
+        'Grappling',
+      ),
+    ];
+  }
+
+  if (day === 3) {
+    return [
+      generateLessonByTime(
+        date,
+        { hours: 10, minutes: 0 },
+        { hours: 11, minutes: 30 },
+        'Grappling',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 19, minutes: 0 },
+        { hours: 20, minutes: 30 },
+        'Jiu Jitsu',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 20, minutes: 30 },
+        { hours: 21, minutes: 30 },
+        'Jiu Jitsu - Principiantes',
+      ),
+    ];
+  }
+
+  if (day === 4) {
+    return [
+      generateLessonByTime(
+        date,
+        { hours: 10, minutes: 0 },
+        { hours: 11, minutes: 30 },
+        'Jiu Jitsu',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 11, minutes: 30 },
+        { hours: 12, minutes: 30 },
+        'Juveniles',
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 19, minutes: 0 },
+        { hours: 20, minutes: 30 },
+        'Grappling',
       ),
     ];
   }
@@ -81,18 +114,10 @@ function getDayLessons(date: Date) {
     return [
       generateLessonByTime(
         date,
-        { hours: 9, minutes: 30 },
-        { hours: 10, minutes: 30 },
-        'Curso iniciación',
+        { hours: 10, minutes: 0 },
+        { hours: 11, minutes: 30 },
+        'Jiu Jitsu',
       ),
-      generateLessonByTime(
-        date,
-        { hours: 17, minutes: 0 },
-        { hours: 18, minutes: 0 },
-        'Curso iniciación',
-      ),
-      generateLessonByTime(date, { hours: 18, minutes: 0 }, { hours: 19, minutes: 0 }, 'Juveniles'),
-      generateLessonByTime(date, { hours: 19, minutes: 0 }, { hours: 20, minutes: 0 }, 'Open mat'),
     ];
   }
 
