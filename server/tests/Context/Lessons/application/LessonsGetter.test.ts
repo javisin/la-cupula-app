@@ -8,6 +8,7 @@ describe('LessonsGetter', () => {
       startDate: new Date(),
       endDate: new Date(),
       type: 'test',
+      professorId: 1,
     });
     const mockRepository = {
       get: jest.fn(async () => [mockLesson]),
