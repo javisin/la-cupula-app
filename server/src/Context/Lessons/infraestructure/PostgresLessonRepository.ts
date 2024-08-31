@@ -1,9 +1,10 @@
 import { Op } from 'sequelize';
 import Lesson, { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
-import { LessonModel } from './LessonModel';
+import { SequelizeLesson } from './LessonModel';
+import { SequelizeUser } from '../../Users/infraestructure/UserModel';
 
 export default class PostgresLessonRepository implements LessonRepository {
-  readonly model = LessonModel;
+  readonly model = SequelizeLesson;
 
   async get(filter?: GetLessonsFilter) {
     const whereStatement: { startDate?: { [Op.gt]: Date; [Op.lt]: Date } } = {};
@@ -16,7 +17,12 @@ export default class PostgresLessonRepository implements LessonRepository {
         [Op.lt]: nextDayDate,
       };
     }
-    return this.model.findAll({ where: whereStatement, order: [['startDate', 'ASC']] });
+    const sequelizeLessons = await this.model.findAll({
+      where: whereStatement,
+      include: [{ model: SequelizeUser, as: 'professor' }],
+      order: [['startDate', 'ASC']],
+    });
+    return sequelizeLessons.map((lesson) => new Lesson(lesson));
   }
 
   async save(lesson: Lesson) {

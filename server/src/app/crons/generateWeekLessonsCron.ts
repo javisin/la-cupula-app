@@ -1,5 +1,5 @@
 import { CronJob } from 'cron';
-import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import { SequelizeLesson } from '../../Context/Lessons/infraestructure/LessonModel';
 
 process.env.TZ = 'Europe/London';
 
@@ -13,7 +13,7 @@ function generateLessonByTime(date: Date, start: LessonTime, end: LessonTime, ty
   startDate.setHours(start.hours, start.minutes, 0);
   const endDate = new Date(date);
   endDate.setHours(end.hours, end.minutes, 0);
-  return new LessonModel({ startDate, endDate, type });
+  return new SequelizeLesson({ startDate, endDate, type, professorId: 1 });
 }
 
 function getDayLessons(date: Date) {
@@ -126,12 +126,12 @@ function getDayLessons(date: Date) {
 
 async function generateWeekLessons() {
   const date = new Date();
-  const lessons: LessonModel[] = [];
+  const lessons: SequelizeLesson[] = [];
   for (let i = 0; i < 7; i += 1) {
     date.setDate(date.getDate() + 1);
     lessons.push(...getDayLessons(date));
   }
-  await LessonModel.bulkCreate(lessons.map((lesson) => lesson.dataValues));
+  await SequelizeLesson.bulkCreate(lessons.map((lesson) => lesson.dataValues));
 }
 
 export default new CronJob('0 0 16 * * 6', generateWeekLessons, null, false, 'Europe/London');

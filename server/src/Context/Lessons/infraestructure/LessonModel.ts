@@ -6,6 +6,7 @@ import {
   DataTypes,
 } from 'sequelize';
 import sequelize from '../../../database/models';
+import { SequelizeUser } from '../../Users/infraestructure/UserModel';
 
 class Lesson extends Model<InferAttributes<Lesson>, InferCreationAttributes<Lesson>> {
   declare id: CreationOptional<number>;
@@ -15,6 +16,8 @@ class Lesson extends Model<InferAttributes<Lesson>, InferCreationAttributes<Less
   declare endDate: Date;
 
   declare type: string;
+
+  declare professorId: number;
 }
 
 Lesson.init(
@@ -27,6 +30,14 @@ Lesson.init(
     type: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
+    professorId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: SequelizeUser, // Reference to User model
+        key: 'id',
+      },
+    },
   },
   {
     sequelize,
@@ -35,4 +46,6 @@ Lesson.init(
   },
 );
 
-export { Lesson as LessonModel };
+Lesson.belongsTo(SequelizeUser, { foreignKey: 'professorId', as: 'professor' });
+SequelizeUser.hasMany(Lesson, { foreignKey: 'professorId', as: 'lessons' });
+export { Lesson as SequelizeLesson };

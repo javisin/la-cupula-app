@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
-import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import { SequelizeLesson } from '../../Context/Lessons/infraestructure/LessonModel';
 import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 
 process.env.TZ = 'Europe/London';
@@ -10,7 +10,7 @@ async function main() {
     include: [
       { model: SequelizeUser, as: 'user' },
       {
-        model: LessonModel,
+        model: SequelizeLesson,
         as: 'lesson',
         where: {
           startDate: {

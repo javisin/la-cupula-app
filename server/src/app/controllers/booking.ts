@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import { BookingModel } from '../../Context/Bookings/infraestructure/BookingModel';
 import BookingCreator from '../../Context/Bookings/application/BookingCreator';
 import PostgresBookingRepository from '../../Context/Bookings/infraestructure/PostgresBookingRepository';
-import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import { SequelizeLesson } from '../../Context/Lessons/infraestructure/LessonModel';
 import BookingUpdater from '../../Context/Bookings/application/BookingUpdater';
 import PostgresUserRepository from '../../Context/Users/infraestructure/PostgresUserRepository';
 import UserFinder from '../../Context/Users/application/UserFinder';
@@ -54,7 +54,7 @@ const index = asyncHandler(async (req, res) => {
     include: [
       { model: SequelizeUser, as: 'user' },
       {
-        model: LessonModel,
+        model: SequelizeLesson,
         as: 'lesson',
         where: lessonQuery,
       },

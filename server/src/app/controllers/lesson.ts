@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import LessonsGetter from '../../Context/Lessons/application/LessonsGetter';
 import PostgresLessonRepository from '../../Context/Lessons/infraestructure/PostgresLessonRepository';
 import LessonCreator from '../../Context/Lessons/application/LessonCreator';
-import { LessonModel } from '../../Context/Lessons/infraestructure/LessonModel';
+import { SequelizeLesson } from '../../Context/Lessons/infraestructure/LessonModel';
 
 const lessonsRepository = new PostgresLessonRepository();
 
@@ -10,11 +10,12 @@ interface CreateLessonBody {
   type: string;
   startDate: string;
   endDate: string;
+  professorId: number;
 }
 const create = asyncHandler(async (req, res) => {
   const lessonCreator = new LessonCreator(lessonsRepository);
-  const { type, endDate, startDate } = req.body as CreateLessonBody;
-  await lessonCreator.run({ type, startDate, endDate });
+  const { type, endDate, startDate, professorId } = req.body as CreateLessonBody;
+  await lessonCreator.run({ type, startDate, endDate, professorId });
   res.status(201).json('Lesson created');
 });
 
@@ -34,7 +35,7 @@ const index = asyncHandler(async (req, res) => {
 
 const deleteLesson = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  await LessonModel.destroy({
+  await SequelizeLesson.destroy({
     where: {
       id,
     },

@@ -7,11 +7,24 @@ export default class Lesson {
 
   readonly type: string;
 
-  constructor(props: { id: number; startDate: Date; endDate: Date; type: string }) {
+  readonly professorId: number;
+
+  readonly professor?: { firstName: string; lastName: string; image: string };
+
+  constructor(props: {
+    id: number;
+    startDate: Date;
+    endDate: Date;
+    type: string;
+    professorId: number;
+    professor?: { firstName: string; lastName: string; image: string };
+  }) {
     this.id = props.id;
     this.startDate = props.startDate;
     this.endDate = props.endDate;
     this.type = props.type;
+    this.professorId = props.professorId;
+    this.professor = props.professor;
   }
 }
 
