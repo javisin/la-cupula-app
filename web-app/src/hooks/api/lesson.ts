@@ -7,6 +7,11 @@ export interface Lesson {
   type: 'gi' | 'nogi';
   startDate: string;
   endDate: string;
+  professor: {
+    firstName: string;
+    lastName: string;
+    image: string;
+  };
 }
 
 interface GetLessonsFilter {
