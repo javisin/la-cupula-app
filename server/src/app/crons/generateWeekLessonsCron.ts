@@ -3,40 +3,49 @@ import { SequelizeLesson } from '../../Context/Lessons/infraestructure/LessonMod
 
 process.env.TZ = 'Europe/London';
 
+const DEFAULT_PROFESSOR_ID = 5;
+
 interface LessonTime {
   hours: number;
   minutes: number;
 }
 
-function generateLessonByTime(date: Date, start: LessonTime, end: LessonTime, type: string) {
+function generateLessonByTime(
+  date: Date,
+  start: LessonTime,
+  end: LessonTime,
+  type: string,
+  professorId = DEFAULT_PROFESSOR_ID,
+) {
   const startDate = new Date(date);
   startDate.setHours(start.hours, start.minutes, 0);
   const endDate = new Date(date);
   endDate.setHours(end.hours, end.minutes, 0);
-  return new SequelizeLesson({ startDate, endDate, type, professorId: 1 });
+  return new SequelizeLesson({ startDate, endDate, type, professorId });
 }
 
 function getDayLessons(date: Date) {
   const day = date.getDay();
-  if (day === 1) {
+  if (day === 1 || day === 3) {
     return [
       generateLessonByTime(
         date,
-        { hours: 10, minutes: 0 },
+        { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
-        'Jiu Jitsu',
+        'Jiu Jitsu - Todos los niveles',
+      ),
+      generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
+      generateLessonByTime(
+        date,
+        { hours: 18, minutes: 0 },
+        { hours: 19, minutes: 30 },
+        'Jiu Jitsu - Avanzados',
       ),
       generateLessonByTime(
         date,
-        { hours: 11, minutes: 30 },
-        { hours: 12, minutes: 30 },
-        'Juveniles',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 19, minutes: 0 },
+        { hours: 19, minutes: 30 },
         { hours: 20, minutes: 30 },
-        'Jiu Jitsu',
+        'Grappling - Principiantes',
       ),
       generateLessonByTime(
         date,
@@ -47,65 +56,32 @@ function getDayLessons(date: Date) {
     ];
   }
 
-  if (day === 2) {
+  if (day === 2 || day === 4) {
     return [
       generateLessonByTime(
         date,
-        { hours: 10, minutes: 0 },
+        { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
-        'Jiu Jitsu',
+        'Jiu Jitsu - Todos los niveles',
       ),
       generateLessonByTime(
         date,
-        { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 30 },
-        'Grappling',
-      ),
-    ];
-  }
-
-  if (day === 3) {
-    return [
-      generateLessonByTime(
-        date,
-        { hours: 10, minutes: 0 },
-        { hours: 11, minutes: 30 },
-        'Grappling',
+        { hours: 17, minutes: 0 },
+        { hours: 18, minutes: 0 },
+        'Infantiles',
       ),
       generateLessonByTime(
         date,
-        { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 30 },
-        'Jiu Jitsu',
+        { hours: 18, minutes: 0 },
+        { hours: 19, minutes: 30 },
+        'Jiu Jitsu - Todos los niveles',
       ),
       generateLessonByTime(
         date,
-        { hours: 20, minutes: 30 },
-        { hours: 21, minutes: 30 },
-        'Jiu Jitsu - Principiantes',
-      ),
-    ];
-  }
-
-  if (day === 4) {
-    return [
-      generateLessonByTime(
-        date,
-        { hours: 10, minutes: 0 },
-        { hours: 11, minutes: 30 },
-        'Jiu Jitsu',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 11, minutes: 30 },
-        { hours: 12, minutes: 30 },
-        'Juveniles',
-      ),
-      generateLessonByTime(
-        date,
-        { hours: 19, minutes: 0 },
-        { hours: 20, minutes: 30 },
-        'Grappling',
+        { hours: 19, minutes: 30 },
+        { hours: 21, minutes: 0 },
+        'Grappling - Avanzados',
+        226,
       ),
     ];
   }
@@ -114,9 +90,16 @@ function getDayLessons(date: Date) {
     return [
       generateLessonByTime(
         date,
-        { hours: 10, minutes: 0 },
+        { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu',
+      ),
+      generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
+      generateLessonByTime(
+        date,
+        { hours: 18, minutes: 0 },
+        { hours: 19, minutes: 30 },
+        'Jiu Jitsu - Todos los niveles',
       ),
     ];
   }

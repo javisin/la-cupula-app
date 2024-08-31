@@ -34,7 +34,7 @@ Lesson.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       references: {
-        model: SequelizeUser, // Reference to User model
+        model: SequelizeUser,
         key: 'id',
       },
     },
