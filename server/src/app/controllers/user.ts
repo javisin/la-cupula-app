@@ -6,14 +6,20 @@ import { BookingModel } from '../../Context/Bookings/infraestructure/BookingMode
 
 interface IndexQueryParams {
   hasPlan?: boolean;
+  instructor?: boolean;
 }
 const index = asyncHandler(async (req, res) => {
   const filter = req.query satisfies IndexQueryParams;
-  const whereStatement: { planId?: any; deleted?: boolean } = { deleted: false };
+  const whereStatement: { planId?: any; instructor?: boolean; deleted?: boolean } = {
+    deleted: false,
+  };
   if (filter?.hasPlan) {
     whereStatement.planId = {
       [Op.not]: null,
     };
+  }
+  if (filter?.instructor !== undefined) {
+    whereStatement.instructor = filter.instructor === 'true';
   }
   const users = await SequelizeUser.findAll({
     attributes: [

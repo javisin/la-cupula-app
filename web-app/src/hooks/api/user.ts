@@ -33,12 +33,16 @@ export function useGetUser(id: number) {
 
 interface GetUsersFilter {
   hasPlan?: boolean;
+  instructor?: boolean;
 }
 export function useGetUsers(filter?: GetUsersFilter) {
   return useQuery(['users', filter], async () => {
     const params = new URLSearchParams();
     if (filter?.hasPlan) {
       params.set('hasPlan', 'true');
+    }
+    if (filter?.instructor !== undefined) {
+      params.set('instructor', filter.instructor.toString());
     }
     const { data } = await apiClient.get<User[]>(`/users`, { params });
     return data;

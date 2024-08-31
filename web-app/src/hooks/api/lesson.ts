@@ -35,6 +35,7 @@ interface CreateLessonBody {
   type: string;
   startDate: string;
   endDate: string;
+  professorId: number;
 }
 export function useCreateLesson() {
   const queryClient = useQueryClient();
