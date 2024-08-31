@@ -33,6 +33,7 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu - Todos los niveles',
+        62,
       ),
       generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
@@ -63,6 +64,7 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu - Todos los niveles',
+        62,
       ),
       generateLessonByTime(
         date,
@@ -93,6 +95,7 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu',
+        62,
       ),
       generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
