@@ -107,6 +107,17 @@ function getDayLessons(date: Date) {
     ];
   }
 
+  if (day === 6) {
+    return [
+      generateLessonByTime(
+        date,
+        { hours: 10, minutes: 30 },
+        { hours: 11, minutes: 30 },
+        'Jiu Jitsu - Todos los niveles',
+      ),
+    ];
+  }
+
   return [];
 }
 
