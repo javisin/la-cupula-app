@@ -40,7 +40,7 @@ function getDayLessons(date: Date) {
         date,
         { hours: 18, minutes: 0 },
         { hours: 19, minutes: 30 },
-        'Jiu Jitsu - Avanzados',
+        'Jiu Jitsu - Todos los niveles',
       ),
       generateLessonByTime(
         date,
