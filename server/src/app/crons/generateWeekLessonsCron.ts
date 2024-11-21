@@ -82,7 +82,7 @@ function getDayLessons(date: Date) {
         date,
         { hours: 19, minutes: 30 },
         { hours: 21, minutes: 0 },
-        'Grappling - Avanzados',
+        'Grappling - Todos los niveles',
         226,
       ),
     ];
