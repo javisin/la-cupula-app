@@ -8,6 +8,7 @@ export interface Lesson {
   startDate: string;
   endDate: string;
   professor: {
+    id: number;
     firstName: string;
     lastName: string;
     image: string;
@@ -43,6 +44,29 @@ export function useCreateLesson() {
     async (lesson: CreateLessonBody) => {
       const { data } = await apiClient.post('/lessons', lesson);
       return data;
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['lessons']);
+      },
+    },
+  );
+}
+
+interface UpdateLessonBody {
+  changeset: {
+    type?: string;
+    startDate?: string;
+    endDate?: string;
+    professorId?: number;
+  };
+}
+
+export function useUpdateLesson() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ id, changeset }: { id: number; changeset: UpdateLessonBody['changeset'] }) => {
+      await apiClient.patch<UpdateLessonBody>(`/lessons/${id}`, { changeset });
     },
     {
       onSuccess: () => {

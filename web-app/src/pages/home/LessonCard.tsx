@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Avatar, Box, Card, CardContent, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Booking, useCreateBooking, useDeleteBooking } from '../../hooks/api/booking';
 import { Lesson, useDeleteLessons } from '../../hooks/api/lesson';
@@ -8,6 +8,9 @@ import { convertDateToTimeString } from '../../util/dates';
 import ParticipantsList from './ParticipantsList';
 import { getCurrentUser } from '../../util/auth';
 import { useGetUser } from '../../hooks/api/user';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UpdateLessonModal from './UpdateLessonModal';
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -19,6 +22,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   const user = getCurrentUser();
   const currentUserId = parseInt(user!.sub);
   const userData = useGetUser(currentUserId);
+  const [isUpdateLessonModalOpen, setIsUpdateLessonModalOpen] = useState(false);
 
   const createBookingMutation = useCreateBooking();
   const deleteBookingMutation = useDeleteBooking();
@@ -59,72 +63,94 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
   };
 
   return (
-    <Card className="lesson-card">
-      <CardContent>
-        <Box display="flex" alignItems="center" mb={1}>
-          <Avatar
-            src={lesson.professor.image}
-            alt="Profesor"
-            sx={{ width: 56, height: 56, mr: 2 }}
-          />
-          <Box>
-            <Typography variant="h5" component="h2">
-              {`${convertDateToTimeString(new Date(lesson.startDate))} - ${convertDateToTimeString(
-                new Date(lesson.endDate),
-              )}`}
-            </Typography>
-            <Typography fontWeight="bold" color="primary">
-              {lesson.type}
-            </Typography>
+    <>
+      {user?.instructor && (
+        <UpdateLessonModal
+          isOpen={isUpdateLessonModalOpen}
+          close={() => setIsUpdateLessonModalOpen(false)}
+          initialValues={{
+            date: lesson.startDate,
+            startTime: convertDateToTimeString(new Date(lesson.startDate)),
+            endTime: convertDateToTimeString(new Date(lesson.endDate)),
+            type: lesson.type,
+            professorId: lesson.professor.id,
+          }}
+          lessonId={lesson.id}
+        />
+      )}
+      <Card className="lesson-card">
+        <CardContent>
+          <Box display="flex" alignItems="center" mb={1}>
+            <Avatar
+              src={lesson.professor.image}
+              alt="Profesor"
+              sx={{ width: 56, height: 56, mr: 2 }}
+            />
+            <Box>
+              <Typography variant="h5" component="h2">
+                {`${convertDateToTimeString(
+                  new Date(lesson.startDate),
+                )} - ${convertDateToTimeString(new Date(lesson.endDate))}`}
+              </Typography>
+              <Typography fontWeight="bold" color="primary">
+                {lesson.type}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-        {user?.instructor === false && !isPastLesson && (
-          <Button
-            key={lesson.id}
-            variant="contained"
-            color={userBooking ? 'error' : 'primary'}
-            onClick={() => {
-              const timeString = convertDateToTimeString(new Date(lesson.startDate));
-              if (userBooking) {
-                deleteBooking(userBooking.id!, timeString);
-              } else {
-                createBooking(lesson.id, timeString);
-              }
-            }}
-            className="lesson-time-button"
+          {user?.instructor === false && !isPastLesson && (
+            <Button
+              variant="contained"
+              color={userBooking ? 'error' : 'primary'}
+              onClick={() => {
+                const timeString = convertDateToTimeString(new Date(lesson.startDate));
+                if (userBooking) {
+                  deleteBooking(userBooking.id!, timeString);
+                } else {
+                  createBooking(lesson.id, timeString);
+                }
+              }}
+              className="lesson-time-button"
+            >
+              {userBooking ? 'Cancelar reserva' : 'Reservar clase'}
+            </Button>
+          )}
+          {user?.instructor && !isPastLesson && (
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+              <IconButton
+                color="primary"
+                onClick={() => {
+                  setIsUpdateLessonModalOpen(true);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                color="error"
+                onClick={() => {
+                  const timeString = convertDateToTimeString(new Date(lesson.startDate));
+                  deleteLesson(lesson.id, timeString);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Box>
+          )}
+          <Typography
+            className="participants-button"
+            color="primary"
+            onClick={() => setIsParticipantsModalOpen(true)}
           >
-            {userBooking ? 'Cancelar reserva' : 'Reservar clase'}
-          </Button>
-        )}
-        {user?.instructor && !isPastLesson && (
-          <Button
-            key={lesson.id}
-            variant="contained"
-            color={'error'}
-            onClick={() => {
-              const timeString = convertDateToTimeString(new Date(lesson.startDate));
-              deleteLesson(lesson.id, timeString);
-            }}
-            className="lesson-time-button"
-          >
-            Cancelar clase
-          </Button>
-        )}
-        <Typography
-          className="participants-button"
-          color="primary"
-          onClick={() => setIsParticipantsModalOpen(true)}
-        >
-          {`Ver participantes (${bookings.length})`}
-        </Typography>
-      </CardContent>
+            {`Ver participantes (${bookings.length})`}
+          </Typography>
+        </CardContent>
 
-      <ParticipantsList
-        bookings={bookings}
-        isOpen={isParticipantsModalOpen}
-        closeModal={() => setIsParticipantsModalOpen(false)}
-        lessonId={lesson.id}
-      />
-    </Card>
+        <ParticipantsList
+          bookings={bookings}
+          isOpen={isParticipantsModalOpen}
+          closeModal={() => setIsParticipantsModalOpen(false)}
+          lessonId={lesson.id}
+        />
+      </Card>
+    </>
   );
 }
