@@ -3,6 +3,10 @@ import Lesson, { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
 import { SequelizeLesson } from './LessonModel';
 import { SequelizeUser } from '../../Users/infraestructure/UserModel';
 
+interface SequelizeAggregatedLesson extends SequelizeLesson {
+  professor: SequelizeUser;
+}
+
 export default class PostgresLessonRepository implements LessonRepository {
   readonly model = SequelizeLesson;
 
@@ -17,15 +21,36 @@ export default class PostgresLessonRepository implements LessonRepository {
         [Op.lt]: nextDayDate,
       };
     }
-    const sequelizeLessons = await this.model.findAll({
+    const sequelizeLessons = (await this.model.findAll({
       where: whereStatement,
       include: [{ model: SequelizeUser, as: 'professor' }],
       order: [['startDate', 'ASC']],
-    });
-    return sequelizeLessons.map((lesson) => new Lesson(lesson));
+    })) as SequelizeAggregatedLesson[];
+    return sequelizeLessons.map(this.mapToDomain);
   }
 
-  async save(lesson: Lesson) {
-    await this.model.create({ ...lesson, id: undefined });
+  async find(id: number) {
+    const sequelizeLesson = (await this.model.findByPk(id, {
+      include: [{ model: SequelizeUser, as: 'professor' }],
+    })) as SequelizeAggregatedLesson | null;
+    return sequelizeLesson ? this.mapToDomain(sequelizeLesson) : undefined;
+  }
+
+  async create(lesson: Lesson) {
+    await this.model.create({ ...lesson, id: undefined, professorId: lesson.professor.id });
+  }
+
+  async update(lesson: Lesson) {
+    await this.model.update(
+      { ...lesson, id: undefined, professorId: lesson.professor.id },
+      { where: { id: lesson.id } },
+    );
+  }
+
+  private mapToDomain(sequelizeLesson: SequelizeLesson & { professor: SequelizeUser }) {
+    return new Lesson({
+      ...sequelizeLesson.dataValues,
+      professor: { ...sequelizeLesson.professor.dataValues },
+    });
   }
 }

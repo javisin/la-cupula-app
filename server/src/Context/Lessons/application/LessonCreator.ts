@@ -19,9 +19,9 @@ export default class LessonCreator {
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       type,
-      professorId,
+      professor: { id: professorId, firstName: '', lastName: '', image: '' },
     });
 
-    await this.repository.save(newLesson);
+    await this.repository.create(newLesson);
   }
 }
