@@ -8,11 +8,13 @@ describe('LessonsGetter', () => {
       startDate: new Date(),
       endDate: new Date(),
       type: 'test',
-      professorId: 1,
+      professor: { id: 1, firstName: 'test', lastName: 'test', image: 'test' },
     });
     const mockRepository = {
       get: jest.fn(async () => [mockLesson]),
-      save: jest.fn(async () => {}),
+      find: jest.fn(async () => mockLesson),
+      create: jest.fn(async () => {}),
+      update: jest.fn(async () => {}),
     };
     const lessonsGetter = new LessonsGetter(mockRepository);
     const lessons = await lessonsGetter.run({});
