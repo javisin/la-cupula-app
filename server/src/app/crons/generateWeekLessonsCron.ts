@@ -46,13 +46,14 @@ function getDayLessons(date: Date) {
         date,
         { hours: 19, minutes: 30 },
         { hours: 20, minutes: 30 },
-        'Grappling - Principiantes',
+        'Grappling',
       ),
       generateLessonByTime(
         date,
         { hours: 20, minutes: 30 },
         { hours: 21, minutes: 30 },
         'Jiu Jitsu - Principiantes',
+        7,
       ),
     ];
   }
@@ -71,19 +72,27 @@ function getDayLessons(date: Date) {
         { hours: 17, minutes: 0 },
         { hours: 18, minutes: 0 },
         'Infantiles',
+        54,
       ),
       generateLessonByTime(
         date,
         { hours: 18, minutes: 0 },
-        { hours: 19, minutes: 30 },
+        { hours: 19, minutes: 0 },
         'Jiu Jitsu - Todos los niveles',
       ),
       generateLessonByTime(
         date,
-        { hours: 19, minutes: 30 },
-        { hours: 21, minutes: 0 },
-        'Grappling - Todos los niveles',
-        226,
+        { hours: 19, minutes: 0 },
+        { hours: 20, minutes: 0 },
+        'Grappling',
+        410,
+      ),
+      generateLessonByTime(
+        date,
+        { hours: 18, minutes: 0 },
+        { hours: 19, minutes: 0 },
+        'Jiu Jitsu - Principiantes',
+        7,
       ),
     ];
   }
@@ -95,7 +104,7 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu',
-        62,
+        410,
       ),
       generateLessonByTime(date, { hours: 17, minutes: 0 }, { hours: 18, minutes: 0 }, 'Juveniles'),
       generateLessonByTime(
@@ -114,6 +123,7 @@ function getDayLessons(date: Date) {
         { hours: 10, minutes: 30 },
         { hours: 11, minutes: 30 },
         'Jiu Jitsu - Todos los niveles',
+        410,
       ),
     ];
   }
@@ -121,7 +131,7 @@ function getDayLessons(date: Date) {
   return [];
 }
 
-async function generateWeekLessons() {
+export async function generateWeekLessons() {
   const date = new Date();
   const lessons: SequelizeLesson[] = [];
   for (let i = 0; i < 7; i += 1) {
