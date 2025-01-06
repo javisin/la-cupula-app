@@ -84,14 +84,14 @@ function getDayLessons(date: Date) {
         date,
         { hours: 19, minutes: 0 },
         { hours: 20, minutes: 0 },
-        'Grappling',
+        'Jiu Jitsu - Principiantes',
         410,
       ),
       generateLessonByTime(
         date,
         { hours: 18, minutes: 0 },
         { hours: 19, minutes: 0 },
-        'Jiu Jitsu - Principiantes',
+        'Grappling',
         7,
       ),
     ];
