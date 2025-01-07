@@ -25,6 +25,7 @@ export default class Stripe implements PaymentProcessor {
       success_url: `${config.domain}?success=true`,
       cancel_url: `${config.domain}?success=false`,
       customer: customerId,
+      allow_promotion_codes: true,
     });
     return session.url;
   }
