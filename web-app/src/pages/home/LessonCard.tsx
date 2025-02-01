@@ -101,6 +101,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
             <Button
               variant="contained"
               color={userBooking ? 'error' : 'primary'}
+              disabled={!userBooking && bookings.length >= lesson.maxSeats}
               onClick={() => {
                 const timeString = convertDateToTimeString(new Date(lesson.startDate));
                 if (userBooking) {
@@ -140,7 +141,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
             color="primary"
             onClick={() => setIsParticipantsModalOpen(true)}
           >
-            {`Ver participantes (${bookings.length})`}
+            {`Ver participantes (${bookings.length}/${lesson.maxSeats})`}
           </Typography>
         </CardContent>
 

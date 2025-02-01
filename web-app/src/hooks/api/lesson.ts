@@ -13,6 +13,7 @@ export interface Lesson {
     lastName: string;
     image: string;
   };
+  maxSeats: number;
 }
 
 interface GetLessonsFilter {
