@@ -14,8 +14,7 @@ export default class LessonCreator {
   }
 
   async run({ startDate, endDate, type, professorId }: LessonCreatorParams) {
-    const newLesson = new Lesson({
-      id: 1,
+    const newLesson = Lesson.create({
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       type,

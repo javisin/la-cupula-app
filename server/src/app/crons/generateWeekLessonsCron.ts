@@ -21,7 +21,14 @@ function generateLessonByTime(
   startDate.setHours(start.hours, start.minutes, 0);
   const endDate = new Date(date);
   endDate.setHours(end.hours, end.minutes, 0);
-  return new SequelizeLesson({ startDate, endDate, type, professorId });
+  return new SequelizeLesson({
+    startDate,
+    endDate,
+    type,
+    professorId,
+    maxSeats: 20,
+    bookedSeats: 0,
+  });
 }
 
 function getDayLessons(date: Date) {

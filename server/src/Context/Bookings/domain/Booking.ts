@@ -1,9 +1,26 @@
 import { DomainEvent } from '../../Shared/domain/DomainEvent';
 import { BookingApprovedDomainEvent } from './BookingApprovedDomainEvent';
+import { BookingCreatedDomainEvent } from './BookingCreatedDomainEvent';
 
 export type BookingStatus = 'pending' | 'approved' | 'declined';
 
 export default class Booking {
+  static create(props: {
+    userId: number;
+    lessonId: number;
+    status: 'pending' | 'approved' | 'declined';
+  }) {
+    const newBooking = new Booking({ ...props, id: 1 });
+    newBooking.record(
+      new BookingCreatedDomainEvent({
+        ...newBooking,
+        aggregateId: newBooking.id.toString(), // TODO: this won't be the real one
+        eventId: 'test',
+      }),
+    );
+    return newBooking;
+  }
+
   readonly id: number;
 
   readonly userId: number;

@@ -15,8 +15,12 @@ import PostgresPlanRepository from '../../Context/Plans/infraestructure/Postgres
 import PlanFinder from '../../Context/Plans/application/PlansFinder';
 import { InMemoryAsyncEventBus } from '../../Context/Shared/infraestructure/InMemoryEventBus';
 import { IncrementCoursesCounterOnCourseCreated } from '../../Context/Users/application/IncrementPlanBookingsOnBookingApproved';
+import PostgresLessonRepository from '../../Context/Lessons/infraestructure/PostgresLessonRepository';
+import { IncrementLessonBookedSeatsOnBookingCreated } from '../../Context/Lessons/application/IncrementLessonBookedSeatsOnBookingCreated';
+import LessonBookedSeatsIncrementer from '../../Context/Lessons/application/LessonBookedSeatsIncrementer';
 
 const userRepository = new PostgresUserRepository();
+const lessonRepository = new PostgresLessonRepository();
 const userFinder = new UserFinder(userRepository);
 const planRepository = new PostgresPlanRepository();
 const planFinder = new PlanFinder(planRepository);
@@ -25,11 +29,15 @@ const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(
   userFinder,
   planFinder,
 );
+const lessonBookedSeatsIncrementer = new LessonBookedSeatsIncrementer(lessonRepository);
 const eventBus = new InMemoryAsyncEventBus();
 const userPlanBookingsSubscriber = new IncrementCoursesCounterOnCourseCreated(
   userPlanBookingsIncrementer,
 );
-eventBus.addSubscribers([userPlanBookingsSubscriber]);
+const incrementLessonBookedSeatsOnBookingCreated = new IncrementLessonBookedSeatsOnBookingCreated(
+  lessonBookedSeatsIncrementer,
+);
+eventBus.addSubscribers([userPlanBookingsSubscriber, incrementLessonBookedSeatsOnBookingCreated]);
 
 const index = asyncHandler(async (req, res) => {
   const { date, userId } = req.query;
@@ -67,7 +75,13 @@ const index = asyncHandler(async (req, res) => {
 const create = asyncHandler(async (req, res) => {
   const { userId, lessonId, status } = req.body;
   const repository = new PostgresBookingRepository();
-  const bookingCreator = new BookingCreator(repository, userFinder, planFinder);
+  const bookingCreator = new BookingCreator(
+    repository,
+    userFinder,
+    planFinder,
+    lessonRepository,
+    eventBus,
+  );
   try {
     await bookingCreator.run({ userId, lessonId, status });
   } catch (e) {
@@ -86,11 +100,17 @@ const create = asyncHandler(async (req, res) => {
 
 const deleteBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const booking = await BookingModel.findByPk(id);
+  if (!booking) {
+    res.status(404).send('Booking not found');
+    return;
+  }
   await BookingModel.destroy({
     where: {
       id,
     },
   });
+  await SequelizeLesson.decrement('bookedSeats', { where: { id: booking.lessonId } });
   res.status(200).json('Booking deleted');
 });
 

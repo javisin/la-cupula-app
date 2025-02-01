@@ -1,4 +1,24 @@
+const DEFAULT_MAX_SEATS = 20;
+
 export default class Lesson {
+  static create(props: {
+    startDate: Date;
+    endDate: Date;
+    type: string;
+    maxSeats?: number;
+    professor: { id: number; firstName: string; lastName: string; image: string };
+  }) {
+    return new Lesson({
+      id: 1,
+      startDate: props.startDate,
+      endDate: props.endDate,
+      type: props.type,
+      maxSeats: props.maxSeats ?? DEFAULT_MAX_SEATS,
+      bookedSeats: 0,
+      professor: props.professor,
+    });
+  }
+
   readonly id: number;
 
   startDate: Date;
@@ -9,11 +29,17 @@ export default class Lesson {
 
   professor: { id: number; firstName: string; lastName: string; image: string };
 
+  maxSeats: number;
+
+  bookedSeats: number;
+
   constructor(props: {
     id: number;
     startDate: Date;
     endDate: Date;
     type: string;
+    maxSeats: number;
+    bookedSeats: number;
     professor: { id: number; firstName: string; lastName: string; image: string };
   }) {
     this.id = props.id;
@@ -21,6 +47,8 @@ export default class Lesson {
     this.endDate = props.endDate;
     this.type = props.type;
     this.professor = props.professor;
+    this.bookedSeats = props.bookedSeats;
+    this.maxSeats = props.maxSeats;
   }
 
   changeProfessorId(id: number) {
@@ -37,6 +65,10 @@ export default class Lesson {
 
   changeType(type: string) {
     this.type = type;
+  }
+
+  incrementBookedSeats() {
+    this.bookedSeats += 1;
   }
 }
 

@@ -18,6 +18,10 @@ class Lesson extends Model<InferAttributes<Lesson>, InferCreationAttributes<Less
   declare type: string;
 
   declare professorId: number;
+
+  declare maxSeats: number;
+
+  declare bookedSeats: number;
 }
 
 Lesson.init(
@@ -37,6 +41,11 @@ Lesson.init(
         model: SequelizeUser,
         key: 'id',
       },
+    },
+    maxSeats: DataTypes.INTEGER.UNSIGNED,
+    bookedSeats: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: 0,
     },
   },
   {
