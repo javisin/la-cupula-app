@@ -3,6 +3,7 @@ import express from 'express';
 import fileUpload from 'express-fileupload';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import lessonRoutes from './routes/lesson';
@@ -48,4 +49,5 @@ if (process.env.NODE_ENV === 'production') {
 const DEFAULT_PORT = 3001;
 app.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log('Server running');
+  bcrypt.hash('alejobjj25', 10).then((hash) => console.log(hash));
 });

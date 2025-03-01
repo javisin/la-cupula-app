@@ -14,10 +14,10 @@ import { SequelizeUser } from '../../Context/Users/infraestructure/UserModel';
 import PostgresPlanRepository from '../../Context/Plans/infraestructure/PostgresPlanRepository';
 import PlanFinder from '../../Context/Plans/application/PlansFinder';
 import { InMemoryAsyncEventBus } from '../../Context/Shared/infraestructure/InMemoryEventBus';
-import { IncrementCoursesCounterOnCourseCreated } from '../../Context/Users/application/IncrementPlanBookingsOnBookingApproved';
 import PostgresLessonRepository from '../../Context/Lessons/infraestructure/PostgresLessonRepository';
 import { IncrementLessonBookedSeatsOnBookingCreated } from '../../Context/Lessons/application/IncrementLessonBookedSeatsOnBookingCreated';
 import LessonBookedSeatsIncrementer from '../../Context/Lessons/application/LessonBookedSeatsIncrementer';
+import { IncrementPlanBookingsOnBookingCreated } from '../../Context/Users/application/IncrementPlanBookingsOnBookingCreated';
 
 const userRepository = new PostgresUserRepository();
 const lessonRepository = new PostgresLessonRepository();
@@ -31,7 +31,7 @@ const userPlanBookingsIncrementer = new UserPlanBookingsIncrementer(
 );
 const lessonBookedSeatsIncrementer = new LessonBookedSeatsIncrementer(lessonRepository);
 const eventBus = new InMemoryAsyncEventBus();
-const userPlanBookingsSubscriber = new IncrementCoursesCounterOnCourseCreated(
+const userPlanBookingsSubscriber = new IncrementPlanBookingsOnBookingCreated(
   userPlanBookingsIncrementer,
 );
 const incrementLessonBookedSeatsOnBookingCreated = new IncrementLessonBookedSeatsOnBookingCreated(
@@ -111,6 +111,7 @@ const deleteBooking = asyncHandler(async (req, res) => {
     },
   });
   await SequelizeLesson.decrement('bookedSeats', { where: { id: booking.lessonId } });
+  await SequelizeUser.decrement('planBookings', { where: { id: booking.userId } });
   res.status(200).json('Booking deleted');
 });
 
