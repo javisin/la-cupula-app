@@ -49,5 +49,4 @@ if (process.env.NODE_ENV === 'production') {
 const DEFAULT_PORT = 3001;
 app.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log('Server running');
-  bcrypt.hash('alejobjj25', 10).then((hash) => console.log(hash));
 });
