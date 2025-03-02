@@ -1,5 +1,5 @@
-import React from 'react';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { List, ListItem, ListItemText, Typography, Modal, Box } from '@mui/material';
 import { useGetPlans } from '../../hooks/api/plan';
 import apiClient from '../../apiClient';
 import Button from '@mui/material/Button';
@@ -11,6 +11,8 @@ export default function PaymentPage() {
   const currentUser = getCurrentUser();
   const { data: user } = useGetUser(parseInt(currentUser?.sub ?? '1'));
 
+  const [open, setOpen] = useState(false);
+
   const redirectToCheckout = async (planId: string) => {
     try {
       const { data } = await apiClient.get<string>(`/checkout-url?planId=${planId}`);
@@ -19,6 +21,9 @@ export default function PaymentPage() {
       console.error(e);
     }
   };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <div>
@@ -44,6 +49,35 @@ export default function PaymentPage() {
             </ListItem>
           ))}
         </List>
+
+        {user?.plan && (
+          <Button variant="contained" color="primary" onClick={handleOpen}>
+            Darme de baja
+          </Button>
+        )}
+        <Modal open={open} onClose={handleClose}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 400,
+              bgcolor: 'background.paper',
+              border: '2px solid #000',
+              boxShadow: 24,
+              p: 4,
+            }}
+          >
+            <Typography sx={{ mt: 2 }}>
+              Para tramitar la baja, por favor contáctanos a través de
+              <a href="https://wa.me/34722613752" target="_blank" rel="noreferrer">
+                {' '}
+                WhatsApp
+              </a>
+            </Typography>
+          </Box>
+        </Modal>
       </div>
     </div>
   );
