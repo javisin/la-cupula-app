@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useSignUp } from '../../hooks/api/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function SignUpPage() {
   const [formFields, setFormFields] = useState({
@@ -123,7 +123,6 @@ export default function SignUpPage() {
               <MenuItem value="1">1</MenuItem>
               <MenuItem value="2">2</MenuItem>
               <MenuItem value="3">3</MenuItem>
-              <MenuItem value="4">4</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -142,7 +141,6 @@ export default function SignUpPage() {
           <TextField
             name="password"
             size="small"
-            label="Contraseña"
             type="password"
             variant="outlined"
             fullWidth
@@ -186,6 +184,9 @@ export default function SignUpPage() {
           >
             {signUpMutation.isLoading ? <CircularProgress size={24} /> : 'Registrarse'}
           </Button>
+          <Typography align="center">
+            ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
+          </Typography>
         </Stack>
       </form>
     </Box>
