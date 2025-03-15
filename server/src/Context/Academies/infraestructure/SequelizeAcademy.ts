@@ -22,7 +22,6 @@ Academy.init(
     },
     name: {
       type: DataTypes.STRING,
-      primaryKey: true,
       unique: true,
     },
   },

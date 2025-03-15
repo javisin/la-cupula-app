@@ -28,6 +28,7 @@ function generateLessonByTime(
     professorId,
     maxSeats: 20,
     bookedSeats: 0,
+    academyId: 1,
   });
 }
 

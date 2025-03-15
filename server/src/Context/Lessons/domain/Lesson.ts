@@ -10,6 +10,7 @@ export default class Lesson {
   }) {
     return new Lesson({
       id: 1,
+      academyId: 1,
       startDate: props.startDate,
       endDate: props.endDate,
       type: props.type,
@@ -20,6 +21,8 @@ export default class Lesson {
   }
 
   readonly id: number;
+
+  readonly academyId: number;
 
   startDate: Date;
 
@@ -35,6 +38,7 @@ export default class Lesson {
 
   constructor(props: {
     id: number;
+    academyId: number;
     startDate: Date;
     endDate: Date;
     type: string;
@@ -43,6 +47,7 @@ export default class Lesson {
     professor: { id: number; firstName: string; lastName: string; image: string };
   }) {
     this.id = props.id;
+    this.academyId = props.academyId;
     this.startDate = props.startDate;
     this.endDate = props.endDate;
     this.type = props.type;

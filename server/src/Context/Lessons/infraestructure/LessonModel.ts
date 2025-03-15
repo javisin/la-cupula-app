@@ -7,9 +7,12 @@ import {
 } from 'sequelize';
 import sequelize from '../../../database/models';
 import { SequelizeUser } from '../../Users/infraestructure/UserModel';
+import { SequelizeAcademy } from '../../Academies/infraestructure/SequelizeAcademy';
 
 class Lesson extends Model<InferAttributes<Lesson>, InferCreationAttributes<Lesson>> {
   declare id: CreationOptional<number>;
+
+  declare academyId: number;
 
   declare startDate: Date;
 
@@ -30,6 +33,14 @@ Lesson.init(
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
       primaryKey: true,
+    },
+    academyId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: SequelizeAcademy,
+        key: 'id',
+      },
     },
     type: DataTypes.STRING,
     startDate: DataTypes.DATE,
