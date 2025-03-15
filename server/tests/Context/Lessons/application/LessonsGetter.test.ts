@@ -11,6 +11,7 @@ describe('LessonsGetter', () => {
       professor: { id: 1, firstName: 'test', lastName: 'test', image: 'test' },
       maxSeats: 10,
       bookedSeats: 0,
+      academyId: 1,
     });
     const mockRepository = {
       get: jest.fn(async () => [mockLesson]),

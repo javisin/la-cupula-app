@@ -25,6 +25,7 @@ describe('BookingCreator', () => {
     professor: { id: 1, firstName: 'test', lastName: 'test', image: 'test' },
     maxSeats: 10,
     bookedSeats: 0,
+    academyId: 1,
   });
   const mockLessonRepository = {
     get: jest.fn(async () => [mockLesson]),
