@@ -42,7 +42,7 @@
     "ts-node": "^10.9.1"
   },
   "engines": {
-    "node": "18.x"
+    "node": ">= 20.x"
   },
   "scripts": {
     "dev": "nodemon src/app/app.ts",
