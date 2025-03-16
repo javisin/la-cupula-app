@@ -40,6 +40,7 @@ const update = asyncHandler(async (req, res) => {
 
 interface IndexFilter {
   date?: string;
+  academyId?: string;
 }
 
 const index = asyncHandler(async (req, res) => {
@@ -47,6 +48,7 @@ const index = asyncHandler(async (req, res) => {
   const query = req.query as IndexFilter;
   const lessons = await lessonsGetter.run({
     ...query,
+    academyId: Number(query.academyId),
     date: query.date ? new Date(query.date) : undefined,
   });
   res.status(200).json(lessons);

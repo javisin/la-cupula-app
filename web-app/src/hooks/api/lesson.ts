@@ -17,14 +17,19 @@ export interface Lesson {
 }
 
 interface GetLessonsFilter {
-  date?: Date;
+  date: Date;
+  academyId: number;
 }
 
-export function useGetLessons({ date }: GetLessonsFilter) {
+export function useGetLessons({ date, academyId }: GetLessonsFilter) {
   const params = new URLSearchParams();
 
   if (date) {
     params.set('date', convertDateToDateString(date));
+  }
+
+  if (academyId) {
+    params.set('academyId', academyId.toString());
   }
 
   return useQuery(['lessons', params.toString()], async () => {

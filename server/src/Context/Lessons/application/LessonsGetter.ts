@@ -7,7 +7,7 @@ export default class LessonsGetter {
     this.repository = repository;
   }
 
-  async run(params: { date?: Date }) {
+  async run(params: { date?: Date; academyId?: number }) {
     return this.repository.get(params);
   }
 }

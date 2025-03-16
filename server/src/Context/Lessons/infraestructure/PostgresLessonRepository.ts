@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { InferAttributes, Op, WhereOptions } from 'sequelize';
 import Lesson, { GetLessonsFilter, LessonRepository } from '../domain/Lesson';
 import { SequelizeLesson } from './LessonModel';
 import { SequelizeUser } from '../../Users/infraestructure/UserModel';
@@ -11,7 +11,7 @@ export default class PostgresLessonRepository implements LessonRepository {
   readonly model = SequelizeLesson;
 
   async get(filter?: GetLessonsFilter) {
-    const whereStatement: { startDate?: { [Op.gt]: Date; [Op.lt]: Date } } = {};
+    const whereStatement: WhereOptions<InferAttributes<SequelizeLesson>> = {};
     if (filter?.date) {
       const startDate = new Date(filter.date);
       const nextDayDate = new Date(startDate);
@@ -21,6 +21,10 @@ export default class PostgresLessonRepository implements LessonRepository {
         [Op.lt]: nextDayDate,
       };
     }
+    if (filter?.academyId) {
+      whereStatement.academyId = filter.academyId;
+    }
+
     const sequelizeLessons = (await this.model.findAll({
       where: whereStatement,
       include: [{ model: SequelizeUser, as: 'professor' }],
@@ -47,6 +51,7 @@ export default class PostgresLessonRepository implements LessonRepository {
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private mapToDomain(sequelizeLesson: SequelizeLesson & { professor: SequelizeUser }) {
     return new Lesson({
       ...sequelizeLesson.dataValues,

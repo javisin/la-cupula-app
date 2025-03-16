@@ -79,6 +79,7 @@ export default class Lesson {
 
 export interface GetLessonsFilter {
   date?: Date;
+  academyId?: number;
 }
 
 export interface LessonRepository {
