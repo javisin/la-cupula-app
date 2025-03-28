@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Booking, useCreateBooking, useDeleteBooking } from '../../hooks/api/booking';
 import { Lesson, useDeleteLessons } from '../../hooks/api/lesson';
@@ -81,12 +81,11 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
       <Card className="lesson-card">
         <CardContent>
           <Box display="flex" alignItems="center" justifyContent={'center'} mb={1}>
-            {/*Hidden for now*/}
-            {/*<Avatar*/}
-            {/*  src={lesson.professor.image}*/}
-            {/*  alt="Profesor"*/}
-            {/*  sx={{ width: 56, height: 56, mr: 2 }}*/}
-            {/*/>*/}
+            <Avatar
+              src={lesson.professor.image}
+              alt="Profesor"
+              sx={{ width: 56, height: 56, mr: 2 }}
+            />
             <Box>
               <Typography>
                 {`${convertDateToTimeString(
