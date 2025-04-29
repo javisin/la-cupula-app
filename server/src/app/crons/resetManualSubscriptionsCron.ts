@@ -9,17 +9,14 @@ process.env.TZ = 'Europe/London';
 export default new CronJob(
   '0 0 0 * * *',
   async () => {
-    const start = new Date();
-    start.setMonth(start.getMonth() - 1);
-    const end = new Date(start);
-    end.setDate(end.getDate() + 1);
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
     const users = await SequelizeUser.findAll({
       include: [{ model: PlanModel, as: 'plan', where: { mode: 'subscription' } }],
       where: {
         subscriptionId: null,
         paidAt: {
-          [Op.gt]: start,
-          [Op.lt]: end,
+          [Op.lt]: oneMonthAgo,
         },
       },
     });
