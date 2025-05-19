@@ -43,6 +43,8 @@ interface CreateLessonBody {
   startDate: string;
   endDate: string;
   professorId: number;
+  academyId: number;
+  maxSeats?: number;
 }
 export function useCreateLesson() {
   const queryClient = useQueryClient();

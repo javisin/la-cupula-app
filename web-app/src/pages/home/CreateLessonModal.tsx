@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useCreateLesson } from '../../hooks/api/lesson';
 import { useGetUsers } from '../../hooks/api/user';
+import { useGetAcademies } from '../../hooks/api/academy';
 
 interface CreateLessonModalProps {
   isOpen: boolean;
@@ -25,10 +26,19 @@ export default function CreateLessonModal({ close, isOpen }: CreateLessonModalPr
   const [date, setDate] = useState<string>('');
   const [startTime, setStartTime] = useState<string>('');
   const [endTime, setEndTime] = useState<string>('');
+  const [maxSeats, setMaxSeats] = useState<string>('30');
   const [type, setType] = useState<string>('');
   const [professorId, setProfessorId] = useState<number>(DEFAULT_PROFESSOR_ID);
+  const [academyId, setAcademyId] = useState<number>();
   const createLessonMutation = useCreateLesson();
   const { data: users } = useGetUsers({ instructor: true });
+  const { data: academies } = useGetAcademies();
+
+  useEffect(() => {
+    if (academies?.[0]) {
+      setAcademyId(academies[0].id);
+    }
+  }, [academies]);
 
   const handleSubmit = () => {
     const startDateTime = new Date(`${date}T${startTime}`);
@@ -38,6 +48,8 @@ export default function CreateLessonModal({ close, isOpen }: CreateLessonModalPr
       startDate: startDateTime.toISOString(),
       endDate: endDateTime.toISOString(),
       professorId,
+      maxSeats: Number(maxSeats),
+      academyId: academyId!,
     });
     close();
   };
@@ -79,6 +91,17 @@ export default function CreateLessonModal({ close, isOpen }: CreateLessonModalPr
           onChange={(e) => setEndTime(e.target.value)}
         />
         <TextField
+          label="Plazas"
+          type="number"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={maxSeats}
+          onChange={(e) => setMaxSeats(e.target.value)}
+        />
+        <TextField
           label="Tipo"
           type="text"
           fullWidth
@@ -102,6 +125,23 @@ export default function CreateLessonModal({ close, isOpen }: CreateLessonModalPr
             {users?.map((user) => (
               <MenuItem key={user.id} value={user.id}>
                 {`${user.firstName} ${user.lastName}`}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="academy-label">Academia</InputLabel>
+          <Select
+            label={'Academia'}
+            labelId={'academy-label'}
+            value={academyId}
+            onChange={(event) => {
+              setAcademyId(Number(event.target.value));
+            }}
+          >
+            {academies?.map((academy) => (
+              <MenuItem key={academy.id} value={academy.id}>
+                {academy.name}
               </MenuItem>
             ))}
           </Select>

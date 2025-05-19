@@ -5,7 +5,10 @@ interface LessonCreatorParams {
   endDate: string;
   type: string;
   professorId: number;
+  academyId: number;
+  maxSeats?: number;
 }
+
 export default class LessonCreator {
   private readonly repository: LessonRepository;
 
@@ -13,10 +16,12 @@ export default class LessonCreator {
     this.repository = repository;
   }
 
-  async run({ startDate, endDate, type, professorId }: LessonCreatorParams) {
+  async run({ startDate, endDate, type, professorId, academyId, maxSeats }: LessonCreatorParams) {
     const newLesson = Lesson.create({
       startDate: new Date(startDate),
       endDate: new Date(endDate),
+      maxSeats,
+      academyId,
       type,
       professor: { id: professorId, firstName: '', lastName: '', image: '' },
     });

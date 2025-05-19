@@ -12,11 +12,14 @@ interface CreateLessonBody {
   startDate: string;
   endDate: string;
   professorId: number;
+  academyId: number;
+  maxSeats?: number;
 }
 const create = asyncHandler(async (req, res) => {
   const lessonCreator = new LessonCreator(lessonsRepository);
-  const { type, endDate, startDate, professorId } = req.body as CreateLessonBody;
-  await lessonCreator.run({ type, startDate, endDate, professorId });
+  const { type, endDate, startDate, professorId, academyId, maxSeats } =
+    req.body as CreateLessonBody;
+  await lessonCreator.run({ type, startDate, endDate, professorId, academyId, maxSeats });
   res.status(201).json('Lesson created');
 });
 

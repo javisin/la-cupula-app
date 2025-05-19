@@ -3,6 +3,7 @@ const DEFAULT_MAX_SEATS = 20;
 export default class Lesson {
   static create(props: {
     startDate: Date;
+    academyId: number;
     endDate: Date;
     type: string;
     maxSeats?: number;
@@ -10,7 +11,7 @@ export default class Lesson {
   }) {
     return new Lesson({
       id: 1,
-      academyId: 1,
+      academyId: props.academyId,
       startDate: props.startDate,
       endDate: props.endDate,
       type: props.type,
