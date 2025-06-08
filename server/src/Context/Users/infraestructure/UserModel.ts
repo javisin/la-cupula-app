@@ -40,6 +40,10 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
   declare planBookings: number;
 
+  declare resetPasswordToken: string | null;
+
+  declare resetPasswordTokenExpiresAt: Date | null;
+
   declare deleted: boolean;
 }
 
@@ -65,6 +69,8 @@ User.init(
     paidAt: DataTypes.DATE,
     customerId: DataTypes.STRING,
     planBookings: { type: DataTypes.INTEGER, defaultValue: 0 },
+    resetPasswordToken: DataTypes.STRING,
+    resetPasswordTokenExpiresAt: DataTypes.DATE,
     deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
   {

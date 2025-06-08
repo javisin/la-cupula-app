@@ -9,6 +9,8 @@ import ProfilePage from '../pages/profile';
 import StudentsPage from '../pages/students';
 import PaymentPage from '../pages/payment';
 import StudentPage from '../pages/student';
+import ForgotPasswordPage from '../pages/forgot-password';
+import ResetPasswordPage from '../pages/reset-password';
 
 const checkIsLoggedIn = () => {
   const user = getCurrentUser();
@@ -55,6 +57,16 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+    loader: checkIsNotLoggedIin,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+    loader: checkIsNotLoggedIin,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPasswordPage />,
     loader: checkIsNotLoggedIin,
   },
   {

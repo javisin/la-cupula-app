@@ -24,6 +24,7 @@
     "sequelize": "^6.32.1",
     "sequelize-cli": "^6.6.1",
     "stripe": "^13.2.0",
+    "resend": "^0.3.0",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
