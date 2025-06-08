@@ -1,11 +1,23 @@
 import React, { ChangeEvent, useState } from 'react';
-import { Box, TextField, Button, Typography, Stack, CircularProgress } from '@mui/material';
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  CircularProgress,
+  Paper,
+  Alert,
+} from '@mui/material';
 import { useResetPassword } from '../../hooks/api/auth';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const token = searchParams.get('token') ?? '';
   const mutation = useResetPassword();
 
@@ -14,35 +26,78 @@ export default function ResetPasswordPage() {
     mutation.mutate({ token, password });
   };
 
-  return (
-    <Box maxWidth={300} mx="auto" my={2}>
-      <Typography variant="h5" align="center" gutterBottom>
-        Nueva contraseña
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={2}>
-          <TextField
-            name="password"
-            type="password"
-            label="Contraseña"
-            size="small"
-            fullWidth
-            value={password}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-          />
-          <Button disabled={mutation.isLoading} type="submit" variant="contained">
-            {mutation.isLoading ? <CircularProgress size={24} /> : 'Cambiar contraseña'}
-          </Button>
-          {mutation.isSuccess && (
-            <Typography align="center">Contraseña cambiada correctamente</Typography>
-          )}
-          {mutation.isError && (
-            <Typography align="center" color="error">
-              No se pudo cambiar la contraseña
+  const handleGoToLogin = () => {
+    navigate('/login');
+  };
+
+  if (mutation.isSuccess) {
+    return (
+      <Box maxWidth={400} mx="auto" my={4}>
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Stack spacing={3} alignItems="center">
+            <CheckCircleOutlineIcon color="success" sx={{ fontSize: 60 }} />
+            <Typography variant="h5" align="center" gutterBottom>
+              ¡Contraseña actualizada!
             </Typography>
-          )}
-        </Stack>
-      </form>
+            <Typography align="center" color="text.secondary">
+              Tu contraseña ha sido cambiada exitosamente. Ahora puedes iniciar sesión con tu nueva
+              contraseña.
+            </Typography>
+            <Button variant="contained" size="large" onClick={handleGoToLogin} sx={{ mt: 2 }}>
+              Ir a inicio de sesión
+            </Button>
+          </Stack>
+        </Paper>
+      </Box>
+    );
+  }
+
+  return (
+    <Box maxWidth={400} mx="auto" my={4}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          Nueva contraseña
+        </Typography>
+        <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
+          Ingresa tu nueva contraseña para continuar
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing={3}>
+            <TextField
+              name="password"
+              type="password"
+              label="Contraseña"
+              size="medium"
+              fullWidth
+              value={password}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+              error={mutation.isError}
+              helperText="La contraseña debe tener al menos 8 caracteres"
+            />
+            <Button
+              disabled={mutation.isLoading || !password}
+              type="submit"
+              variant="contained"
+              size="large"
+            >
+              {mutation.isLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                'Cambiar contraseña'
+              )}
+            </Button>
+            {mutation.isError && (
+              <Alert severity="error" icon={<ErrorOutlineIcon />}>
+                No se pudo cambiar la contraseña. Por favor, intenta nuevamente o solicita un nuevo
+                enlace.
+              </Alert>
+            )}
+          </Stack>
+        </form>
+        <Button variant="contained" size="large" onClick={handleGoToLogin} sx={{ mt: 2 }}>
+          Volver a inicio de sesión
+        </Button>
+      </Paper>
     </Box>
   );
 }

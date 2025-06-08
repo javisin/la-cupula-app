@@ -31,7 +31,10 @@ export default function ForgotPasswordPage() {
             {mutation.isLoading ? <CircularProgress size={24} /> : 'Enviar'}
           </Button>
           {mutation.isSuccess && (
-            <Typography align="center">Si la cuenta existe se enviará un correo</Typography>
+            <Typography align="center">
+              Si la cuenta existe se enviará un correo con instrucciones para restablecer la
+              contraseña
+            </Typography>
           )}
         </Stack>
       </form>
