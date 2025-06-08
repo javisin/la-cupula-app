@@ -49,3 +49,17 @@ export function useLogin() {
     },
   );
 }
+
+export function useRequestPasswordReset() {
+  return useMutation(async ({ email }: { email: string }) => {
+    const { data } = await apiClient.post('/auth/password-reset/request', { email });
+    return data;
+  });
+}
+
+export function useResetPassword() {
+  return useMutation(async ({ token, password }: { token: string; password: string }) => {
+    const { data } = await apiClient.post('/auth/password-reset/reset', { token, password });
+    return data;
+  });
+}

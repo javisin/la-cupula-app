@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useLogin } from '../../hooks/api/auth';
+import { Link } from 'react-router-dom';
 
 export default function LoginPage() {
   const [formFields, setFormFields] = useState({
@@ -62,13 +63,16 @@ export default function LoginPage() {
           >
             {loginMutation.isLoading ? <CircularProgress size={24} /> : 'Iniciar sesión'}
           </Button>
-          {loginMutation.isError && (
-            <Typography variant="body1" color="error" align="center" sx={{ marginBottom: 2 }}>
-              Credenciales inválidas. Por favor, inténtelo de nuevo.
-            </Typography>
-          )}
-        </Stack>
-      </form>
-    </Box>
+        {loginMutation.isError && (
+          <Typography variant="body1" color="error" align="center" sx={{ marginBottom: 2 }}>
+            Credenciales inválidas. Por favor, inténtelo de nuevo.
+          </Typography>
+        )}
+        <Typography align="center">
+          <Link to="/forgot-password">¿Has olvidado tu contraseña?</Link>
+        </Typography>
+      </Stack>
+    </form>
+  </Box>
   );
 }
