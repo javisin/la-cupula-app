@@ -17,9 +17,15 @@ if (!DOMAIN) {
   throw new Error('DOMAIN not defined');
 }
 
+const { RESEND_API_KEY } = process.env;
+if (!RESEND_API_KEY) {
+  throw new Error('RESEND_API_KEY not defined');
+}
+
 export default {
   stripeKey: STRIPE_KEY,
   stripeSecret: STRIPE_SECRET,
   domain: DOMAIN,
   checkPasswords: process.env.CHECK_PASSWORDS !== 'false',
+  resendApiKey: process.env.RESEND_API_KEY,
 };

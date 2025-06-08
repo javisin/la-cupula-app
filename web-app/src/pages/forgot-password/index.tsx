@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Box, TextField, Button, Typography, Stack, CircularProgress } from '@mui/material';
 import { useRequestPasswordReset } from '../../hooks/api/auth';
+import { Link } from 'react-router-dom';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -30,8 +31,14 @@ export default function ForgotPasswordPage() {
           <Button disabled={mutation.isLoading} type="submit" variant="contained">
             {mutation.isLoading ? <CircularProgress size={24} /> : 'Enviar'}
           </Button>
+          <Typography align="center">
+            <Link to="/login">Volver a inicio de sesión</Link>
+          </Typography>
           {mutation.isSuccess && (
-            <Typography align="center">Si la cuenta existe se enviará un correo</Typography>
+            <Typography align="center">
+              Si la cuenta existe se enviará un correo con instrucciones para restablecer la
+              contraseña
+            </Typography>
           )}
         </Stack>
       </form>
