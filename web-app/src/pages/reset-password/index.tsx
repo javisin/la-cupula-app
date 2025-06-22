@@ -40,7 +40,7 @@ export default function ResetPasswordPage() {
               ¡Contraseña actualizada!
             </Typography>
             <Typography align="center" color="text.secondary">
-              Tu contraseña ha sido cambiada exitosamente. Ahora puedes iniciar sesión con tu nueva
+              Tu contraseña ha sido cambiada. Ahora puedes iniciar sesión con tu nueva
               contraseña.
             </Typography>
             <Button variant="contained" size="large" onClick={handleGoToLogin} sx={{ mt: 2 }}>
@@ -59,7 +59,7 @@ export default function ResetPasswordPage() {
           Nueva contraseña
         </Typography>
         <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
-          Ingresa tu nueva contraseña para continuar
+          Asigna tu nueva contraseña para continuar
         </Typography>
         <form onSubmit={handleSubmit}>
           <Stack spacing={3}>
