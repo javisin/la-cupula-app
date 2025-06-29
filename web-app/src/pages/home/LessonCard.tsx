@@ -97,7 +97,7 @@ export default function LessonCard({ lesson, userBooking, bookings }: LessonCard
               </Typography>
             </Box>
           </Box>
-          {user?.instructor === false && !isPastLesson && (
+          {user?.sub !== lesson.professor.id.toString() && !isPastLesson && (
             <Button
               variant="contained"
               size="small"
