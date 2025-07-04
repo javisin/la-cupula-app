@@ -41,6 +41,13 @@ Booking.init(
     sequelize,
     underscored: true,
     tableName: 'bookings',
+    indexes: [
+      {
+        name: 'bookings_user_lesson_unique',
+        unique: true,
+        fields: ['user_id', 'lesson_id'],
+      },
+    ],
     name: { singular: '' },
   },
 );
