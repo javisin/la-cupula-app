@@ -52,6 +52,7 @@ export function useGetUsers(filter?: GetUsersFilter) {
 interface UserChangeset {
   planId?: string | null;
   paidAt?: string | null;
+  belt?: string;
 }
 export function useUpdateUser() {
   const queryClient = useQueryClient();
@@ -61,8 +62,27 @@ export function useUpdateUser() {
       return data;
     },
     {
-      onSuccess: () => {
+      onSuccess: (_, variables) => {
         queryClient.invalidateQueries(['users']);
+        queryClient.invalidateQueries(['user', variables.id]);
+      },
+    },
+  );
+}
+
+export function useUpdateUserImage() {
+  const queryClient = useQueryClient();
+  return useMutation(
+    async ({ id, image }: { id: number; image: File }) => {
+      const formData = new FormData();
+      formData.append('image', image);
+      const { data } = await apiClient.patch<User>(`/users/${id}/image`, formData);
+      return data;
+    },
+    {
+      onSuccess: (_, variables) => {
+        queryClient.invalidateQueries(['users']);
+        queryClient.invalidateQueries(['user', variables.id]);
       },
     },
   );
